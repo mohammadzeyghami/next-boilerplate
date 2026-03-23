@@ -1,0 +1,52 @@
+---
+description: Data layer via Server Actions + Prisma; client services for TanStack Query without axios
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Server data: Prisma + Server Actions + TanStack Query
+
+## Hard rules
+
+- **Prisma and DB access only on the server** — in Server Actions (`"use server"`) or Route Handlers. Never import `@prisma/client` or DB code inside `"use client"` files.
+- **No axios for app-owned CRUD** that is backed by this stack. The browser talks to **Server Actions** (or same-origin `fetch` to your App Router API if you standardize on routes). Keep axios only for **external** APIs if the project still needs them.
+- **UI must not call Prisma or axios for domain CRUD** — components use TanStack hooks; hooks use a **client service** object.
+
+## Layering (per feature, e.g. `modules/<feature>/`)
+
+1. **`actions/<feature>.ts`** (or `app/actions/...`) — `"use server"`, Prisma CRUD, return **JSON-serializable** data (dates as ISO strings, no class instances).
+2. **`api/<feature>.client.ts`** (or `services/<feature>.client.ts`) — `"use client"`, **thin**: only functions that invoke the Server Actions (same signatures as your public API). No Prisma, no axios for this path.
+3. **`api/keys.ts`** — query key factories only (stable, composable).
+4. **`api/queries.ts` / `api/mutations.ts`** — TanStack `useQuery` / `useMutation` with `queryFn` / `mutationFn` calling the **client service**, never raw axios for this feature’s DB-backed data.
+
+## TanStack
+
+- Define keys in `keys.ts`; never inline ad-hoc keys in components.
+- Invalidate in `onSuccess` / `onSettled` where appropriate (`queryClient.invalidateQueries`).
+
+## Minimal shape (reference)
+
+```ts
+// actions/notes.ts — server only
+"use server";
+import { prisma } from "@/lib/prisma";
+export async function listNotes() { /* prisma */ }
+
+// api/notes.client.ts — client only
+"use client";
+import { listNotes } from "@/actions/notes";
+export const notesClientService = { list: () => listNotes() };
+
+// api/queries.ts
+"use client";
+import { useQuery } from "@tanstack/react-query";
+import { notesClientService } from "./notes.client";
+import { noteKeys } from "./keys";
+export function useNotesList() {
+  return useQuery({ queryKey: noteKeys.list(), queryFn: () => notesClientService.list() });
+}
+```
+
+## Auth / cookies
+
+- Read session or tokens in Server Actions via `cookies()` (server), not from the client service beyond passing opaque ids when safe.
