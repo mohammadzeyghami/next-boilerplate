@@ -1,7 +1,7 @@
 import ErrorMessage from "@/share-components/atoms/typography/ErrorMessage";
 import { forwardRef, type TextareaHTMLAttributes } from "react";
 import LabelPrimary from "../label/Primary";
-import { Textarea } from "./default";
+import { Textarea } from "./Default";
 
 export interface TextareaPrimaryProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: string;

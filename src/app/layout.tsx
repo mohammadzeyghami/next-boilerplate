@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { getThemeBlockingScriptInnerHtml } from "@/lib/theme-blocking-inner-html";
 import { SessionProvider } from "@/share-components/sections/providers/session-provider";
+import { ROOT_THEME_BLOCKING } from "@/share-components/sections/providers/root-theme-settings";
 import { ThemeProvider } from "@/share-components/sections/providers/theme-provider";
 import { ReactQueryProvider } from "@/lib/react-query-provider";
 
@@ -39,7 +41,17 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: getThemeBlockingScriptInnerHtml(ROOT_THEME_BLOCKING),
+          }}
+        />
+        <ThemeProvider
+          attribute={ROOT_THEME_BLOCKING.attribute}
+          defaultTheme={ROOT_THEME_BLOCKING.defaultTheme}
+          enableSystem={ROOT_THEME_BLOCKING.enableSystem}
+        >
           <TooltipProvider>
             <ReactQueryProvider>
               <SessionProvider>{children}</SessionProvider>
