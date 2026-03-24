@@ -26,55 +26,106 @@ function fileFromFormData(formData: FormData): File | null {
 export async function createContentAction(
   formData: FormData,
 ): Promise<ContentActionResult> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return { ok: false, error: "You must be signed in." };
-  }
-
-  const title = String(formData.get("title") ?? "").trim();
-  const body = String(formData.get("body") ?? "").trim();
-  const file = fileFromFormData(formData);
-
-  let parsed: yup.InferType<typeof contentSchema>;
   try {
-    parsed = await contentSchema.validate(
-      { title, body },
-      { abortEarly: false, stripUnknown: true },
-    );
-  } catch (e) {
-    if (e instanceof yup.ValidationError) {
-      return { ok: false, error: e.errors[0] ?? "Invalid input." };
+    console.log("[createContentAction] STEP 1: action started");
+
+    const session = await auth();
+    console.log("[createContentAction] STEP 2: session", {
+      hasSession: !!session,
+      userId: session?.user?.id,
+      email: session?.user?.email,
+    });
+
+    if (!session?.user?.id) {
+      return { ok: false, error: "You must be signed in." };
     }
-    return { ok: false, error: "Invalid input." };
-  }
 
-  let mediaUrl: string | null = null;
-  let mediaKind: string | null = null;
+    const title = String(formData.get("title") ?? "").trim();
+    const body = String(formData.get("body") ?? "").trim();
+    const file = fileFromFormData(formData);
 
-  if (file) {
-    const saved = await saveContentMediaFile(file, session.user.id);
-    if ("error" in saved) {
-      return { ok: false, error: saved.error };
+    console.log("[createContentAction] STEP 3: form parsed", {
+      title,
+      bodyLength: body.length,
+      hasFile: !!file,
+      fileName: file?.name,
+      fileSize: file?.size,
+      fileType: file?.type,
+    });
+
+    let parsed: yup.InferType<typeof contentSchema>;
+    try {
+      parsed = await contentSchema.validate(
+        { title, body },
+        { abortEarly: false, stripUnknown: true },
+      );
+      console.log("[createContentAction] STEP 4: validation passed");
+    } catch (e) {
+      console.error("[createContentAction] VALIDATION ERROR:", e);
+
+      if (e instanceof yup.ValidationError) {
+        return { ok: false, error: e.errors[0] ?? "Invalid input." };
+      }
+
+      return { ok: false, error: "Invalid input." };
     }
-    mediaUrl = saved.mediaUrl;
-    mediaKind = saved.mediaKind;
-  }
 
-  await prisma.content.create({
-    data: {
+    let mediaUrl: string | null = null;
+    let mediaKind: string | null = null;
+
+    if (file) {
+      console.log("[createContentAction] STEP 5: saving media file");
+
+      const saved = await saveContentMediaFile(file, session.user.id);
+
+      console.log("[createContentAction] STEP 6: media save result", saved);
+
+      if ("error" in saved) {
+        return { ok: false, error: saved.error };
+      }
+
+      mediaUrl = saved.mediaUrl;
+      mediaKind = saved.mediaKind;
+    }
+
+    console.log("[createContentAction] STEP 7: creating prisma content", {
       title: parsed.title,
-      body: parsed.body,
+      bodyLength: parsed.body.length,
       userId: session.user.id,
       mediaUrl,
       mediaKind,
-    },
-  });
+    });
 
-  revalidatePath("/dashboard/content");
-  revalidatePath("/");
-  return { ok: true };
+    const created = await prisma.content.create({
+      data: {
+        title: parsed.title,
+        body: parsed.body,
+        userId: session.user.id,
+        mediaUrl,
+        mediaKind,
+      },
+    });
+
+    console.log("[createContentAction] STEP 8: prisma create success", {
+      id: created.id,
+    });
+
+    revalidatePath("/dashboard/content");
+    revalidatePath("/");
+
+    console.log("[createContentAction] STEP 9: done");
+
+    return { ok: true };
+  } catch (error) {
+    console.error("[createContentAction] UNCAUGHT ERROR:", error);
+
+    return {
+      ok: false,
+      error:
+        error instanceof Error ? error.message : "Unexpected server error.",
+    };
+  }
 }
-
 export async function updateContentAction(
   formData: FormData,
 ): Promise<ContentActionResult> {
@@ -147,7 +198,9 @@ export async function updateContentAction(
   return { ok: true };
 }
 
-export async function deleteContentAction(id: string): Promise<ContentActionResult> {
+export async function deleteContentAction(
+  id: string,
+): Promise<ContentActionResult> {
   const session = await auth();
   if (!session?.user?.id) {
     return { ok: false, error: "You must be signed in." };
