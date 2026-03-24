@@ -3,7 +3,6 @@ import { ContentList } from "@/modules/content/components/content-list";
 import { prisma } from "@/lib/prisma";
 
 /** Avoid DB access during `next build` (static prerender); list loads per request. */
-export const dynamic = "force-dynamic";
 
 function authorLabel(name: string | null, email: string) {
   if (name?.trim()) return name.trim();
