@@ -93,7 +93,10 @@ export function absolutePathForMediaUrl(mediaUrl: string | null | undefined) {
   const full = path.join(uploadRoot(), ...rest.split("/"));
   const resolved = path.resolve(full);
   const rootResolved = path.resolve(uploadRoot());
-  if (!resolved.startsWith(rootResolved + path.sep) && resolved !== rootResolved) {
+  if (
+    !resolved.startsWith(rootResolved + path.sep) &&
+    resolved !== rootResolved
+  ) {
     return null;
   }
   return resolved;
