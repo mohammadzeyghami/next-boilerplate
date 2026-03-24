@@ -2,8 +2,6 @@ import { LandingView } from "@/share-components/organisms/landing-view/LandingVi
 import { ContentList } from "@/modules/content/components/content-list";
 import { prisma } from "@/lib/prisma";
 
-/** Avoid DB access during `next build` (static prerender); list loads per request. */
-
 function authorLabel(name: string | null, email: string) {
   if (name?.trim()) return name.trim();
   const local = email.split("@")[0];
