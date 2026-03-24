@@ -3,7 +3,6 @@ import "server-only";
 import { mkdir, unlink, writeFile } from "fs/promises";
 import path from "path";
 import { randomUUID } from "crypto";
-import { del, put } from "@vercel/blob";
 
 const UPLOAD_SEGMENT = "uploads/content";
 
@@ -28,10 +27,6 @@ export type SavedContentMedia = {
   mediaKind: "image" | "video";
 };
 
-function isVercelRuntime() {
-  return process.env.VERCEL === "1" || !!process.env.BLOB_READ_WRITE_TOKEN;
-}
-
 function uploadRoot() {
   return path.join(process.cwd(), "public", UPLOAD_SEGMENT);
 }
@@ -52,14 +47,8 @@ function maxBytesForMime(mime: string): number {
   return kindForMime(mime) === "video" ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;
 }
 
-function fileNameForBlob(userId: string, ext: string) {
-  return `${UPLOAD_SEGMENT}/${userId}/${randomUUID()}${ext}`;
-}
-
 /**
- * Saves uploaded media.
- * - local: public/uploads/content/{userId}/...
- * - vercel: Vercel Blob
+ * Saves an uploaded image or video under `public/uploads/content/{userId}/`.
  */
 export async function saveContentMediaFile(
   file: File,
@@ -68,7 +57,6 @@ export async function saveContentMediaFile(
   const mime = file.type;
   const kind = kindForMime(mime);
   const ext = extForMime(mime);
-
   if (!kind || !ext) {
     return {
       error:
@@ -82,81 +70,43 @@ export async function saveContentMediaFile(
     return { error: `File is too large (max ${mb} MB for ${kind}s).` };
   }
 
-  try {
-    if (isVercelRuntime()) {
-      const pathname = fileNameForBlob(userId, ext);
+  const userDir = path.join(uploadRoot(), userId);
+  await mkdir(userDir, { recursive: true });
 
-      const blob = await put(pathname, file, {
-        access: "public",
-        addRandomSuffix: false,
-        contentType: mime,
-      });
+  const filename = `${randomUUID()}${ext}`;
+  const absolute = path.join(userDir, filename);
+  const buffer = Buffer.from(await file.arrayBuffer());
+  await writeFile(absolute, buffer);
 
-      return {
-        mediaUrl: blob.url,
-        mediaKind: kind,
-      };
-    }
-
-    const userDir = path.join(uploadRoot(), userId);
-    await mkdir(userDir, { recursive: true });
-
-    const filename = `${randomUUID()}${ext}`;
-    const absolute = path.join(userDir, filename);
-    const buffer = Buffer.from(await file.arrayBuffer());
-
-    await writeFile(absolute, buffer);
-
-    return {
-      mediaUrl: `/${UPLOAD_SEGMENT}/${userId}/${filename}`,
-      mediaKind: kind,
-    };
-  } catch (error) {
-    console.error("[saveContentMediaFile] failed:", error);
-    return { error: "Failed to save uploaded file." };
-  }
+  const mediaUrl = `/${UPLOAD_SEGMENT}/${userId}/${filename}`;
+  return { mediaUrl, mediaKind: kind };
 }
 
 /**
- * Resolves a stored local public media path to absolute file path.
- * Only used in local/dev mode.
+ * Resolves a stored public media path to an absolute file path, or null if invalid.
  */
 export function absolutePathForMediaUrl(mediaUrl: string | null | undefined) {
   if (!mediaUrl?.startsWith(`/${UPLOAD_SEGMENT}/`)) return null;
-
   const rest = mediaUrl.slice(`/${UPLOAD_SEGMENT}/`.length);
   if (!rest || rest.includes("..") || rest.split("/").length !== 2) return null;
 
   const full = path.join(uploadRoot(), ...rest.split("/"));
   const resolved = path.resolve(full);
   const rootResolved = path.resolve(uploadRoot());
-
-  if (
-    !resolved.startsWith(rootResolved + path.sep) &&
-    resolved !== rootResolved
-  ) {
+  if (!resolved.startsWith(rootResolved + path.sep) && resolved !== rootResolved) {
     return null;
   }
-
   return resolved;
 }
 
 export async function deleteContentMediaFile(
   mediaUrl: string | null | undefined,
 ): Promise<void> {
-  if (!mediaUrl) return;
-
+  const abs = absolutePathForMediaUrl(mediaUrl);
+  if (!abs) return;
   try {
-    if (mediaUrl.startsWith("http://") || mediaUrl.startsWith("https://")) {
-      await del(mediaUrl);
-      return;
-    }
-
-    const abs = absolutePathForMediaUrl(mediaUrl);
-    if (!abs) return;
-
     await unlink(abs);
-  } catch (error) {
-    console.error("[deleteContentMediaFile] failed:", error);
+  } catch {
+    // ignore missing file
   }
 }
