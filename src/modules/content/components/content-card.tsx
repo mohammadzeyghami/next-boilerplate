@@ -12,7 +12,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/share-components/molecules/card/Card";
+} from "@/shared/components/molecules/card/Card";
 import { cn } from "@/lib/utils";
 
 /** Stable pseudo-random entrance offset per item id (SSR-safe). */

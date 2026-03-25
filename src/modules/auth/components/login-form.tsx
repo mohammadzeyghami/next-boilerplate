@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Chrome, Linkedin, Mail } from "lucide-react";
 
-import { Button } from "@/share-components/atoms/button/Button";
+import { Button } from "@/shared/components/atoms/button/Button";
 import {
   Card,
   CardContent,
@@ -14,7 +14,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/share-components/molecules/card/Card";
+} from "@/shared/components/molecules/card/Card";
 import {
   useLoginMutation,
   useMagicLinkMutation,

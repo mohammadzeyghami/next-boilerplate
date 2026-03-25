@@ -1,4 +1,4 @@
-import { LandingView } from "@/share-components/organisms/landing-view/LandingView";
+import { LandingView } from "@/shared/components/organisms/landing-view/LandingView";
 import { ContentList } from "@/modules/content/components/content-list";
 import { prisma } from "@/lib/prisma";
 

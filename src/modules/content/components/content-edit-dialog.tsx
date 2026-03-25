@@ -3,30 +3,26 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Pencil, X } from "lucide-react";
 
 import { avatarImageReferrerPolicy } from "@/lib/avatar-referrer-policy";
 import { updateContentAction } from "@/modules/content/actions/content.actions";
 import { FormError } from "@/modules/auth/components/atoms/form-error";
 import { FormProvider } from "@/modules/auth/components/molecules/auth-form-provider";
-import {
-  contentSchema,
-  type ContentFormValues,
-} from "@/modules/content/interfaces/content.schema";
+import { type ContentFormValues } from "@/modules/content/interfaces/content.schema";
 import type { ContentListItem } from "@/modules/content/types/content-list-item";
-import { Button } from "@/share-components/atoms/button/Button";
-import { Label } from "@/share-components/atoms/label/Label";
+import { Button } from "@/shared/components/atoms/button/Button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/share-components/molecules/dialog/Dialog";
-import InputR from "@/share-components/molecules/inputs/Controllerd";
-import TextareaR from "@/share-components/molecules/textArea/Controllerd";
-import SelectR from "@/share-components/molecules/select/selectR";
+} from "@/shared/components/molecules/dialog/Dialog";
+import InputR from "@/shared/components/molecules/inputs/Controllerd";
+import TextareaR from "@/shared/components/molecules/textArea/Controllerd";
+import SelectR from "@/shared/components/molecules/select/selectR";
+import { Label } from "@/shared/components/atoms/label";
 
 type ContentEditDialogProps = {
   item: ContentListItem;

@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { ContentForm } from "@/modules/content/components/content-form";
 import { ContentList } from "@/modules/content/components/content-list";
-import { buttonVariants } from "@/share-components/atoms/button/button-variants";
+import { buttonVariants } from "@/shared/components/atoms/button/button-variants";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {

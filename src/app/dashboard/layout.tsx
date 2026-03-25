@@ -1,16 +1,12 @@
 import {
   SidebarInset,
   SidebarProvider,
-} from "@/share-components/molecules/sidebar/Default";
-import { AppSidebar } from "@/share-components/sections/sidebar/dashboardSidebar";
+} from "@/shared/components/molecules/sidebar/Default";
+import { AppSidebar } from "@/shared/components/sections/sidebar/dashboardSidebar";
 import { auth } from "@/auth";
 import React from "react";
 
-const DashboardLayout = async ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth();
   const user = {
     name: session?.user?.name?.trim() || session?.user?.email || "Account",

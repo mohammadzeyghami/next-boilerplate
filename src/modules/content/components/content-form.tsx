@@ -3,21 +3,21 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
-import { Button } from "@/share-components/atoms/button/Button";
+import { Button } from "@/shared/components/atoms/button/Button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/share-components/molecules/card/Card";
+} from "@/shared/components/molecules/card/Card";
 import { FormError } from "@/modules/auth/components/atoms/form-error";
 import { FormProvider } from "@/modules/auth/components/molecules/auth-form-provider";
 import { createContentAction } from "@/modules/content/actions/content.actions";
 import { type ContentFormValues } from "@/modules/content/interfaces/content.schema";
-import InputR from "@/share-components/molecules/inputs/Controllerd";
-import TextareaR from "@/share-components/molecules/textArea/Controllerd";
-import SelectR from "@/share-components/molecules/select/selectR";
+import InputR from "@/shared/components/molecules/inputs/Controllerd";
+import TextareaR from "@/shared/components/molecules/textArea/Controllerd";
+import SelectR from "@/shared/components/molecules/select/selectR";
 
 export function ContentForm() {
   const [error, setError] = useState<string | null>(null);

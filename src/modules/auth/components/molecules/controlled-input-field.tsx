@@ -1,21 +1,20 @@
-"use client"
+"use client";
 
-import type { ComponentProps } from "react"
-import type { FieldValues, Path, RegisterOptions } from "react-hook-form"
-import { Controller, useFormContext } from "react-hook-form"
-
-import { Input } from "@/share-components/atoms/input/Input"
-import { Label } from "@/share-components/atoms/label/Label"
+import { Input } from "@/shared/components/atoms/input";
+import { Label } from "@/shared/components/atoms/label";
+import type { ComponentProps } from "react";
+import type { FieldValues, Path, RegisterOptions } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 type ControlledInputFieldProps<T extends FieldValues> = {
-  name: Path<T>
-  label: string
-  type?: ComponentProps<typeof Input>["type"]
-  autoComplete?: string
-  placeholder?: string
-  rules?: RegisterOptions<T, Path<T>>
-  hint?: string
-}
+  name: Path<T>;
+  label: string;
+  type?: ComponentProps<typeof Input>["type"];
+  autoComplete?: string;
+  placeholder?: string;
+  rules?: RegisterOptions<T, Path<T>>;
+  hint?: string;
+};
 
 export function ControlledInputField<T extends FieldValues>({
   name,
@@ -26,7 +25,7 @@ export function ControlledInputField<T extends FieldValues>({
   rules,
   hint,
 }: ControlledInputFieldProps<T>) {
-  const { control } = useFormContext<T>()
+  const { control } = useFormContext<T>();
 
   return (
     <Controller
@@ -49,12 +48,14 @@ export function ControlledInputField<T extends FieldValues>({
             required={Boolean(rules?.required)}
           />
           {fieldState.error?.message ? (
-            <p className="text-destructive text-xs">{fieldState.error.message}</p>
+            <p className="text-destructive text-xs">
+              {fieldState.error.message}
+            </p>
           ) : hint ? (
             <p className="text-muted-foreground text-xs">{hint}</p>
           ) : null}
         </div>
       )}
     />
-  )
+  );
 }

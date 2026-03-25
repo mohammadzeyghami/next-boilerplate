@@ -1,11 +1,11 @@
-import type { Metadata } from "next"
-import Link from "next/link"
+import type { Metadata } from "next";
+import Link from "next/link";
 
-import { RegisterForm } from "@/modules/auth"
+import { RegisterForm } from "@/modules/auth";
 
 export const metadata: Metadata = {
   title: "Register",
-}
+};
 
 export default function RegisterPage() {
   return (
@@ -18,5 +18,5 @@ export default function RegisterPage() {
         ← Back to home
       </Link>
     </div>
-  )
+  );
 }

@@ -1,17 +1,19 @@
-import type { Metadata } from "next"
-import Link from "next/link"
-import { Suspense } from "react"
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Suspense } from "react";
 
-import { LoginForm } from "@/modules/auth"
+import { LoginForm } from "@/modules/auth";
 
 export const metadata: Metadata = {
   title: "Sign in",
-}
+};
 
 export default function LoginPage() {
   return (
     <div className="flex min-h-full flex-col items-center justify-center gap-6 bg-muted/30 p-6">
-      <Suspense fallback={<div className="text-muted-foreground text-sm">Loading…</div>}>
+      <Suspense
+        fallback={<div className="text-muted-foreground text-sm">Loading…</div>}
+      >
         <LoginForm />
       </Suspense>
       <Link
@@ -21,5 +23,5 @@ export default function LoginPage() {
         ← Back to home
       </Link>
     </div>
-  )
+  );
 }

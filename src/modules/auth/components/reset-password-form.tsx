@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useForm } from "react-hook-form"
+import Link from "next/link";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 
-import { Button } from "@/share-components/atoms/button/Button"
+import { Button } from "@/shared/components/atoms/button/Button";
 import {
   Card,
   CardContent,
@@ -14,38 +14,38 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/share-components/molecules/card/Card"
-import { useResetPasswordMutation } from "@/modules/auth/api/mutations"
-import { FormError } from "@/modules/auth/components/atoms/form-error"
-import { FormProvider } from "@/modules/auth/components/molecules/auth-form-provider"
-import { ControlledInputField } from "@/modules/auth/components/molecules/controlled-input-field"
+} from "@/shared/components/molecules/card/Card";
+import { useResetPasswordMutation } from "@/modules/auth/api/mutations";
+import { FormError } from "@/modules/auth/components/atoms/form-error";
+import { FormProvider } from "@/modules/auth/components/molecules/auth-form-provider";
+import { ControlledInputField } from "@/modules/auth/components/molecules/controlled-input-field";
 import {
   resetPasswordSchema,
   type ResetPasswordFormValues,
-} from "@/modules/auth/interfaces/reset-password.schema"
+} from "@/modules/auth/interfaces/reset-password.schema";
 
 export function ResetPasswordForm() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const token = searchParams.get("token")?.trim() ?? ""
-  const email = searchParams.get("email")?.trim() ?? ""
-  const resetPasswordMutation = useResetPasswordMutation()
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token")?.trim() ?? "";
+  const email = searchParams.get("email")?.trim() ?? "";
+  const resetPasswordMutation = useResetPasswordMutation();
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const methods = useForm<ResetPasswordFormValues>({
     resolver: yupResolver(resetPasswordSchema),
     defaultValues: {
       password: "",
       confirmPassword: "",
     },
-  })
+  });
 
   async function onSubmit(values: ResetPasswordFormValues) {
-    setError(null)
-    setSuccess(null)
+    setError(null);
+    setSuccess(null);
     if (!token || !email) {
-      setError("Reset link is invalid.")
-      return
+      setError("Reset link is invalid.");
+      return;
     }
 
     try {
@@ -53,17 +53,17 @@ export function ResetPasswordForm() {
         email,
         token,
         password: values.password,
-      })
-      setSuccess("Password reset successful. You can now sign in.")
+      });
+      setSuccess("Password reset successful. You can now sign in.");
       setTimeout(() => {
-        router.push("/login")
-      }, 1200)
+        router.push("/login");
+      }, 1200);
     } catch (err) {
       if (err instanceof Error && err.message) {
-        setError(err.message)
-        return
+        setError(err.message);
+        return;
       }
-      setError("Unable to reset password.")
+      setError("Unable to reset password.");
     }
   }
 
@@ -71,12 +71,16 @@ export function ResetPasswordForm() {
     <Card className="w-full max-w-md border shadow-sm">
       <CardHeader>
         <CardTitle>Reset password</CardTitle>
-        <CardDescription>Create a new password for your account.</CardDescription>
+        <CardDescription>
+          Create a new password for your account.
+        </CardDescription>
       </CardHeader>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <CardContent className="space-y-4">
           <FormError message={error} />
-          {success ? <p className="text-emerald-600 text-sm">{success}</p> : null}
+          {success ? (
+            <p className="text-emerald-600 text-sm">{success}</p>
+          ) : null}
           <ControlledInputField
             name="password"
             label="New password"
@@ -91,17 +95,26 @@ export function ResetPasswordForm() {
           />
         </CardContent>
         <CardFooter className="flex flex-col gap-4 border-t bg-transparent">
-          <Button type="submit" className="w-full" disabled={resetPasswordMutation.isPending}>
-            {resetPasswordMutation.isPending ? "Resetting..." : "Reset password"}
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={resetPasswordMutation.isPending}
+          >
+            {resetPasswordMutation.isPending
+              ? "Resetting..."
+              : "Reset password"}
           </Button>
           <p className="text-center text-muted-foreground text-sm">
             Back to{" "}
-            <Link href="/login" className="text-foreground underline-offset-4 hover:underline">
+            <Link
+              href="/login"
+              className="text-foreground underline-offset-4 hover:underline"
+            >
               Sign in
             </Link>
           </p>
         </CardFooter>
       </FormProvider>
     </Card>
-  )
+  );
 }

@@ -5,14 +5,14 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Chrome, Linkedin, Mail } from "lucide-react";
 
-import { Button } from "@/share-components/atoms/button/Button";
+import { Button } from "@/shared/components/atoms/button/Button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/share-components/molecules/dialog/Dialog";
+} from "@/shared/components/molecules/dialog/Dialog";
 import {
   useLoginMutation,
   useMagicLinkMutation,

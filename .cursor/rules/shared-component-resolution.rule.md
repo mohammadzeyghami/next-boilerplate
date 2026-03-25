@@ -27,9 +27,9 @@ Enforce a scalable frontend component architecture by:
 
 Internal shared components are located in:
 
-- `src/share-components/atoms`
-- `src/share-components/molecules`
-- `src/share-components/organisms`
+- `src@/shared/atoms`
+- `src@/shared/molecules`
+- `src@/shared/organisms`
 
 Module components are located in:
 
@@ -45,9 +45,9 @@ Before creating any component, Cursor MUST follow this exact order:
 
 Search in:
 
-- `src/share-components/atoms`
-- `src/share-components/molecules`
-- `src/share-components/organisms`
+- `src@/shared/atoms`
+- `src@/shared/molecules`
+- `src@/shared/organisms`
 
 If a matching or close-enough component exists:
 
@@ -90,7 +90,7 @@ If a suitable Shadcn component exists:
 
 A new shared component may be created ONLY when:
 
-1. No suitable component exists in `src/share-components`
+1. No suitable component exists in `src@/shared`
 2. No suitable Shadcn component exists
 3. The need is generic and reusable
 4. The component has no domain/business meaning
@@ -114,7 +114,7 @@ Examples:
 - Spinner
 
 Location:
-`src/share-components/atoms`
+`src@/shared/atoms`
 
 Rules:
 
@@ -136,7 +136,7 @@ Examples:
 - SelectField
 
 Location:
-`src/share-components/molecules`
+`src@/shared/molecules`
 
 Rules:
 
@@ -159,7 +159,7 @@ Examples:
 - Generic form section
 
 Location:
-`src/share-components/organisms`
+`src@/shared/organisms`
 
 Rules:
 
