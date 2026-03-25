@@ -12,7 +12,7 @@ import { Button } from "../../atoms/button/Button";
 import { buttonVariants } from "../../atoms/button/button-variants";
 import { Separator } from "../../atoms/separator";
 import { Input } from "../../molecules/inputs/Default";
-import { ThemeToggle } from "../../molecules/theme-toggle/ThemeToggle";
+import { ThemeToggle } from "../../molecules/theme-toggle/theme-toggle";
 import UserMenu from "../../molecules/userMenu/default";
 
 function userInitials(

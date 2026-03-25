@@ -10,9 +10,8 @@ import { cn } from "@/lib/utils";
 import { LoginRequiredModal } from "@/modules/auth";
 import { useAuthSessionQuery } from "@/modules/auth/api/queries";
 import { useLogoutMutation } from "@/modules/auth/api/mutations";
-import { Badge } from "@/shared/components/atoms/badge/Badge";
 import { buttonVariants } from "@/shared/components/atoms/button/button-variants";
-import { ThemeToggle } from "@/shared/components/molecules/theme-toggle/ThemeToggle";
+import { ThemeToggle } from "@/shared/components/molecules/theme-toggle/theme-toggle";
 import UserMenu from "@/shared/components/molecules/userMenu/default";
 
 function userInitials(

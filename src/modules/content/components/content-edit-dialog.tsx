@@ -18,7 +18,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/shared/components/molecules/dialog/Dialog";
+} from "@/shared/components/molecules/dialog/dialog";
 import InputR from "@/shared/components/molecules/inputs/Controllerd";
 import TextareaR from "@/shared/components/molecules/textArea/Controllerd";
 import SelectR from "@/shared/components/molecules/select/selectR";

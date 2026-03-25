@@ -12,7 +12,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/shared/components/molecules/dialog/Dialog";
+} from "@/shared/components/molecules/dialog/dialog";
 import {
   useLoginMutation,
   useMagicLinkMutation,

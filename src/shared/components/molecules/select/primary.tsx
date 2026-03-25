@@ -17,7 +17,7 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
-} from "../dropdown-menu/DropdownMenu";
+} from "../dropdown-menu/dropdown-menu";
 import { Button } from "@/shared/components/atoms/button/Button";
 import { Input } from "../inputs/Default";
 import { Separator } from "@radix-ui/react-select";

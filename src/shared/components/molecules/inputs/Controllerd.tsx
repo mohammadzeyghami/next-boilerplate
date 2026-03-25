@@ -1,10 +1,10 @@
 import {
   Controller,
   useFormContext,
-  type FieldValues,
-  type FieldPath,
-  type ControllerRenderProps,
   type ControllerFieldState,
+  type ControllerRenderProps,
+  type FieldPath,
+  type FieldValues,
   type RegisterOptions,
 } from "react-hook-form";
 import InputPrimary, { type InputPrimaryProps } from "./Primary";
@@ -16,7 +16,7 @@ type StrippedInputProps = Omit<
 
 export interface InputRProps<
   TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > extends StrippedInputProps {
   name: TName;
   rules?: RegisterOptions<TFieldValues, TName>;
@@ -24,7 +24,7 @@ export interface InputRProps<
 
 function InputR<
   TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({ name, rules, ...props }: InputRProps<TFieldValues, TName>) {
   const { control } = useFormContext<TFieldValues>();
 

@@ -19,7 +19,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../dropdown-menu/DropdownMenu";
+} from "../dropdown-menu/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,

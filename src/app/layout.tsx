@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/shared/components/sections/providers/theme-prov
 import { ReactQueryProvider } from "@/lib/react-query-provider";
 import "./globals.css";
 import { siteDescription, siteName } from "@/config/site";
-import { TooltipProvider } from "@/shared/components/molecules/tooltip/Default";
+import { TooltipProvider } from "@/shared/components/molecules/tooltip/tooltip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

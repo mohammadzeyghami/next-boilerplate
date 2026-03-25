@@ -14,7 +14,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/shared/components/molecules/dropdown-menu/DropdownMenu";
+} from "@/shared/components/molecules/dropdown-menu/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../../atoms/avatar/Avatar";
 // import { Avatar, AvatarFallback, AvatarImage } from "../../atoms/avatar/Avatar";
 

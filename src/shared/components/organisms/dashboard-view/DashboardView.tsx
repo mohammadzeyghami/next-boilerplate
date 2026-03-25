@@ -21,7 +21,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "../../molecules/tabs/Tabs";
+} from "../../molecules/tabs/tabs";
 import {
   Table,
   TableBody,

@@ -14,10 +14,10 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "../sheet/Default";
+} from "../sheet/sheet";
 import { Button } from "../../atoms/button/Button";
 import { Input } from "../inputs/Default";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/Default";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip/tooltip";
 import { Skeleton } from "../skeleton/Default";
 import { useIsMobile } from "../../hooks/useIsMobile";
 
