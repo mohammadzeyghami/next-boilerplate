@@ -1,10 +1,12 @@
 export type ContentListItem = {
   id: string;
-  title: string;
-  body: string;
+  name: string;
+  text?: string | null;
   createdAt: Date;
-  mediaUrl?: string | null;
-  mediaKind?: string | null;
+  contentUrl?: string | null;
+  type: "TEXT" | "IMAGE" | "VIDEO" | "SOUND" | "FILE";
+  access: "PRIVATE" | "PUBLIC";
+  isEarnable: boolean;
   /** Shown on public feed (e.g. author name). */
   authorLabel?: string | null;
 };

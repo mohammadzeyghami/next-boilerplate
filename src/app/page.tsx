@@ -10,20 +10,25 @@ function authorLabel(name: string | null, email: string) {
 
 export default async function Home() {
   const rows = await prisma.content.findMany({
+    where: {
+      access: "PUBLIC",
+    },
     orderBy: { createdAt: "desc" },
     include: {
-      user: { select: { name: true, email: true } },
+      owner: { select: { name: true, email: true } },
     },
   });
 
   const items = rows.map((c) => ({
     id: c.id,
-    title: c.title,
-    body: c.body,
+    name: c.name,
+    text: c.text,
     createdAt: c.createdAt,
-    mediaUrl: c.mediaUrl,
-    mediaKind: c.mediaKind,
-    authorLabel: authorLabel(c.user.name, c.user.email),
+    contentUrl: c.contentUrl,
+    type: c.type,
+    access: c.access,
+    isEarnable: c.isEarnable,
+    authorLabel: authorLabel(c.owner.name, c.owner.email),
   }));
 
   return (
@@ -41,6 +46,7 @@ export default async function Home() {
               </span>
             </p>
           </div>
+
           <ContentList items={items} variant="public" />
         </div>
       </section>

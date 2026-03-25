@@ -19,10 +19,10 @@ export default async function ContentPage() {
   if (!session?.user?.id) redirect("/login");
 
   const items = await prisma.content.findMany({
-    where: { userId: session.user.id },
+    // @ts-ignore
+    where: session.user?.role === "ADMIN" ? {} : { ownerId: session.user.id },
     orderBy: { createdAt: "desc" },
   });
-
   return (
     <div className="flex min-h-0 flex-1 flex-col bg-muted/30">
       <header className="sticky top-0 z-40 shrink-0 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
