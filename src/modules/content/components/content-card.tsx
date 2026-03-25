@@ -50,7 +50,6 @@ export function ContentCard({ item, variant = "manage" }: ContentCardProps) {
   const offset = useMemo(() => hashToOffset(item.id), [item.id]);
   const showActions = variant === "manage";
 
-  /** Stable `initial` for SSR + client (avoid `useReducedMotion` mismatch). */
   const initial = { opacity: 0, x: offset.x, y: offset.y };
 
   return (
@@ -74,17 +73,31 @@ export function ContentCard({ item, variant = "manage" }: ContentCardProps) {
         >
           <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0 border-b border-border/60 px-4 py-4 pb-4">
             <div className="min-w-0 flex-1 space-y-1">
-              <CardTitle className="text-base tracking-tight">{item.title}</CardTitle>
+              <CardTitle className="text-base tracking-tight">
+                {item.name}
+              </CardTitle>
+
               <CardDescription className="text-xs">
                 {variant === "public" && item.authorLabel ? (
                   <>
-                    <span className="text-foreground/85">{item.authorLabel}</span>
+                    <span className="text-foreground/85">
+                      {item.authorLabel}
+                    </span>
                     <span className="text-muted-foreground"> · </span>
                   </>
                 ) : null}
                 {formatWhen(item.createdAt)}
+                <span className="text-muted-foreground"> · </span>
+                {item.access}
+                {item.isEarnable ? (
+                  <>
+                    <span className="text-muted-foreground"> · </span>
+                    Earnable
+                  </>
+                ) : null}
               </CardDescription>
             </div>
+
             {showActions ? (
               <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
                 <ContentEditDialog item={item} />
@@ -92,24 +105,44 @@ export function ContentCard({ item, variant = "manage" }: ContentCardProps) {
               </div>
             ) : null}
           </CardHeader>
+
           <CardContent className="space-y-3 px-4 pt-4 pb-4">
-            <p className="text-muted-foreground whitespace-pre-wrap text-sm leading-relaxed">
-              {item.body}
-            </p>
-            {item.mediaUrl && item.mediaKind === "image" ? (
-              // eslint-disable-next-line @next/next/no-img-element -- user uploads from /public
+            {item.text ? (
+              <p className="text-muted-foreground whitespace-pre-wrap text-sm leading-relaxed">
+                {item.text}
+              </p>
+            ) : null}
+
+            {item.contentUrl && item.type === "IMAGE" ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={item.mediaUrl}
-                alt=""
+                src={item.contentUrl}
+                alt={item.name}
                 className="max-h-72 w-full rounded-lg border border-border/60 object-contain shadow-sm"
               />
             ) : null}
-            {item.mediaUrl && item.mediaKind === "video" ? (
+
+            {item.contentUrl && item.type === "VIDEO" ? (
               <video
-                src={item.mediaUrl}
+                src={item.contentUrl}
                 controls
                 className="max-h-96 w-full rounded-lg border border-border/60 shadow-sm"
               />
+            ) : null}
+
+            {item.contentUrl && item.type === "SOUND" ? (
+              <audio src={item.contentUrl} controls className="w-full" />
+            ) : null}
+
+            {item.contentUrl && item.type === "FILE" ? (
+              <a
+                href={item.contentUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm font-medium underline underline-offset-4"
+              >
+                Open file
+              </a>
             ) : null}
           </CardContent>
         </Card>
