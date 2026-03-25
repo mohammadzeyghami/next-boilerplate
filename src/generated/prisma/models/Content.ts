@@ -26,70 +26,84 @@ export type AggregateContent = {
 
 export type ContentMinAggregateOutputType = {
   id: string | null
-  title: string | null
-  body: string | null
-  mediaUrl: string | null
-  mediaKind: string | null
+  name: string | null
+  ownerId: string | null
+  text: string | null
+  access: $Enums.ContentAccess | null
+  contentUrl: string | null
+  type: $Enums.ContentType | null
+  isEarnable: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
-  userId: string | null
 }
 
 export type ContentMaxAggregateOutputType = {
   id: string | null
-  title: string | null
-  body: string | null
-  mediaUrl: string | null
-  mediaKind: string | null
+  name: string | null
+  ownerId: string | null
+  text: string | null
+  access: $Enums.ContentAccess | null
+  contentUrl: string | null
+  type: $Enums.ContentType | null
+  isEarnable: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
-  userId: string | null
 }
 
 export type ContentCountAggregateOutputType = {
   id: number
-  title: number
-  body: number
-  mediaUrl: number
-  mediaKind: number
+  name: number
+  ownerId: number
+  text: number
+  access: number
+  metadata: number
+  contentUrl: number
+  type: number
+  isEarnable: number
   createdAt: number
   updatedAt: number
-  userId: number
   _all: number
 }
 
 
 export type ContentMinAggregateInputType = {
   id?: true
-  title?: true
-  body?: true
-  mediaUrl?: true
-  mediaKind?: true
+  name?: true
+  ownerId?: true
+  text?: true
+  access?: true
+  contentUrl?: true
+  type?: true
+  isEarnable?: true
   createdAt?: true
   updatedAt?: true
-  userId?: true
 }
 
 export type ContentMaxAggregateInputType = {
   id?: true
-  title?: true
-  body?: true
-  mediaUrl?: true
-  mediaKind?: true
+  name?: true
+  ownerId?: true
+  text?: true
+  access?: true
+  contentUrl?: true
+  type?: true
+  isEarnable?: true
   createdAt?: true
   updatedAt?: true
-  userId?: true
 }
 
 export type ContentCountAggregateInputType = {
   id?: true
-  title?: true
-  body?: true
-  mediaUrl?: true
-  mediaKind?: true
+  name?: true
+  ownerId?: true
+  text?: true
+  access?: true
+  metadata?: true
+  contentUrl?: true
+  type?: true
+  isEarnable?: true
   createdAt?: true
   updatedAt?: true
-  userId?: true
   _all?: true
 }
 
@@ -167,13 +181,16 @@ export type ContentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type ContentGroupByOutputType = {
   id: string
-  title: string
-  body: string
-  mediaUrl: string | null
-  mediaKind: string | null
+  name: string
+  ownerId: string
+  text: string | null
+  access: $Enums.ContentAccess
+  metadata: runtime.JsonValue | null
+  contentUrl: string | null
+  type: $Enums.ContentType
+  isEarnable: boolean
   createdAt: Date
   updatedAt: Date
-  userId: string
   _count: ContentCountAggregateOutputType | null
   _min: ContentMinAggregateOutputType | null
   _max: ContentMaxAggregateOutputType | null
@@ -199,26 +216,32 @@ export type ContentWhereInput = {
   OR?: Prisma.ContentWhereInput[]
   NOT?: Prisma.ContentWhereInput | Prisma.ContentWhereInput[]
   id?: Prisma.StringFilter<"Content"> | string
-  title?: Prisma.StringFilter<"Content"> | string
-  body?: Prisma.StringFilter<"Content"> | string
-  mediaUrl?: Prisma.StringNullableFilter<"Content"> | string | null
-  mediaKind?: Prisma.StringNullableFilter<"Content"> | string | null
+  name?: Prisma.StringFilter<"Content"> | string
+  ownerId?: Prisma.StringFilter<"Content"> | string
+  text?: Prisma.StringNullableFilter<"Content"> | string | null
+  access?: Prisma.EnumContentAccessFilter<"Content"> | $Enums.ContentAccess
+  metadata?: Prisma.JsonNullableFilter<"Content">
+  contentUrl?: Prisma.StringNullableFilter<"Content"> | string | null
+  type?: Prisma.EnumContentTypeFilter<"Content"> | $Enums.ContentType
+  isEarnable?: Prisma.BoolFilter<"Content"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Content"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Content"> | Date | string
-  userId?: Prisma.StringFilter<"Content"> | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type ContentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  body?: Prisma.SortOrder
-  mediaUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  mediaKind?: Prisma.SortOrderInput | Prisma.SortOrder
+  name?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
+  text?: Prisma.SortOrderInput | Prisma.SortOrder
+  access?: Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrder
+  isEarnable?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
-  user?: Prisma.UserOrderByWithRelationInput
+  owner?: Prisma.UserOrderByWithRelationInput
 }
 
 export type ContentWhereUniqueInput = Prisma.AtLeast<{
@@ -226,25 +249,31 @@ export type ContentWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ContentWhereInput | Prisma.ContentWhereInput[]
   OR?: Prisma.ContentWhereInput[]
   NOT?: Prisma.ContentWhereInput | Prisma.ContentWhereInput[]
-  title?: Prisma.StringFilter<"Content"> | string
-  body?: Prisma.StringFilter<"Content"> | string
-  mediaUrl?: Prisma.StringNullableFilter<"Content"> | string | null
-  mediaKind?: Prisma.StringNullableFilter<"Content"> | string | null
+  name?: Prisma.StringFilter<"Content"> | string
+  ownerId?: Prisma.StringFilter<"Content"> | string
+  text?: Prisma.StringNullableFilter<"Content"> | string | null
+  access?: Prisma.EnumContentAccessFilter<"Content"> | $Enums.ContentAccess
+  metadata?: Prisma.JsonNullableFilter<"Content">
+  contentUrl?: Prisma.StringNullableFilter<"Content"> | string | null
+  type?: Prisma.EnumContentTypeFilter<"Content"> | $Enums.ContentType
+  isEarnable?: Prisma.BoolFilter<"Content"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Content"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Content"> | Date | string
-  userId?: Prisma.StringFilter<"Content"> | string
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type ContentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  body?: Prisma.SortOrder
-  mediaUrl?: Prisma.SortOrderInput | Prisma.SortOrder
-  mediaKind?: Prisma.SortOrderInput | Prisma.SortOrder
+  name?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
+  text?: Prisma.SortOrderInput | Prisma.SortOrder
+  access?: Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrder
+  isEarnable?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
   _count?: Prisma.ContentCountOrderByAggregateInput
   _max?: Prisma.ContentMaxOrderByAggregateInput
   _min?: Prisma.ContentMinOrderByAggregateInput
@@ -255,89 +284,113 @@ export type ContentScalarWhereWithAggregatesInput = {
   OR?: Prisma.ContentScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ContentScalarWhereWithAggregatesInput | Prisma.ContentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Content"> | string
-  title?: Prisma.StringWithAggregatesFilter<"Content"> | string
-  body?: Prisma.StringWithAggregatesFilter<"Content"> | string
-  mediaUrl?: Prisma.StringNullableWithAggregatesFilter<"Content"> | string | null
-  mediaKind?: Prisma.StringNullableWithAggregatesFilter<"Content"> | string | null
+  name?: Prisma.StringWithAggregatesFilter<"Content"> | string
+  ownerId?: Prisma.StringWithAggregatesFilter<"Content"> | string
+  text?: Prisma.StringNullableWithAggregatesFilter<"Content"> | string | null
+  access?: Prisma.EnumContentAccessWithAggregatesFilter<"Content"> | $Enums.ContentAccess
+  metadata?: Prisma.JsonNullableWithAggregatesFilter<"Content">
+  contentUrl?: Prisma.StringNullableWithAggregatesFilter<"Content"> | string | null
+  type?: Prisma.EnumContentTypeWithAggregatesFilter<"Content"> | $Enums.ContentType
+  isEarnable?: Prisma.BoolWithAggregatesFilter<"Content"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Content"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Content"> | Date | string
-  userId?: Prisma.StringWithAggregatesFilter<"Content"> | string
 }
 
 export type ContentCreateInput = {
   id?: string
-  title: string
-  body: string
-  mediaUrl?: string | null
-  mediaKind?: string | null
+  name: string
+  text?: string | null
+  access?: $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: string | null
+  type: $Enums.ContentType
+  isEarnable?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutContentsInput
+  owner: Prisma.UserCreateNestedOneWithoutContentsInput
 }
 
 export type ContentUncheckedCreateInput = {
   id?: string
-  title: string
-  body: string
-  mediaUrl?: string | null
-  mediaKind?: string | null
+  name: string
+  ownerId: string
+  text?: string | null
+  access?: $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: string | null
+  type: $Enums.ContentType
+  isEarnable?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  userId: string
 }
 
 export type ContentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  body?: Prisma.StringFieldUpdateOperationsInput | string
-  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mediaKind?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  access?: Prisma.EnumContentAccessFieldUpdateOperationsInput | $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+  isEarnable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutContentsNestedInput
+  owner?: Prisma.UserUpdateOneRequiredWithoutContentsNestedInput
 }
 
 export type ContentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  body?: Prisma.StringFieldUpdateOperationsInput | string
-  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mediaKind?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  access?: Prisma.EnumContentAccessFieldUpdateOperationsInput | $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+  isEarnable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ContentCreateManyInput = {
   id?: string
-  title: string
-  body: string
-  mediaUrl?: string | null
-  mediaKind?: string | null
+  name: string
+  ownerId: string
+  text?: string | null
+  access?: $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: string | null
+  type: $Enums.ContentType
+  isEarnable?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  userId: string
 }
 
 export type ContentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  body?: Prisma.StringFieldUpdateOperationsInput | string
-  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mediaKind?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  access?: Prisma.EnumContentAccessFieldUpdateOperationsInput | $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+  isEarnable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ContentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  body?: Prisma.StringFieldUpdateOperationsInput | string
-  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mediaKind?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  access?: Prisma.EnumContentAccessFieldUpdateOperationsInput | $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+  isEarnable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ContentListRelationFilter = {
@@ -352,127 +405,152 @@ export type ContentOrderByRelationAggregateInput = {
 
 export type ContentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  body?: Prisma.SortOrder
-  mediaUrl?: Prisma.SortOrder
-  mediaKind?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
+  text?: Prisma.SortOrder
+  access?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
+  contentUrl?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  isEarnable?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
 }
 
 export type ContentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  body?: Prisma.SortOrder
-  mediaUrl?: Prisma.SortOrder
-  mediaKind?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
+  text?: Prisma.SortOrder
+  access?: Prisma.SortOrder
+  contentUrl?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  isEarnable?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
 }
 
 export type ContentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  body?: Prisma.SortOrder
-  mediaUrl?: Prisma.SortOrder
-  mediaKind?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  ownerId?: Prisma.SortOrder
+  text?: Prisma.SortOrder
+  access?: Prisma.SortOrder
+  contentUrl?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  isEarnable?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
 }
 
-export type ContentCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.ContentCreateWithoutUserInput, Prisma.ContentUncheckedCreateWithoutUserInput> | Prisma.ContentCreateWithoutUserInput[] | Prisma.ContentUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.ContentCreateOrConnectWithoutUserInput | Prisma.ContentCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.ContentCreateManyUserInputEnvelope
+export type ContentCreateNestedManyWithoutOwnerInput = {
+  create?: Prisma.XOR<Prisma.ContentCreateWithoutOwnerInput, Prisma.ContentUncheckedCreateWithoutOwnerInput> | Prisma.ContentCreateWithoutOwnerInput[] | Prisma.ContentUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.ContentCreateOrConnectWithoutOwnerInput | Prisma.ContentCreateOrConnectWithoutOwnerInput[]
+  createMany?: Prisma.ContentCreateManyOwnerInputEnvelope
   connect?: Prisma.ContentWhereUniqueInput | Prisma.ContentWhereUniqueInput[]
 }
 
-export type ContentUncheckedCreateNestedManyWithoutUserInput = {
-  create?: Prisma.XOR<Prisma.ContentCreateWithoutUserInput, Prisma.ContentUncheckedCreateWithoutUserInput> | Prisma.ContentCreateWithoutUserInput[] | Prisma.ContentUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.ContentCreateOrConnectWithoutUserInput | Prisma.ContentCreateOrConnectWithoutUserInput[]
-  createMany?: Prisma.ContentCreateManyUserInputEnvelope
+export type ContentUncheckedCreateNestedManyWithoutOwnerInput = {
+  create?: Prisma.XOR<Prisma.ContentCreateWithoutOwnerInput, Prisma.ContentUncheckedCreateWithoutOwnerInput> | Prisma.ContentCreateWithoutOwnerInput[] | Prisma.ContentUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.ContentCreateOrConnectWithoutOwnerInput | Prisma.ContentCreateOrConnectWithoutOwnerInput[]
+  createMany?: Prisma.ContentCreateManyOwnerInputEnvelope
   connect?: Prisma.ContentWhereUniqueInput | Prisma.ContentWhereUniqueInput[]
 }
 
-export type ContentUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.ContentCreateWithoutUserInput, Prisma.ContentUncheckedCreateWithoutUserInput> | Prisma.ContentCreateWithoutUserInput[] | Prisma.ContentUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.ContentCreateOrConnectWithoutUserInput | Prisma.ContentCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.ContentUpsertWithWhereUniqueWithoutUserInput | Prisma.ContentUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.ContentCreateManyUserInputEnvelope
+export type ContentUpdateManyWithoutOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.ContentCreateWithoutOwnerInput, Prisma.ContentUncheckedCreateWithoutOwnerInput> | Prisma.ContentCreateWithoutOwnerInput[] | Prisma.ContentUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.ContentCreateOrConnectWithoutOwnerInput | Prisma.ContentCreateOrConnectWithoutOwnerInput[]
+  upsert?: Prisma.ContentUpsertWithWhereUniqueWithoutOwnerInput | Prisma.ContentUpsertWithWhereUniqueWithoutOwnerInput[]
+  createMany?: Prisma.ContentCreateManyOwnerInputEnvelope
   set?: Prisma.ContentWhereUniqueInput | Prisma.ContentWhereUniqueInput[]
   disconnect?: Prisma.ContentWhereUniqueInput | Prisma.ContentWhereUniqueInput[]
   delete?: Prisma.ContentWhereUniqueInput | Prisma.ContentWhereUniqueInput[]
   connect?: Prisma.ContentWhereUniqueInput | Prisma.ContentWhereUniqueInput[]
-  update?: Prisma.ContentUpdateWithWhereUniqueWithoutUserInput | Prisma.ContentUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.ContentUpdateManyWithWhereWithoutUserInput | Prisma.ContentUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.ContentUpdateWithWhereUniqueWithoutOwnerInput | Prisma.ContentUpdateWithWhereUniqueWithoutOwnerInput[]
+  updateMany?: Prisma.ContentUpdateManyWithWhereWithoutOwnerInput | Prisma.ContentUpdateManyWithWhereWithoutOwnerInput[]
   deleteMany?: Prisma.ContentScalarWhereInput | Prisma.ContentScalarWhereInput[]
 }
 
-export type ContentUncheckedUpdateManyWithoutUserNestedInput = {
-  create?: Prisma.XOR<Prisma.ContentCreateWithoutUserInput, Prisma.ContentUncheckedCreateWithoutUserInput> | Prisma.ContentCreateWithoutUserInput[] | Prisma.ContentUncheckedCreateWithoutUserInput[]
-  connectOrCreate?: Prisma.ContentCreateOrConnectWithoutUserInput | Prisma.ContentCreateOrConnectWithoutUserInput[]
-  upsert?: Prisma.ContentUpsertWithWhereUniqueWithoutUserInput | Prisma.ContentUpsertWithWhereUniqueWithoutUserInput[]
-  createMany?: Prisma.ContentCreateManyUserInputEnvelope
+export type ContentUncheckedUpdateManyWithoutOwnerNestedInput = {
+  create?: Prisma.XOR<Prisma.ContentCreateWithoutOwnerInput, Prisma.ContentUncheckedCreateWithoutOwnerInput> | Prisma.ContentCreateWithoutOwnerInput[] | Prisma.ContentUncheckedCreateWithoutOwnerInput[]
+  connectOrCreate?: Prisma.ContentCreateOrConnectWithoutOwnerInput | Prisma.ContentCreateOrConnectWithoutOwnerInput[]
+  upsert?: Prisma.ContentUpsertWithWhereUniqueWithoutOwnerInput | Prisma.ContentUpsertWithWhereUniqueWithoutOwnerInput[]
+  createMany?: Prisma.ContentCreateManyOwnerInputEnvelope
   set?: Prisma.ContentWhereUniqueInput | Prisma.ContentWhereUniqueInput[]
   disconnect?: Prisma.ContentWhereUniqueInput | Prisma.ContentWhereUniqueInput[]
   delete?: Prisma.ContentWhereUniqueInput | Prisma.ContentWhereUniqueInput[]
   connect?: Prisma.ContentWhereUniqueInput | Prisma.ContentWhereUniqueInput[]
-  update?: Prisma.ContentUpdateWithWhereUniqueWithoutUserInput | Prisma.ContentUpdateWithWhereUniqueWithoutUserInput[]
-  updateMany?: Prisma.ContentUpdateManyWithWhereWithoutUserInput | Prisma.ContentUpdateManyWithWhereWithoutUserInput[]
+  update?: Prisma.ContentUpdateWithWhereUniqueWithoutOwnerInput | Prisma.ContentUpdateWithWhereUniqueWithoutOwnerInput[]
+  updateMany?: Prisma.ContentUpdateManyWithWhereWithoutOwnerInput | Prisma.ContentUpdateManyWithWhereWithoutOwnerInput[]
   deleteMany?: Prisma.ContentScalarWhereInput | Prisma.ContentScalarWhereInput[]
+}
+
+export type EnumContentAccessFieldUpdateOperationsInput = {
+  set?: $Enums.ContentAccess
+}
+
+export type EnumContentTypeFieldUpdateOperationsInput = {
+  set?: $Enums.ContentType
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
-export type ContentCreateWithoutUserInput = {
+export type ContentCreateWithoutOwnerInput = {
   id?: string
-  title: string
-  body: string
-  mediaUrl?: string | null
-  mediaKind?: string | null
+  name: string
+  text?: string | null
+  access?: $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: string | null
+  type: $Enums.ContentType
+  isEarnable?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type ContentUncheckedCreateWithoutUserInput = {
+export type ContentUncheckedCreateWithoutOwnerInput = {
   id?: string
-  title: string
-  body: string
-  mediaUrl?: string | null
-  mediaKind?: string | null
+  name: string
+  text?: string | null
+  access?: $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: string | null
+  type: $Enums.ContentType
+  isEarnable?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type ContentCreateOrConnectWithoutUserInput = {
+export type ContentCreateOrConnectWithoutOwnerInput = {
   where: Prisma.ContentWhereUniqueInput
-  create: Prisma.XOR<Prisma.ContentCreateWithoutUserInput, Prisma.ContentUncheckedCreateWithoutUserInput>
+  create: Prisma.XOR<Prisma.ContentCreateWithoutOwnerInput, Prisma.ContentUncheckedCreateWithoutOwnerInput>
 }
 
-export type ContentCreateManyUserInputEnvelope = {
-  data: Prisma.ContentCreateManyUserInput | Prisma.ContentCreateManyUserInput[]
+export type ContentCreateManyOwnerInputEnvelope = {
+  data: Prisma.ContentCreateManyOwnerInput | Prisma.ContentCreateManyOwnerInput[]
   skipDuplicates?: boolean
 }
 
-export type ContentUpsertWithWhereUniqueWithoutUserInput = {
+export type ContentUpsertWithWhereUniqueWithoutOwnerInput = {
   where: Prisma.ContentWhereUniqueInput
-  update: Prisma.XOR<Prisma.ContentUpdateWithoutUserInput, Prisma.ContentUncheckedUpdateWithoutUserInput>
-  create: Prisma.XOR<Prisma.ContentCreateWithoutUserInput, Prisma.ContentUncheckedCreateWithoutUserInput>
+  update: Prisma.XOR<Prisma.ContentUpdateWithoutOwnerInput, Prisma.ContentUncheckedUpdateWithoutOwnerInput>
+  create: Prisma.XOR<Prisma.ContentCreateWithoutOwnerInput, Prisma.ContentUncheckedCreateWithoutOwnerInput>
 }
 
-export type ContentUpdateWithWhereUniqueWithoutUserInput = {
+export type ContentUpdateWithWhereUniqueWithoutOwnerInput = {
   where: Prisma.ContentWhereUniqueInput
-  data: Prisma.XOR<Prisma.ContentUpdateWithoutUserInput, Prisma.ContentUncheckedUpdateWithoutUserInput>
+  data: Prisma.XOR<Prisma.ContentUpdateWithoutOwnerInput, Prisma.ContentUncheckedUpdateWithoutOwnerInput>
 }
 
-export type ContentUpdateManyWithWhereWithoutUserInput = {
+export type ContentUpdateManyWithWhereWithoutOwnerInput = {
   where: Prisma.ContentScalarWhereInput
-  data: Prisma.XOR<Prisma.ContentUpdateManyMutationInput, Prisma.ContentUncheckedUpdateManyWithoutUserInput>
+  data: Prisma.XOR<Prisma.ContentUpdateManyMutationInput, Prisma.ContentUncheckedUpdateManyWithoutOwnerInput>
 }
 
 export type ContentScalarWhereInput = {
@@ -480,51 +558,66 @@ export type ContentScalarWhereInput = {
   OR?: Prisma.ContentScalarWhereInput[]
   NOT?: Prisma.ContentScalarWhereInput | Prisma.ContentScalarWhereInput[]
   id?: Prisma.StringFilter<"Content"> | string
-  title?: Prisma.StringFilter<"Content"> | string
-  body?: Prisma.StringFilter<"Content"> | string
-  mediaUrl?: Prisma.StringNullableFilter<"Content"> | string | null
-  mediaKind?: Prisma.StringNullableFilter<"Content"> | string | null
+  name?: Prisma.StringFilter<"Content"> | string
+  ownerId?: Prisma.StringFilter<"Content"> | string
+  text?: Prisma.StringNullableFilter<"Content"> | string | null
+  access?: Prisma.EnumContentAccessFilter<"Content"> | $Enums.ContentAccess
+  metadata?: Prisma.JsonNullableFilter<"Content">
+  contentUrl?: Prisma.StringNullableFilter<"Content"> | string | null
+  type?: Prisma.EnumContentTypeFilter<"Content"> | $Enums.ContentType
+  isEarnable?: Prisma.BoolFilter<"Content"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Content"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Content"> | Date | string
-  userId?: Prisma.StringFilter<"Content"> | string
 }
 
-export type ContentCreateManyUserInput = {
+export type ContentCreateManyOwnerInput = {
   id?: string
-  title: string
-  body: string
-  mediaUrl?: string | null
-  mediaKind?: string | null
+  name: string
+  text?: string | null
+  access?: $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: string | null
+  type: $Enums.ContentType
+  isEarnable?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
-export type ContentUpdateWithoutUserInput = {
+export type ContentUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  body?: Prisma.StringFieldUpdateOperationsInput | string
-  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mediaKind?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  access?: Prisma.EnumContentAccessFieldUpdateOperationsInput | $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+  isEarnable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ContentUncheckedUpdateWithoutUserInput = {
+export type ContentUncheckedUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  body?: Prisma.StringFieldUpdateOperationsInput | string
-  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mediaKind?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  access?: Prisma.EnumContentAccessFieldUpdateOperationsInput | $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+  isEarnable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ContentUncheckedUpdateManyWithoutUserInput = {
+export type ContentUncheckedUpdateManyWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  body?: Prisma.StringFieldUpdateOperationsInput | string
-  mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  mediaKind?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  text?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  access?: Prisma.EnumContentAccessFieldUpdateOperationsInput | $Enums.ContentAccess
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
+  isEarnable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -533,82 +626,91 @@ export type ContentUncheckedUpdateManyWithoutUserInput = {
 
 export type ContentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
-  body?: boolean
-  mediaUrl?: boolean
-  mediaKind?: boolean
+  name?: boolean
+  ownerId?: boolean
+  text?: boolean
+  access?: boolean
+  metadata?: boolean
+  contentUrl?: boolean
+  type?: boolean
+  isEarnable?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  userId?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["content"]>
 
 export type ContentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
-  body?: boolean
-  mediaUrl?: boolean
-  mediaKind?: boolean
+  name?: boolean
+  ownerId?: boolean
+  text?: boolean
+  access?: boolean
+  metadata?: boolean
+  contentUrl?: boolean
+  type?: boolean
+  isEarnable?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  userId?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["content"]>
 
 export type ContentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
-  body?: boolean
-  mediaUrl?: boolean
-  mediaKind?: boolean
+  name?: boolean
+  ownerId?: boolean
+  text?: boolean
+  access?: boolean
+  metadata?: boolean
+  contentUrl?: boolean
+  type?: boolean
+  isEarnable?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  userId?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["content"]>
 
 export type ContentSelectScalar = {
   id?: boolean
-  title?: boolean
-  body?: boolean
-  mediaUrl?: boolean
-  mediaKind?: boolean
+  name?: boolean
+  ownerId?: boolean
+  text?: boolean
+  access?: boolean
+  metadata?: boolean
+  contentUrl?: boolean
+  type?: boolean
+  isEarnable?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  userId?: boolean
 }
 
-export type ContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "body" | "mediaUrl" | "mediaKind" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["content"]>
+export type ContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "ownerId" | "text" | "access" | "metadata" | "contentUrl" | "type" | "isEarnable" | "createdAt" | "updatedAt", ExtArgs["result"]["content"]>
 export type ContentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ContentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ContentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $ContentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Content"
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>
+    owner: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    title: string
-    body: string
-    /**
-     * Public URL path, e.g. `/uploads/content/{userId}/{file}`
-     */
-    mediaUrl: string | null
-    /**
-     * `image` or `video`
-     */
-    mediaKind: string | null
+    name: string
+    ownerId: string
+    text: string | null
+    access: $Enums.ContentAccess
+    metadata: runtime.JsonValue | null
+    contentUrl: string | null
+    type: $Enums.ContentType
+    isEarnable: boolean
     createdAt: Date
     updatedAt: Date
-    userId: string
   }, ExtArgs["result"]["content"]>
   composites: {}
 }
@@ -1003,7 +1105,7 @@ readonly fields: ContentFieldRefs;
  */
 export interface Prisma__ContentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  owner<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1034,13 +1136,16 @@ export interface Prisma__ContentClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface ContentFieldRefs {
   readonly id: Prisma.FieldRef<"Content", 'String'>
-  readonly title: Prisma.FieldRef<"Content", 'String'>
-  readonly body: Prisma.FieldRef<"Content", 'String'>
-  readonly mediaUrl: Prisma.FieldRef<"Content", 'String'>
-  readonly mediaKind: Prisma.FieldRef<"Content", 'String'>
+  readonly name: Prisma.FieldRef<"Content", 'String'>
+  readonly ownerId: Prisma.FieldRef<"Content", 'String'>
+  readonly text: Prisma.FieldRef<"Content", 'String'>
+  readonly access: Prisma.FieldRef<"Content", 'ContentAccess'>
+  readonly metadata: Prisma.FieldRef<"Content", 'Json'>
+  readonly contentUrl: Prisma.FieldRef<"Content", 'String'>
+  readonly type: Prisma.FieldRef<"Content", 'ContentType'>
+  readonly isEarnable: Prisma.FieldRef<"Content", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Content", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Content", 'DateTime'>
-  readonly userId: Prisma.FieldRef<"Content", 'String'>
 }
     
 

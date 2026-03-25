@@ -23,22 +23,83 @@ function fileFromFormData(formData: FormData): File | null {
   return null;
 }
 
+function parseBoolean(value: FormDataEntryValue | null): boolean {
+  return String(value ?? "") === "true";
+}
+
+function parseMetadata(value: FormDataEntryValue | null) {
+  const raw = String(value ?? "").trim();
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw) as Record<string, unknown>;
+  } catch {
+    throw new Error("Metadata must be valid JSON.");
+  }
+}
+
+async function getCurrentDbUser() {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return { error: "You must be signed in." as const };
+  }
+
+  const dbUser = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: {
+      id: true,
+      role: true,
+    },
+  });
+
+  if (!dbUser) {
+    return { error: "User not found." as const };
+  }
+
+  return { user: dbUser };
+}
+
 export async function createContentAction(
   formData: FormData,
 ): Promise<ContentActionResult> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return { ok: false, error: "You must be signed in." };
+  const current = await getCurrentDbUser();
+  if ("error" in current) {
+    return { ok: false, error: current.error };
   }
 
-  const title = String(formData.get("title") ?? "").trim();
-  const body = String(formData.get("body") ?? "").trim();
+  const name = String(formData.get("name") ?? "").trim();
+  const text = String(formData.get("text") ?? "").trim();
+  const access = String(formData.get("access") ?? "PRIVATE")
+    .trim()
+    .toUpperCase();
+  const typeFromForm = String(formData.get("type") ?? "")
+    .trim()
+    .toUpperCase();
+  const isEarnable = parseBoolean(formData.get("isEarnable"));
   const file = fileFromFormData(formData);
+
+  let metadata: Record<string, unknown> | null = null;
+  try {
+    metadata = parseMetadata(formData.get("metadata"));
+  } catch (e) {
+    return {
+      ok: false,
+      error: e instanceof Error ? e.message : "Invalid metadata.",
+    };
+  }
 
   let parsed: yup.InferType<typeof contentSchema>;
   try {
     parsed = await contentSchema.validate(
-      { title, body },
+      {
+        name,
+        text: text || null,
+        access,
+        type: typeFromForm || (file ? "FILE" : "TEXT"),
+        isEarnable,
+        metadata,
+      },
       { abortEarly: false, stripUnknown: true },
     );
   } catch (e) {
@@ -48,25 +109,37 @@ export async function createContentAction(
     return { ok: false, error: "Invalid input." };
   }
 
-  let mediaUrl: string | null = null;
-  let mediaKind: string | null = null;
+  let contentUrl: string | null = null;
+  let finalType = parsed.type;
 
   if (file) {
-    const saved = await saveContentMediaFile(file, session.user.id);
+    const saved = await saveContentMediaFile(file, current.user.id);
     if ("error" in saved) {
       return { ok: false, error: saved.error };
     }
-    mediaUrl = saved.mediaUrl;
-    mediaKind = saved.mediaKind;
+
+    contentUrl = saved.mediaUrl;
+
+    const mediaKindToTypeMap: Record<string, typeof finalType> = {
+      image: "IMAGE",
+      video: "VIDEO",
+      sound: "SOUND",
+      file: "FILE",
+    };
+
+    finalType = mediaKindToTypeMap[saved.mediaKind] ?? "FILE";
   }
 
   await prisma.content.create({
     data: {
-      title: parsed.title,
-      body: parsed.body,
-      userId: session.user.id,
-      mediaUrl,
-      mediaKind,
+      name: parsed.name,
+      text: parsed.text ?? null,
+      ownerId: current.user.id,
+      access: parsed.access,
+      // metadata: parsed.metadata ?? null,
+      contentUrl,
+      type: finalType,
+      isEarnable: parsed.isEarnable,
     },
   });
 
@@ -78,25 +151,49 @@ export async function createContentAction(
 export async function updateContentAction(
   formData: FormData,
 ): Promise<ContentActionResult> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return { ok: false, error: "You must be signed in." };
+  const current = await getCurrentDbUser();
+  if ("error" in current) {
+    return { ok: false, error: current.error };
   }
 
   const id = String(formData.get("id") ?? "").trim();
-  const title = String(formData.get("title") ?? "").trim();
-  const body = String(formData.get("body") ?? "").trim();
-  const removeMedia = String(formData.get("removeMedia") ?? "") === "true";
+  const name = String(formData.get("name") ?? "").trim();
+  const text = String(formData.get("text") ?? "").trim();
+  const access = String(formData.get("access") ?? "PRIVATE")
+    .trim()
+    .toUpperCase();
+  const typeFromForm = String(formData.get("type") ?? "")
+    .trim()
+    .toUpperCase();
+  const isEarnable = parseBoolean(formData.get("isEarnable"));
+  const removeFile = String(formData.get("removeFile") ?? "") === "true";
   const file = fileFromFormData(formData);
 
   if (!id) {
     return { ok: false, error: "Missing content id." };
   }
 
+  let metadata: Record<string, unknown> | null = null;
+  try {
+    metadata = parseMetadata(formData.get("metadata"));
+  } catch (e) {
+    return {
+      ok: false,
+      error: e instanceof Error ? e.message : "Invalid metadata.",
+    };
+  }
+
   let parsed: yup.InferType<typeof contentSchema>;
   try {
     parsed = await contentSchema.validate(
-      { title, body },
+      {
+        name,
+        text: text || null,
+        access,
+        type: typeFromForm || (file ? "FILE" : "TEXT"),
+        isEarnable,
+        metadata,
+      },
       { abortEarly: false, stripUnknown: true },
     );
   } catch (e) {
@@ -106,39 +203,58 @@ export async function updateContentAction(
     return { ok: false, error: "Invalid input." };
   }
 
+  const whereClause =
+    current.user.role === "ADMIN" ? { id } : { id, ownerId: current.user.id };
+
   const row = await prisma.content.findFirst({
-    where: { id, userId: session.user.id },
-    select: { id: true, mediaUrl: true, mediaKind: true },
+    where: whereClause,
+    select: {
+      id: true,
+      ownerId: true,
+      contentUrl: true,
+      type: true,
+    },
   });
 
   if (!row) {
     return { ok: false, error: "Content not found or not allowed." };
   }
 
-  let mediaUrl: string | null = row.mediaUrl;
-  let mediaKind: string | null = row.mediaKind;
+  let contentUrl: string | null = row.contentUrl;
+  let finalType = parsed.type;
 
   if (file) {
-    const saved = await saveContentMediaFile(file, session.user.id);
+    const saved = await saveContentMediaFile(file, row.ownerId);
     if ("error" in saved) {
       return { ok: false, error: saved.error };
     }
-    await deleteContentMediaFile(row.mediaUrl);
-    mediaUrl = saved.mediaUrl;
-    mediaKind = saved.mediaKind;
-  } else if (removeMedia) {
-    await deleteContentMediaFile(row.mediaUrl);
-    mediaUrl = null;
-    mediaKind = null;
+
+    await deleteContentMediaFile(row.contentUrl);
+    contentUrl = saved.mediaUrl;
+
+    const mediaKindToTypeMap: Record<string, typeof finalType> = {
+      image: "IMAGE",
+      video: "VIDEO",
+      sound: "SOUND",
+      file: "FILE",
+    };
+
+    finalType = mediaKindToTypeMap[saved.mediaKind] ?? "FILE";
+  } else if (removeFile) {
+    await deleteContentMediaFile(row.contentUrl);
+    contentUrl = null;
   }
 
   await prisma.content.update({
     where: { id: row.id },
     data: {
-      title: parsed.title,
-      body: parsed.body,
-      mediaUrl,
-      mediaKind,
+      name: parsed.name,
+      text: parsed.text ?? null,
+      access: parsed.access,
+      // metadata: parsed.metadata ?? null,
+      contentUrl,
+      type: finalType,
+      isEarnable: parsed.isEarnable,
     },
   });
 
@@ -150,26 +266,34 @@ export async function updateContentAction(
 export async function deleteContentAction(
   id: string,
 ): Promise<ContentActionResult> {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return { ok: false, error: "You must be signed in." };
+  const current = await getCurrentDbUser();
+  if ("error" in current) {
+    return { ok: false, error: current.error };
   }
 
   if (!id?.trim()) {
     return { ok: false, error: "Missing content id." };
   }
 
+  const whereClause = true ? { id } : { id, ownerId: current.user.id };
+  // current.user.role === "ADMIN"
+
   const row = await prisma.content.findFirst({
-    where: { id, userId: session.user.id },
-    select: { id: true, mediaUrl: true },
+    where: whereClause,
+    select: {
+      id: true,
+      contentUrl: true,
+    },
   });
 
   if (!row) {
     return { ok: false, error: "Content not found or not allowed." };
   }
 
-  await deleteContentMediaFile(row.mediaUrl);
-  await prisma.content.delete({ where: { id: row.id } });
+  await deleteContentMediaFile(row.contentUrl);
+  await prisma.content.delete({
+    where: { id: row.id },
+  });
 
   revalidatePath("/dashboard/content");
   revalidatePath("/");
