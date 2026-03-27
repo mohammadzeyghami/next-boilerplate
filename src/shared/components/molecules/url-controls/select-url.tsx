@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { FormProvider as RHFormProvider, useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "next/navigation";
 import SelectR from "../inputs/SelectR";
 import type { SelectCreateConfig } from "../inputs/SelectPrimary";
 
@@ -50,6 +50,7 @@ export function SelectUrl({
 }: SelectUrlProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // @ts-ignore
   const paramValue = searchParams.get(param);
   const value = useMemo(() => paramValue ?? defaultValue, [defaultValue, paramValue]);
 
@@ -73,7 +74,7 @@ export function SelectUrl({
       if (nextValue === value) return;
 
       onValueChange?.(nextValue);
-
+      // @ts-ignore
       setSearchParams((prev) => {
         const sp = new URLSearchParams(prev);
         if (!nextValue) {

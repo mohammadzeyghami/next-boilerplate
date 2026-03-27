@@ -1,7 +1,8 @@
-import { Button, Input } from "@/Shared";
+import { Button } from "@/shared/components/atoms/button";
+import { Input } from "@/shared/components/atoms/input";
 import { Copy } from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-import { ModalShell, type ModalShellSize } from "./modal-shell";
+import { ModalShell, type ModalShellSize } from "@/shared/components/organisms/modal-shell";
 
 export type ConfirmModalProps = {
   open: boolean;

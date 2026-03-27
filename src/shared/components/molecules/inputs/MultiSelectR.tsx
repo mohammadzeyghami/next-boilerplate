@@ -1,17 +1,4 @@
-import {
-  Button,
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  ErrorMessage,
-  Input,
-  LabelPrimary,
-  Separator,
-  SimpleModal,
-} from "@/Shared";
-import { ConfirmActionDialog } from "@/Modules/PlatformApps/components/ConfirmActionDialog";
+
 import {
   Controller,
   useFormContext,
@@ -22,9 +9,16 @@ import {
   type RegisterOptions,
 } from "react-hook-form";
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { useSearchFilter } from "@/Shared/hooks/use-search-filter";
 import type { SelectCreateConfig } from "./SelectPrimary";
 import { GlobeIcon, ListFilterIcon, PencilIcon, PlusIcon, Trash2Icon } from "lucide-react";
+import LabelPrimary from "../label/Primary";
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components/molecules/dropdown-menu";
+import ErrorMessage from "../../atoms/typography/ErrorMessage";
+import { SimpleModal } from "@/shared/components/organisms/modal-shell";
+import { Button } from "@/shared/components/atoms/button";
+import { Input } from "@/shared/components/atoms/input";
+import { Separator } from "@/shared/components/atoms/separator";
+import { useSearchFilter } from "@/shared/components/hooks/useSearchFilter";
 
 type Option = {
   value: string;
@@ -487,7 +481,7 @@ function MultiSelectR<
                 })}
               </SimpleModal>
             ) : null}
-            {create?.onDelete && deleteState.open ? (
+            {/* {create?.onDelete && deleteState.open ? (
               <ConfirmActionDialog
                 open={deleteState.open}
                 onCancel={handleDeleteCancel}
@@ -499,7 +493,7 @@ function MultiSelectR<
                 confirmationPlaceholder="Type the exact item name shown above"
                 loading={deleteState.deleting}
               />
-            ) : null}
+            ) : null} */}
           </div>
         );
       }}

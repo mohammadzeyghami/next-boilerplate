@@ -1,17 +1,9 @@
 import { cn } from "@/lib/utils";
 import {
-  Button,
-  Separator,
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  Skeleton,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/Shared";
+} from "@/shared/components/molecules/tooltip";
 import { Slot } from "@radix-ui/react-slot";
 import type { VariantProps } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
@@ -21,6 +13,14 @@ import { Input } from "../../atoms/input";
 import { SIDEBAR_WIDTH_MOBILE } from "./constants";
 import { sidebarMenuButtonVariants } from "./sidebar-menu-button.variants";
 import { useSidebar } from "./use-sidebar";
+import { Sheet } from "../../molecules/sheet";
+import { SheetContent } from "../../molecules/sheet";
+import { SheetHeader } from "../../molecules/sheet";
+import { SheetTitle } from "../../molecules/sheet";
+import { SheetDescription } from "../../molecules/sheet";
+import { Button } from "../../atoms/button";
+import { Separator } from "../../atoms/separator";
+import { Skeleton } from "../../atoms/skeleton";
 
 // -----------------------------
 // Sidebar

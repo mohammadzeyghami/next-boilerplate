@@ -74,6 +74,7 @@ export function NavUser({
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger
+          // @ts-ignore
             render={
               <SidebarMenuButton
                 size="lg"

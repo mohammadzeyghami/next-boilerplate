@@ -1,4 +1,4 @@
-import { Button } from "@/Shared";
+import { Button } from "@/shared/components/atoms/button";
 import { useFormContext } from "react-hook-form";
 
 interface SubmitButtonProps

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { TooltipProvider } from "@/Shared";
-import { useIsMobile } from "@/Shared/hooks/useIsMobile";
+import { TooltipProvider } from "@/shared/components/molecules/tooltip";
+import { useIsMobile } from "@/shared/components/hooks/useIsMobile";
 import * as React from "react";
 import {
   SIDEBAR_COOKIE_MAX_AGE,

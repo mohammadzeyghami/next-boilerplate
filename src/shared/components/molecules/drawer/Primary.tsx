@@ -1,15 +1,6 @@
 import { cn } from "@/lib/utils";
-import P from "@/shared/atoms/typography/P";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/shared/molecules/drawer/Defualt";
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "./Defualt";
+import P from "../../atoms/typography/P";
 
 type direction = "top" | "bottom" | "left" | "right";
 

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import P from "@/shared/atoms/typography/P";
+import P from "@/shared/components/atoms/typography/P";
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/shared/molecules/modal/Defualt";
+} from "@/shared/components/molecules/dialog";
 
 type classNames = {
   trigger?: string;

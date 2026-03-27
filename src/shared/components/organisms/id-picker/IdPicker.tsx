@@ -1,25 +1,20 @@
 import { cn } from '@/lib/utils';
-import {
-  Button,
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-  ErrorMessage,
-  Input,
-  LabelPrimary,
-  ModalShell,
-  ScrollArea,
-  SimpleModal,
-  ConfirmModal,
-  SelectPrimary,
-  P,
-  toast,
-} from '@/Shared';
+
+import ErrorMessage from '@/shared/components/atoms/typography/ErrorMessage';
+import { Input } from '@/shared/components/atoms/input';
+import LabelPrimary from '@/shared/components/molecules/label/Primary';
+import { ModalShell } from '@/shared/components/organisms/modal-shell';
+import { ScrollArea } from '@/shared/components/atoms/scroll-area';
+import { SimpleModal } from '@/shared/components/organisms/modal-shell';
+import SelectPrimary from '@/shared/components/molecules/inputs/SelectPrimary';
+import P from '@/shared/components/atoms/typography/P';
 import { Check, Pencil, Search, Trash2 } from 'lucide-react';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import { useSearchFilter } from '@/Shared/hooks/use-search-filter';
+import { useSearchFilter } from '@/shared/components/hooks/useSearchFilter';
 import type { UseQueryResult } from '@tanstack/react-query';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '../../molecules/dropdown-menu';
+import { Button } from '../../atoms/button';
+import { toast } from '../../atoms/toast/toast-store';
 
 export type IdPickerItem = {
   value: string;
@@ -1014,7 +1009,7 @@ export function IdPicker<TItem extends IdPickerItem = IdPickerItem>({
         </SimpleModal>
       ) : null}
 
-      {deleteConfig && deletingId ? (
+      {/* {deleteConfig && deletingId ? (
         <ConfirmModal
           open={deleteOpen}
           onCancel={() => {
@@ -1030,7 +1025,7 @@ export function IdPicker<TItem extends IdPickerItem = IdPickerItem>({
           confirmationPlaceholder="Type the exact item name shown above"
           onConfirm={handleDeleteConfirm}
         />
-      ) : null}
+      ) : null} */}
     </div>
   );
 }

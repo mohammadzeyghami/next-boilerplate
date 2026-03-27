@@ -1,24 +1,24 @@
 import {
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
-  ErrorMessage,
-  Input,
-  LabelPrimary,
-  Separator,
-  SimpleModal,
-} from '@/Shared';
-import { ConfirmActionDialog } from '@/Modules/PlatformApps/components/ConfirmActionDialog';
+
+} from '@/shared/components/molecules/dropdown-menu';
 import { cn } from '@/lib/utils';
 import type React from 'react';
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useSearchFilter } from '@/Shared/hooks/use-search-filter';
+import { useSearchFilter } from '@/shared/components/hooks/useSearchFilter';
 import { ChevronDownIcon, GlobeIcon, ListFilterIcon, PencilIcon, PlusIcon, Trash2Icon } from 'lucide-react';
-import type { ModalShellSize } from '@/Shared/components/organisms/modal-shell';
+import type { ModalShellSize } from '@/shared/components/organisms/modal-shell';
+import { Button } from "@/shared/components/atoms/button";
+import { Input } from "@/shared/components/atoms/input";
+import LabelPrimary from "../label/Primary";
+import { Separator } from "@/shared/components/atoms/separator";
+import { SimpleModal } from "@/shared/components/organisms/modal-shell";
+import ErrorMessage from "../../atoms/typography/ErrorMessage";
 
 export type Option = {
   value: string;
@@ -473,7 +473,7 @@ function SelectPrimary({
           })}
         </SimpleModal>
       ) : null}
-      {create?.onDelete && deleteState.open ? (
+      {/* {create?.onDelete && deleteState.open ? (
         <ConfirmActionDialog
           open={deleteState.open}
           onCancel={handleDeleteCancel}
@@ -485,7 +485,7 @@ function SelectPrimary({
           confirmationPlaceholder="Type the exact item name shown above"
           loading={deleteState.deleting}
         />
-      ) : null}
+      ) : null} */}
     </div>
   );
 }

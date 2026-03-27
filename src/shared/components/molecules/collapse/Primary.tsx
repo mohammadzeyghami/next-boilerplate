@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import P from "@/shared/atoms/typography/P";
+import P from "@/shared/components/atoms/typography/P";
 import {
   CollapseDefault,
   CollapseDefaultContent,

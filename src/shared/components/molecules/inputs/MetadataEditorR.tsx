@@ -6,7 +6,7 @@ import {
   type FieldValues,
 } from "react-hook-form";
 import InputR from "./Controllerd";
-import { Button } from "../../atoms/button/button";
+import { Button } from "@/shared/components/atoms/button";
 import ErrorMessage from "../../atoms/typography/ErrorMessage";
 
 export type MetadataEntry = { key: string; value: string };

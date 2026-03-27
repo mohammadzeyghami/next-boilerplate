@@ -7,7 +7,9 @@ import {
   type FieldValues,
   type RegisterOptions,
 } from "react-hook-form";
-import { Switch, LabelPrimary, ErrorMessage } from "@/Shared";
+import { Switch } from "@/shared/components/atoms/switch";
+import LabelPrimary from "../label/Primary";
+import ErrorMessage from "../../atoms/typography/ErrorMessage";
 
 export interface SwitchRProps<
   TFieldValues extends FieldValues,

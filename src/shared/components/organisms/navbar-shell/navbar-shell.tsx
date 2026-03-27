@@ -1,30 +1,24 @@
 import { cn } from "@/lib/utils";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  NavigationMenu,
-  NavigationMenuList,
-  SidebarTrigger,
+
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/Shared";
+} from  "@/shared/components/molecules/tooltip";
+import { Button } from "@/shared/components/atoms/button";
+import { UserIcon } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shared/components/molecules/dropdown-menu";
 import {
   BellIcon,
   LogOutIcon,
   MenuIcon,
   SearchIcon,
   SettingsIcon,
-  UserIcon,
 } from "lucide-react";
 import * as React from "react";
+import { SidebarTrigger } from "../sidebar";
+import { Avatar, AvatarFallback, AvatarImage } from "../../atoms/avatar/Avatar";
+import { NavigationMenu, NavigationMenuList } from "../../molecules/navigation-menu";
 
 type WithChildren<T = unknown> = T & { children?: React.ReactNode };
 

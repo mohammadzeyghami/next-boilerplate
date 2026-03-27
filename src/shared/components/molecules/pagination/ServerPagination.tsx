@@ -6,8 +6,8 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/Shared";
-import { getPaginationRange } from "@/Shared/utils/pagination";
+} from "@/shared/components/molecules/pagination";
+import { getPaginationRange } from "@/shared/utils/pagination";
 
 export type ServerPaginationProps = {
   currentPage: number;

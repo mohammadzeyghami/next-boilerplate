@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import {
-  Button,
   Dialog,
   DialogClose,
   DialogContent,
@@ -9,9 +8,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/Shared";
+} from "@/shared/components/molecules/dialog";
 import { X } from "lucide-react";
 import * as React from "react";
+import { Button } from "@/shared/components/atoms/button";
 
 type WithChildren<T = unknown> = T & { children?: React.ReactNode };
 

@@ -1,5 +1,6 @@
-import { Button, Toolbar } from "@/Shared";
+import { Button } from "@/shared/components/atoms/button";
 import * as React from "react";
+import { Toolbar } from "./toolbar";
 
 export type ListToolbarProps = {
   q: string;

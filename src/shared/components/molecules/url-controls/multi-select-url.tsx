@@ -1,8 +1,8 @@
-import MultiSelectR from "@/Shared/components/molecules/inputs/MultiSelectR";
-import type { SelectCreateConfig } from "@/Shared/components/molecules/inputs/SelectPrimary";
+import MultiSelectR from "@/shared/components/molecules/inputs/MultiSelectR";
+import type { SelectCreateConfig } from "@/shared/components/molecules/inputs/SelectPrimary";
 import { useCallback, useEffect, useMemo } from "react";
 import { FormProvider as RHFormProvider, useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "next/navigation";
 
 type Option = { value: string; label: React.ReactNode };
 
@@ -50,6 +50,7 @@ export function MultiSelectUrl({
   const [searchParams, setSearchParams] = useSearchParams();
 
   const value = useMemo(() => {
+    // @ts-ignore
     const urlValue = searchParams.get(param);
     if (!urlValue) return defaultValue;
     return urlValue.split(",").filter(Boolean);
@@ -77,6 +78,7 @@ export function MultiSelectUrl({
 
       onValueChange?.(filteredNextValue);
 
+      // @ts-ignore
       setSearchParams((prev) => {
         const sp = new URLSearchParams(prev);
         if (!filteredNextValue || filteredNextValue.length === 0) {

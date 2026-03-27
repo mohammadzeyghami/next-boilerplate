@@ -1,5 +1,5 @@
-import ErrorMessage from "@/Shared/components/atoms/typography/ErrorMessage";
-import LabelPrimary from "@/Shared/components/molecules/label/Primary";
+import ErrorMessage from "@/shared/components/atoms/typography/ErrorMessage";
+import LabelPrimary from "@/shared/components/molecules/label/Primary";
 import * as React from "react";
 import {
   InputOTP,

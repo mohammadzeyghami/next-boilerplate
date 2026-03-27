@@ -3,8 +3,8 @@
 import type { FieldValues, Path, RegisterOptions } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 
-import { Label } from "@/shared/atoms/label/Label";
 import { cn } from "@/lib/utils";
+import { Label } from "@/shared/components/atoms/label";
 
 type ControlledTextareaFieldProps<T extends FieldValues> = {
   name: Path<T>;

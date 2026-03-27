@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Button, Label } from "@/Shared";
+import { Button } from "@/shared/components/atoms/button";
+import { Label } from "@/shared/components/atoms/label";
 import { ArrowDownIcon, ArrowUpDownIcon, ArrowUpIcon } from "lucide-react";
 import type { ReactNode } from "react";
 

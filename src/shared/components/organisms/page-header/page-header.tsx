@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Separator, Skeleton } from "@/Shared"; // you already have this
+import { Separator } from "@/shared/components/atoms/separator";
+import { Skeleton } from "@/shared/components/atoms/skeleton";
 import * as React from "react";
 
 type BreadcrumbItem = {

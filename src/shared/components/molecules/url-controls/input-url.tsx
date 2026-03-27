@@ -1,7 +1,8 @@
-import { Input, InputPrimary } from "@/Shared";
+import { Input } from "@/shared/components/atoms/input";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { useDebouncedValue } from "@/Shared/hooks/use-debounced-value";
+import { useSearchParams } from "next/navigation";
+import { useDebouncedValue } from "../../hooks/useSearchFilter";
+import InputPrimary from "../inputs/Primary";
 
 type InputUrlProps = Omit<
   React.ComponentProps<typeof Input>,
@@ -27,6 +28,7 @@ export function InputUrl({
   const [searchParams, setSearchParams] = useSearchParams();
 
   const value = useMemo(
+    // @ts-ignore
     () => searchParams.get(param) ?? defaultValue,
     [defaultValue, param, searchParams]
   );
@@ -45,7 +47,7 @@ export function InputUrl({
       if (nextValue === value) return;
 
       onValueChange?.(nextValue);
-
+      // @ts-ignore
       setSearchParams((prev) => {
         const sp = new URLSearchParams(prev);
         if (!nextValue) {

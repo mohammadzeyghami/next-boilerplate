@@ -1,7 +1,8 @@
-import { Button, toast } from "@/Shared";
+import { Button } from "@/shared/components/atoms/button";
 import { cn } from "@/lib/utils";
 import { CopyIcon } from "lucide-react";
 import React, { useCallback, useRef } from "react";
+import { toast } from "../atoms/toast/toast-store";
 
 type CopyableProps = {
   children: React.ReactNode;

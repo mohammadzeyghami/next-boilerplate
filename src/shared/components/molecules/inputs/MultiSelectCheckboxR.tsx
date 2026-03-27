@@ -1,13 +1,9 @@
 import {
-  Button,
-  Checkbox,
-  Input,
-  LabelPrimary,
+
   Popover,
   PopoverContent,
   PopoverTrigger,
-  ScrollArea,
-} from "@/Shared";
+} from "@/shared/components/molecules/popover";
 import * as React from "react";
 import { useState, useMemo, useEffect } from "react";
 import {
@@ -19,6 +15,11 @@ import {
   type FieldValues,
   type RegisterOptions,
 } from "react-hook-form";
+import LabelPrimary from "../label/Primary";
+import { Button } from "../../atoms/button";
+import { ScrollArea } from "../../atoms/scroll-area";
+import { Input } from "../../atoms/input";
+import { Checkbox } from "../check-box/Default";
 
 type Option = {
   value: string;

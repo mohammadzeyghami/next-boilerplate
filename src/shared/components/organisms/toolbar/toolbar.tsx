@@ -1,24 +1,21 @@
 import { cn } from "@/lib/utils";
 import {
-  Button,
-  InputPrimary,
-  Separator,
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
+
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/Shared";
+} from "@/shared/components/molecules/tooltip";
 import {
   PanelLeftIcon,
   SlidersHorizontalIcon,
   XIcon,
 } from "lucide-react";
 import * as React from "react";
+import InputPrimary from "../../molecules/inputs/Primary";
+import { Separator } from "../../atoms/separator";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../../molecules/sheet";
+import { Button } from "../../atoms/button";
 
 type WithChildren<T = unknown> = T & { children?: React.ReactNode };
 

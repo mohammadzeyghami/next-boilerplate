@@ -4,7 +4,7 @@ import {
   type FieldValues,
   type UseFormReturn,
 } from "react-hook-form";
-import { Button } from "../../atoms/button/button";
+import { Button } from "@/shared/components/atoms/button";
 import { SubmitButton } from "../../molecules/inputs/SubmitButton";
 
 type WithChildren<T = unknown> = T & { children?: React.ReactNode };

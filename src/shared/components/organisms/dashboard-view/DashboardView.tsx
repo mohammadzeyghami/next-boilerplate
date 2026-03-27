@@ -21,7 +21,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "../../molecules/tabs/tabs";
+} from "@/shared/components/molecules/tabs";
 import {
   Table,
   TableBody,
@@ -145,7 +145,6 @@ export function DashboardView({ user }: DashboardViewProps) {
           <CardContent className="pt-6">
             <Tabs defaultValue="invoices" className="gap-4">
               <TabsList
-                variant="line"
                 className="w-full justify-start sm:w-auto"
               >
                 <TabsTrigger value="invoices">Invoices</TabsTrigger>

@@ -9,7 +9,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/Shared";
+} from "@/shared/components/molecules/dialog";
 
 function Command({
   className,
