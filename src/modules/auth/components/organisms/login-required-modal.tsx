@@ -5,14 +5,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Chrome, Linkedin, Mail } from "lucide-react";
 
-import { Button } from "@/share-components/atoms/button/Button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/share-components/molecules/dialog/Dialog";
+import { Button } from "@/shared/components/atoms/button/Button";
+
 import {
   useLoginMutation,
   useMagicLinkMutation,
@@ -21,6 +15,7 @@ import {
 import { FormError } from "@/modules/auth/components/atoms/form-error";
 import { FormProvider } from "@/modules/auth/components/molecules/auth-form-provider";
 import { ControlledInputField } from "@/modules/auth/components/molecules/controlled-input-field";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/shared/components/molecules/dialog";
 
 type LoginRequiredModalProps = {
   open: boolean;

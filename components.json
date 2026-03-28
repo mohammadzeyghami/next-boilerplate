@@ -13,9 +13,9 @@
   "iconLibrary": "lucide",
   "rtl": false,
   "aliases": {
-    "components": "@/share-components",
+    "components": "@/shared",
     "utils": "@/lib/utils",
-    "ui": "@/share-components/molecules",
+    "ui": "@/shared/molecules",
     "lib": "@/lib",
     "hooks": "@/hooks"
   },

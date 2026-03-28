@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
-import { DashboardView } from "@/share-components/organisms/dashboard-view/DashboardView";
+import { DashboardView } from "@/shared/components/organisms/dashboard-view/DashboardView";
 
 export const metadata: Metadata = {
   title: "Dashboard",

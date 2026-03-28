@@ -1,4 +1,4 @@
-import * as yup from "yup";
+import { z } from "zod";
 
 export const contentAccessValues = ["PRIVATE", "PUBLIC"] as const;
 export const contentTypeValues = [
@@ -9,76 +9,53 @@ export const contentTypeValues = [
   "FILE",
 ] as const;
 
-export const contentFormSchema = yup.object({
-  name: yup
-    .string()
-    .trim()
-    .required("Name is required.")
-    .min(1, "Name is required.")
-    .max(200, "Name must be at most 200 characters."),
+export const contentFormSchema = z
+  .object({
+    name: z
+      .string()
+      .trim()
+      .min(1, "Name is required.")
+      .max(200, "Name must be at most 200 characters."),
 
-  text: yup
-    .string()
-    .trim()
-    .nullable()
-    .max(20_000, "Text must be at most 20,000 characters."),
+    text: z
+      .string()
+      .trim()
+      .max(20000, "Text must be at most 20,000 characters."),
 
-  access: yup
-    .mixed<"PRIVATE" | "PUBLIC">()
-    .oneOf(contentAccessValues)
-    .required("Access is required."),
+    access: z.enum(contentAccessValues),
 
-  type: yup
-    .mixed<"TEXT" | "IMAGE" | "VIDEO" | "SOUND" | "FILE">()
-    .oneOf(contentTypeValues)
-    .required("Type is required."),
+    type: z.enum(contentTypeValues),
 
-  isEarnable: yup.boolean().required(),
+    isEarnable: z.boolean(),
 
-  metadataText: yup.string().nullable().default(""),
-});
+    contentUrl: z.string().trim(),
 
-export type ContentFormValues = yup.InferType<typeof contentFormSchema>;
-export const contentSchema = yup.object({
-  name: yup
-    .string()
-    .trim()
-    .required("Name is required.")
-    .min(1, "Name is required.")
-    .max(200, "Name must be at most 200 characters."),
+    metadata: z.string().trim(),
+  })
+  .superRefine((values, ctx) => {
+    const needsFileUrl = ["IMAGE", "VIDEO", "SOUND", "FILE"].includes(
+      values.type,
+    );
 
-  text: yup
-    .string()
-    .trim()
-    .nullable()
-    .max(20_000, "Text must be at most 20,000 characters."),
+    if (needsFileUrl && !values.contentUrl) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["contentUrl"],
+        message: "Content URL is required for this type.",
+      });
+    }
 
-  access: yup
-    .mixed<"PRIVATE" | "PUBLIC">()
-    .oneOf(contentAccessValues)
-    .required("Access is required."),
+    if (values.metadata) {
+      try {
+        JSON.parse(values.metadata);
+      } catch {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["metadata"],
+          message: "Metadata must be valid JSON.",
+        });
+      }
+    }
+  });
 
-  type: yup
-    .mixed<"TEXT" | "IMAGE" | "VIDEO" | "SOUND" | "FILE">()
-    .oneOf(contentTypeValues)
-    .required("Type is required."),
-
-  isEarnable: yup.boolean().required(),
-
-  metadata: yup.mixed<Record<string, unknown>>().nullable(),
-});
-
-export type ContentListItem = {
-  id: string;
-  name: string;
-  ownerId: string;
-  text?: string | null;
-  access: "PRIVATE" | "PUBLIC";
-  metadata?: Record<string, unknown> | null;
-  contentUrl?: string | null;
-  type: "TEXT" | "IMAGE" | "VIDEO" | "SOUND" | "FILE";
-  isEarnable: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  authorLabel?: string | null;
-};
+export type ContentFormValues = z.infer<typeof contentFormSchema>;
