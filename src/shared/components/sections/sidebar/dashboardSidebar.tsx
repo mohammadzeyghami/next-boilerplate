@@ -35,7 +35,7 @@ export type DashboardSidebarUser = {
 const data = {
   navMain: [
     {
-      title: "Content Management",
+      title: "Content",
       url: "/dashboard/content",
       icon: IconFileDescription,
     },

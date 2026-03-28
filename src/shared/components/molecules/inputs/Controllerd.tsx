@@ -1,3 +1,4 @@
+"use client";
 import {
   Controller,
   useFormContext,
@@ -16,7 +17,7 @@ type StrippedInputProps = Omit<
 
 export interface InputRProps<
   TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > extends StrippedInputProps {
   name: TName;
   rules?: RegisterOptions<TFieldValues, TName>;
@@ -24,7 +25,7 @@ export interface InputRProps<
 
 function InputR<
   TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({ name, rules, ...props }: InputRProps<TFieldValues, TName>) {
   const { control } = useFormContext<TFieldValues>();
 

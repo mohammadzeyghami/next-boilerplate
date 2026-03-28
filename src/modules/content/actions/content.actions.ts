@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import * as yup from "yup";
+import { z } from "zod";
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -10,21 +10,41 @@ import {
   saveContentMediaFile,
 } from "@/lib/content-media";
 
-import { contentSchema } from "@/modules/content/interfaces/content.schema";
-
 export type ContentActionResult = {
   ok: boolean;
   error?: string;
 };
 
+const contentAccessValues = ["PRIVATE", "PUBLIC"] as const;
+const contentTypeValues = ["TEXT", "IMAGE", "VIDEO", "SOUND", "FILE"] as const;
+
+const contentActionSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(1, "Name is required.")
+    .max(200, "Name must be at most 200 characters."),
+  text: z
+    .string()
+    .trim()
+    .max(20_000, "Text must be at most 20,000 characters.")
+    .nullable(),
+  access: z.enum(contentAccessValues),
+  type: z.enum(contentTypeValues),
+  isEarnable: z.boolean(),
+  metadata: z.record(z.string(), z.unknown()).nullable(),
+});
+
+type ContentActionValues = z.infer<typeof contentActionSchema>;
+
 function fileFromFormData(formData: FormData): File | null {
-  const v = formData.get("file");
-  if (v instanceof File && v.size > 0) return v;
+  const value = formData.get("file");
+  if (value instanceof File && value.size > 0) return value;
   return null;
 }
 
 function parseBoolean(value: FormDataEntryValue | null): boolean {
-  return String(value ?? "") === "true";
+  return String(value ?? "").toLowerCase() === "true";
 }
 
 function parseMetadata(value: FormDataEntryValue | null) {
@@ -32,9 +52,15 @@ function parseMetadata(value: FormDataEntryValue | null) {
   if (!raw) return null;
 
   try {
-    return JSON.parse(raw) as Record<string, unknown>;
+    const parsed = JSON.parse(raw) as unknown;
+
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      throw new Error();
+    }
+
+    return parsed as Record<string, unknown>;
   } catch {
-    throw new Error("Metadata must be valid JSON.");
+    throw new Error("Metadata must be valid JSON object.");
   }
 }
 
@@ -60,6 +86,25 @@ async function getCurrentDbUser() {
   return { user: dbUser };
 }
 
+function buildParsedInput(params: {
+  name: string;
+  text: string;
+  access: string;
+  typeFromForm: string;
+  isEarnable: boolean;
+  metadata: Record<string, unknown> | null;
+  hasFile: boolean;
+}) {
+  return contentActionSchema.safeParse({
+    name: params.name,
+    text: params.text || null,
+    access: params.access,
+    type: params.typeFromForm || (params.hasFile ? "FILE" : "TEXT"),
+    isEarnable: params.isEarnable,
+    metadata: params.metadata,
+  });
+}
+
 export async function createContentAction(
   formData: FormData,
 ): Promise<ContentActionResult> {
@@ -82,38 +127,37 @@ export async function createContentAction(
   let metadata: Record<string, unknown> | null = null;
   try {
     metadata = parseMetadata(formData.get("metadata"));
-  } catch (e) {
+  } catch (error) {
     return {
       ok: false,
-      error: e instanceof Error ? e.message : "Invalid metadata.",
+      error: error instanceof Error ? error.message : "Invalid metadata.",
     };
   }
 
-  let parsed: yup.InferType<typeof contentSchema>;
-  try {
-    parsed = await contentSchema.validate(
-      {
-        name,
-        text: text || null,
-        access,
-        type: typeFromForm || (file ? "FILE" : "TEXT"),
-        isEarnable,
-        metadata,
-      },
-      { abortEarly: false, stripUnknown: true },
-    );
-  } catch (e) {
-    if (e instanceof yup.ValidationError) {
-      return { ok: false, error: e.errors[0] ?? "Invalid input." };
-    }
-    return { ok: false, error: "Invalid input." };
-  }
+  const parsedResult = buildParsedInput({
+    name,
+    text,
+    access,
+    typeFromForm,
+    isEarnable,
+    metadata,
+    hasFile: !!file,
+  });
 
-  let contentUrl: string | null = null;
+  if (!parsedResult.success) {
+    return {
+      ok: false,
+      error: parsedResult.error.issues[0]?.message ?? "Invalid input.",
+    };
+  }
+  const contentUrlFromForm = String(formData.get("contentUrl") ?? "").trim();
+  const parsed: ContentActionValues = parsedResult.data;
+  let contentUrl: string | null = contentUrlFromForm || null;
   let finalType = parsed.type;
 
   if (file) {
     const saved = await saveContentMediaFile(file, current.user.id);
+
     if ("error" in saved) {
       return { ok: false, error: saved.error };
     }
@@ -133,10 +177,11 @@ export async function createContentAction(
   await prisma.content.create({
     data: {
       name: parsed.name,
-      text: parsed.text ?? null,
+      text: parsed.text,
       ownerId: current.user.id,
       access: parsed.access,
-      // metadata: parsed.metadata ?? null,
+      // @ts-ignore
+      metadata: parsed.metadata,
       contentUrl,
       type: finalType,
       isEarnable: parsed.isEarnable,
@@ -145,6 +190,7 @@ export async function createContentAction(
 
   revalidatePath("/dashboard/content");
   revalidatePath("/");
+
   return { ok: true };
 }
 
@@ -166,7 +212,8 @@ export async function updateContentAction(
     .trim()
     .toUpperCase();
   const isEarnable = parseBoolean(formData.get("isEarnable"));
-  const removeFile = String(formData.get("removeFile") ?? "") === "true";
+  const removeFile =
+    String(formData.get("removeFile") ?? "").toLowerCase() === "true";
   const file = fileFromFormData(formData);
 
   if (!id) {
@@ -176,32 +223,31 @@ export async function updateContentAction(
   let metadata: Record<string, unknown> | null = null;
   try {
     metadata = parseMetadata(formData.get("metadata"));
-  } catch (e) {
+  } catch (error) {
     return {
       ok: false,
-      error: e instanceof Error ? e.message : "Invalid metadata.",
+      error: error instanceof Error ? error.message : "Invalid metadata.",
     };
   }
 
-  let parsed: yup.InferType<typeof contentSchema>;
-  try {
-    parsed = await contentSchema.validate(
-      {
-        name,
-        text: text || null,
-        access,
-        type: typeFromForm || (file ? "FILE" : "TEXT"),
-        isEarnable,
-        metadata,
-      },
-      { abortEarly: false, stripUnknown: true },
-    );
-  } catch (e) {
-    if (e instanceof yup.ValidationError) {
-      return { ok: false, error: e.errors[0] ?? "Invalid input." };
-    }
-    return { ok: false, error: "Invalid input." };
+  const parsedResult = buildParsedInput({
+    name,
+    text,
+    access,
+    typeFromForm,
+    isEarnable,
+    metadata,
+    hasFile: !!file,
+  });
+
+  if (!parsedResult.success) {
+    return {
+      ok: false,
+      error: parsedResult.error.issues[0]?.message ?? "Invalid input.",
+    };
   }
+
+  const parsed: ContentActionValues = parsedResult.data;
 
   const whereClause =
     current.user.role === "ADMIN" ? { id } : { id, ownerId: current.user.id };
@@ -225,11 +271,13 @@ export async function updateContentAction(
 
   if (file) {
     const saved = await saveContentMediaFile(file, row.ownerId);
+
     if ("error" in saved) {
       return { ok: false, error: saved.error };
     }
 
     await deleteContentMediaFile(row.contentUrl);
+
     contentUrl = saved.mediaUrl;
 
     const mediaKindToTypeMap: Record<string, typeof finalType> = {
@@ -243,15 +291,20 @@ export async function updateContentAction(
   } else if (removeFile) {
     await deleteContentMediaFile(row.contentUrl);
     contentUrl = null;
+
+    if (parsed.type !== "TEXT") {
+      finalType = "TEXT";
+    }
   }
 
   await prisma.content.update({
     where: { id: row.id },
     data: {
       name: parsed.name,
-      text: parsed.text ?? null,
+      text: parsed.text,
       access: parsed.access,
-      // metadata: parsed.metadata ?? null,
+      // @ts-ignore
+      metadata: parsed.metadata,
       contentUrl,
       type: finalType,
       isEarnable: parsed.isEarnable,
@@ -260,6 +313,7 @@ export async function updateContentAction(
 
   revalidatePath("/dashboard/content");
   revalidatePath("/");
+
   return { ok: true };
 }
 
@@ -274,9 +328,9 @@ export async function deleteContentAction(
   if (!id?.trim()) {
     return { ok: false, error: "Missing content id." };
   }
-  // @ts-ignore
-  const whereClause = true ? { id } : { id, ownerId: current.user.id };
-  // current.user.role === "ADMIN"
+
+  const whereClause =
+    current.user.role === "ADMIN" ? { id } : { id, ownerId: current.user.id };
 
   const row = await prisma.content.findFirst({
     where: whereClause,
@@ -291,11 +345,13 @@ export async function deleteContentAction(
   }
 
   await deleteContentMediaFile(row.contentUrl);
+
   await prisma.content.delete({
     where: { id: row.id },
   });
 
   revalidatePath("/dashboard/content");
   revalidatePath("/");
+
   return { ok: true };
 }
