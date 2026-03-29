@@ -9,14 +9,12 @@ import { TablePrimary } from "@/shared/components/organisms/Table/Table";
 import { BreadcrumbPrimary } from "@/shared/components/molecules/breadcrumb/primary";
 import { Button } from "@/shared/components/atoms/button";
 import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalFormShell";
-import InputR from "@/shared/components/molecules/inputs/Controllerd";
-import CheckBoxR from "@/shared/components/molecules/check-box/CheckboxR";
-import SelectR from "@/shared/components/molecules/select/selectR";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contentFormSchema } from "../interfaces/content.schema";
 import { createContentAction } from "../actions/content.actions";
 import { toast } from "@/shared/components/atoms/toast/toast-store";
 import { toFormData } from "@/shared/utils/toFormData";
+import ContentForm from "./form";
 type ContentAccess = "PUBLIC" | "PRIVATE";
 type ContentType = "TEXT" | "IMAGE" | "VIDEO" | "SOUND" | "FILE";
 
@@ -218,63 +216,7 @@ export default function ContentPage({ items }: { items: ContentItem[] }) {
         confirmText="Save"
         submitting={methods.formState.isSubmitting}
       >
-        <div className="flex flex-col gap-4">
-          <InputR
-            name="name"
-            label="Name"
-            placeholder="Enter content name"
-            required
-          />
-
-          <InputR
-            name="text"
-            label="Text"
-            placeholder="Enter content text"
-            required
-          />
-
-          <SelectR
-            name="access"
-            label="Access"
-            placeholder="Select content access"
-            required
-            options={[
-              { label: "Public", value: "PUBLIC" },
-              { label: "Private", value: "PRIVATE" },
-            ]}
-          />
-
-          <SelectR
-            name="type"
-            label="Type"
-            placeholder="Select content type"
-            required
-            options={[
-              { label: "Text", value: "TEXT" },
-              { label: "Image", value: "IMAGE" },
-              { label: "Video", value: "VIDEO" },
-              { label: "Sound", value: "SOUND" },
-              { label: "File", value: "FILE" },
-            ]}
-          />
-
-          {needsFileUrl && (
-            <InputR
-              name="contentUrl"
-              label="Content File"
-              type="file"
-              required
-            />
-          )}
-
-          <InputR
-            name="metadata"
-            label="Metadata"
-            placeholder='Optional JSON, e.g. {"size":"2mb"}'
-          />
-
-          <CheckBoxR name="isEarnable" label="Is Earnable" />
-        </div>
+        <ContentForm needsFileUrl={needsFileUrl} />
       </ModalFormShell>
     </div>
   );
