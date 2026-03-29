@@ -8,6 +8,7 @@ import {
   IconFileDescription,
   IconFileWord,
   IconInnerShadowTop,
+  IconLanguage,
   IconReport,
   IconSettings,
 } from "@tabler/icons-react";
@@ -38,6 +39,11 @@ const data = {
       title: "Content",
       url: "/dashboard/content",
       icon: IconFileDescription,
+    },
+    {
+      title: "Languages",
+      url: "/dashboard/languages",
+      icon: IconLanguage,
     },
   ],
   navClouds: [

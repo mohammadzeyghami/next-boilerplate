@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Content: 'Content',
+  Language: 'Language',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "content" | "account" | "session" | "verificationToken" | "passwordResetToken"
+    modelProps: "user" | "content" | "language" | "account" | "session" | "verificationToken" | "passwordResetToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -554,6 +555,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ContentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ContentCountAggregateOutputType> | number
+        }
+      }
+    }
+    Language: {
+      payload: Prisma.$LanguagePayload<ExtArgs>
+      fields: Prisma.LanguageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LanguageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LanguageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>
+        }
+        findFirst: {
+          args: Prisma.LanguageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LanguageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>
+        }
+        findMany: {
+          args: Prisma.LanguageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>[]
+        }
+        create: {
+          args: Prisma.LanguageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>
+        }
+        createMany: {
+          args: Prisma.LanguageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LanguageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>[]
+        }
+        delete: {
+          args: Prisma.LanguageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>
+        }
+        update: {
+          args: Prisma.LanguageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>
+        }
+        deleteMany: {
+          args: Prisma.LanguageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LanguageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LanguageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>[]
+        }
+        upsert: {
+          args: Prisma.LanguageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LanguagePayload>
+        }
+        aggregate: {
+          args: Prisma.LanguageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLanguage>
+        }
+        groupBy: {
+          args: Prisma.LanguageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LanguageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LanguageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LanguageCountAggregateOutputType> | number
         }
       }
     }
@@ -922,6 +997,18 @@ export const ContentScalarFieldEnum = {
 export type ContentScalarFieldEnum = (typeof ContentScalarFieldEnum)[keyof typeof ContentScalarFieldEnum]
 
 
+export const LanguageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  contentIds: 'contentIds',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LanguageScalarFieldEnum = (typeof LanguageScalarFieldEnum)[keyof typeof LanguageScalarFieldEnum]
+
+
 export const AccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -1232,6 +1319,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   content?: Prisma.ContentOmit
+  language?: Prisma.LanguageOmit
   account?: Prisma.AccountOmit
   session?: Prisma.SessionOmit
   verificationToken?: Prisma.VerificationTokenOmit

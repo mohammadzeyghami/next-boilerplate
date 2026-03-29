@@ -209,9 +209,12 @@ function ModalShellActions({
   return (
     <div className={cn("flex items-center justify-end gap-2", className)}>
       <DialogClose asChild>
-        <Button variant="secondary">{cancelText}</Button>
+        <Button type="button" variant="secondary">
+          {cancelText}
+        </Button>
       </DialogClose>
       <Button
+        type={onConfirm ? "button" : "submit"}
         onClick={onConfirm}
         variant={destructive ? "destructive" : confirmVariant}
         disabled={confirmDisabled}
