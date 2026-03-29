@@ -11,6 +11,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { canAccessAdminUsersModule } from "@/lib/user-auth/roles";
 import React from "react";
+import NavbarDashboard from "@/shared/components/organisms/navbar/Dashboard";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth();
@@ -43,7 +44,10 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
       >
         <AppSidebar variant="inset" user={user} mainNav={mainNav} />
         <SidebarInset>
-          <div className="flex min-h-0 flex-1 flex-col">{children}</div>
+          <div className="flex min-h-0 flex-1 flex-col">
+            <NavbarDashboard />
+            {children}
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </div>

@@ -30,7 +30,6 @@ import {
   TableHeader,
   TableRow,
 } from "../../molecules/table/Table";
-import NavbarDashboard from "../navbar/Dashboard";
 
 const rows = [
   { id: "INV-001", customer: "Liam Carter", status: "Paid", amount: "$250.00" },
@@ -100,8 +99,6 @@ type DashboardViewProps = {
 export function DashboardView({ user }: DashboardViewProps) {
   return (
     <div className="flex min-h-0 flex-1 flex-col bg-muted/30">
-      <NavbarDashboard />
-
       <div className="w-full flex-1 space-y-8 px-4 py-8 sm:px-6 lg:px-8">
         <div>
           <h1 className="font-heading text-2xl font-semibold tracking-tight">
@@ -144,9 +141,7 @@ export function DashboardView({ user }: DashboardViewProps) {
           </CardHeader>
           <CardContent className="pt-6">
             <Tabs defaultValue="invoices" className="gap-4">
-              <TabsList
-                className="w-full justify-start sm:w-auto"
-              >
+              <TabsList className="w-full justify-start sm:w-auto">
                 <TabsTrigger value="invoices">Invoices</TabsTrigger>
                 <TabsTrigger value="activity">Activity</TabsTrigger>
               </TabsList>
