@@ -3,6 +3,7 @@
 import bcrypt from "bcryptjs"
 
 import { prisma } from "@/lib/prisma"
+import { createUserWithAuthProfile } from "@/lib/user-auth/user-bootstrap"
 
 export type RegisterInput = {
   name?: string
@@ -30,19 +31,26 @@ export async function registerWithPasswordAction(
     return { ok: false, error: "Password must be at least 8 characters." }
   }
 
-  const existing = await prisma.user.findUnique({ where: { email } })
+  const existing = await prisma.userAuth.findFirst({ where: { email } })
   if (existing) {
     return { ok: false, error: "An account with this email already exists." }
   }
 
   const passwordHash = await bcrypt.hash(password, 12)
-  await prisma.user.create({
-    data: {
-      email,
-      name: name || null,
-      passwordHash,
-    },
+  const ua = await createUserWithAuthProfile({
+    email,
+    passwordHash,
   })
+  if (name) {
+    await prisma.user.update({
+      where: { id: ua.userId },
+      data: { name },
+    })
+    await prisma.userProfile.updateMany({
+      where: { userAuthId: ua.id },
+      data: { displayName: name },
+    })
+  }
 
   return { ok: true }
 }

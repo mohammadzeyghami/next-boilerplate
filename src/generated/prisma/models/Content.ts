@@ -493,14 +493,6 @@ export type EnumContentTypeFieldUpdateOperationsInput = {
   set?: $Enums.ContentType
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type ContentCreateWithoutOwnerInput = {
   id?: string
   name: string

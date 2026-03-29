@@ -8,6 +8,7 @@ import bcrypt from "bcryptjs";
 import type { Provider } from "next-auth/providers";
 
 import { prisma } from "@/lib/prisma";
+import { ensureUserAuthForUser } from "@/lib/user-auth/ensure";
 
 const providers: Provider[] = [];
 
@@ -73,15 +74,22 @@ providers.push(
       const password = credentials?.password as string | undefined;
       if (!email || !password) return null;
 
-      const user = await prisma.user.findUnique({ where: { email } });
-      if (!user?.passwordHash) return null;
+      const normalized = email.trim().toLowerCase();
+      const userAuth = await prisma.userAuth.findFirst({
+        where: { email: normalized },
+        include: { user: true },
+      });
+      if (!userAuth?.passwordHash) return null;
 
-      const valid = await bcrypt.compare(password, user.passwordHash);
+      const valid = await bcrypt.compare(password, userAuth.passwordHash);
       if (!valid) return null;
+
+      const user = userAuth.user;
+      if (userAuth.status !== "ACTIVE") return null;
 
       return {
         id: user.id,
-        email: user.email,
+        email: user.email ?? userAuth.email ?? email,
         name: user.name,
         image: user.image ?? undefined,
       };
@@ -105,6 +113,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.name = user.name;
         token.picture =
           "image" in user && user.image != null ? user.image : token.picture;
+        await ensureUserAuthForUser(user.id as string);
       } else if (token.sub) {
         const pic = token.picture as string | null | undefined;
         if (pic == null || pic === "") {

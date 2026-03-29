@@ -385,9 +385,6 @@ export type $LanguagePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     id: string
     name: string
     description: string | null
-    /**
-     * Linked `Content` row ids (no FK; validated in application code).
-     */
     contentIds: string[]
     createdAt: Date
     updatedAt: Date

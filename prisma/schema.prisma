@@ -12,6 +12,21 @@ enum UserRole {
   ADMIN
 }
 
+enum AccountStatus {
+  ACTIVE
+  DISABLED
+}
+
+enum AuthOtpType {
+  EMAIL
+  PHONE_NUMBER
+}
+
+enum AuthValueType {
+  Phone
+  Email
+}
+
 enum ContentAccess {
   PRIVATE
   PUBLIC
@@ -28,16 +43,68 @@ enum ContentType {
 model User {
   id                  String               @id @default(cuid())
   name                String?
-  email               String               @unique
+  email               String?              @unique
   emailVerified       DateTime?
   image               String?
-  passwordHash        String?
   role                UserRole             @default(USER)
 
+  userAuth            UserAuth?
   accounts            Account[]
   sessions            Session[]
   passwordResetTokens PasswordResetToken[]
   contents            Content[]            @relation("UserContents")
+}
+
+/// Application auth record (guest, OTP, username/password, etc.)
+model UserAuth {
+  id           String        @id @default(cuid())
+  userId       String        @unique
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  deviceId     String?       @unique
+  username     String?       @unique
+  email        String?       @unique
+  phoneNumber  String?       @unique
+  passwordHash String?
+  isGuest      Boolean       @default(false)
+  inviteCode   String        @unique
+  inviterId    String?
+  status       AccountStatus @default(ACTIVE)
+
+  inviter      UserAuth?     @relation("UserInvites", fields: [inviterId], references: [id], onDelete: SetNull)
+  invitees     UserAuth[]    @relation("UserInvites")
+  profile      UserProfile?
+  refreshTokens RefreshToken[]
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([email])
+  @@index([phoneNumber])
+  @@index([username])
+  @@index([deviceId])
+}
+
+model UserProfile {
+  id          String   @id @default(cuid())
+  userAuthId  String   @unique
+  userAuth    UserAuth @relation(fields: [userAuthId], references: [id], onDelete: Cascade)
+  displayName String?
+  avatarUrl   String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model RefreshToken {
+  id         String   @id @default(cuid())
+  tokenHash  String   @unique
+  userAuthId String
+  userAuth   UserAuth @relation(fields: [userAuthId], references: [id], onDelete: Cascade)
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  @@index([userAuthId])
 }
 
 model Content {
@@ -64,7 +131,6 @@ model Language {
   id          String   @id @default(cuid())
   name        String
   description String?
-  /// Linked `Content` row ids (no FK; validated in application code).
   contentIds  String[] @default([])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
