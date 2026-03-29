@@ -131,10 +131,15 @@ export async function resetPasswordAction(
   }
 
   const passwordHash = await bcrypt.hash(password, 12)
-  await prisma.user.update({
-    where: { id: user.id },
-    data: { passwordHash },
+  const ua = await prisma.userAuth.findUnique({
+    where: { userId: user.id },
   })
+  if (ua) {
+    await prisma.userAuth.update({
+      where: { id: ua.id },
+      data: { passwordHash },
+    })
+  }
   await prisma.passwordResetToken.deleteMany({ where: { userId: user.id } })
 
   return { ok: true }

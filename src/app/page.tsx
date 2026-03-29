@@ -2,10 +2,13 @@ import { LandingView } from "@/shared/components/organisms/landing-view/LandingV
 import { ContentList } from "@/modules/content/components/content-list";
 import { prisma } from "@/lib/prisma";
 
-function authorLabel(name: string | null, email: string) {
+function authorLabel(name: string | null, email: string | null) {
   if (name?.trim()) return name.trim();
-  const local = email.split("@")[0];
-  return local || "Member";
+  if (email?.trim()) {
+    const local = email.split("@")[0];
+    return local || "Member";
+  }
+  return "Member";
 }
 
 export default async function Home() {
