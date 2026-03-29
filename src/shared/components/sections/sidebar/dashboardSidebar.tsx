@@ -8,7 +8,6 @@ import {
   IconFileDescription,
   IconFileWord,
   IconInnerShadowTop,
-  IconLanguage,
   IconReport,
   IconSettings,
 } from "@tabler/icons-react";
@@ -27,6 +26,11 @@ import { NavMain } from "../../molecules/navbar/nav-main";
 import { NavSecondary } from "../../molecules/navbar/nav-secoundary";
 import { NavUser } from "../../molecules/navbar/nav-user";
 
+import {
+  baseDashboardNavMain,
+  type DashboardNavItem,
+} from "./dashboard-nav-config";
+
 export type DashboardSidebarUser = {
   name: string;
   email: string;
@@ -34,18 +38,7 @@ export type DashboardSidebarUser = {
 };
 
 const data = {
-  navMain: [
-    {
-      title: "Content",
-      url: "/dashboard/content",
-      icon: IconFileDescription,
-    },
-    {
-      title: "Languages",
-      url: "/dashboard/languages",
-      icon: IconLanguage,
-    },
-  ],
+  navMain: [...baseDashboardNavMain],
   navClouds: [
     {
       title: "Capture",
@@ -122,8 +115,13 @@ const data = {
 
 export function AppSidebar({
   user,
+  mainNav,
   ...props
-}: React.ComponentProps<typeof Sidebar> & { user: DashboardSidebarUser }) {
+}: React.ComponentProps<typeof Sidebar> & {
+  user: DashboardSidebarUser;
+  mainNav?: DashboardNavItem[];
+}) {
+  const navMain = mainNav ?? data.navMain;
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -142,7 +140,7 @@ export function AppSidebar({
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navMain} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

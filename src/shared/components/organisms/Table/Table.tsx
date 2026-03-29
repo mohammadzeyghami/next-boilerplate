@@ -48,6 +48,15 @@ export function TablePrimary<TData, TValue>({
     }
   };
 
+  function shouldIgnoreCopyClick(target: EventTarget | null) {
+    if (!(target instanceof HTMLElement)) return true;
+    return Boolean(
+      target.closest(
+        "button, a, input, textarea, select, [data-table-no-copy]",
+      ),
+    );
+  }
+
   const rows = table.getRowModel().rows;
 
   return (
@@ -77,11 +86,13 @@ export function TablePrimary<TData, TValue>({
                   const header = cell.column.columnDef.header;
 
                   return (
-                    <button
+                    <div
                       key={cell.id}
-                      type="button"
-                      onClick={() => handleCopy(cell.getValue())}
-                      className="flex w-full items-start justify-between gap-4 px-4 py-3 text-left transition-opacity hover:opacity-80"
+                      onClick={(e) => {
+                        if (shouldIgnoreCopyClick(e.target)) return;
+                        void handleCopy(cell.getValue());
+                      }}
+                      className="flex w-full cursor-pointer items-start justify-between gap-4 px-4 py-3 text-left transition-opacity hover:opacity-80"
                     >
                       <span className="min-w-[100px] shrink-0 text-xs font-medium text-muted-foreground">
                         {typeof header === "string"
@@ -89,13 +100,13 @@ export function TablePrimary<TData, TValue>({
                           : cell.column.id}
                       </span>
 
-                      <span className="flex-1 break-words text-sm font-medium text-right">
+                      <span className="flex-1 break-words text-right text-sm font-medium">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext(),
                         )}
                       </span>
-                    </button>
+                    </div>
                   );
                 })}
               </div>
@@ -138,7 +149,10 @@ export function TablePrimary<TData, TValue>({
                 >
                   <TableCell
                     className="cursor-pointer"
-                    onClick={() => handleCopy(index + 1)}
+                    onClick={(e) => {
+                      if (shouldIgnoreCopyClick(e.target)) return;
+                      void handleCopy(index + 1);
+                    }}
                   >
                     {index + 1}
                   </TableCell>
@@ -147,7 +161,10 @@ export function TablePrimary<TData, TValue>({
                     <TableCell
                       key={cell.id}
                       className="cursor-pointer"
-                      onClick={() => handleCopy(cell.getValue())}
+                      onClick={(e) => {
+                        if (shouldIgnoreCopyClick(e.target)) return;
+                        void handleCopy(cell.getValue());
+                      }}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>

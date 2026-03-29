@@ -26,7 +26,7 @@ const Collapse = ({ children, trigger, classNames }: CollapseProps) => {
     <CollapseDefault>
       <CollapseDefaultTrigger
         className={cn(
-          "group flex w-full cursor-pointer items-center justify-between gap-2 border-b-0 border-x-0 border-t border-gray-200 px-4 py-2 text-start text-sm font-medium",
+          "group flex w-full cursor-pointer items-center justify-between gap-2 border-b-0 border-x-0 border-t border-gray-200 py-2 text-start text-sm font-medium",
           classNames?.trigger,
         )}
       >

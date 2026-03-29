@@ -1,8 +1,16 @@
 "use client";
 
+import type { ComponentType } from "react";
 import { usePathname } from "next/navigation";
-import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react";
+import {
+  IconCirclePlusFilled,
+  IconFileDescription,
+  IconLanguage,
+  IconTags,
+  IconUsers,
+} from "@tabler/icons-react";
 
+import type { DashboardNavIconKey } from "@/shared/components/sections/sidebar/dashboard-nav-config";
 import { isActiveNavPath } from "@/lib/active-nav-path";
 import {
   SidebarGroup,
@@ -13,6 +21,16 @@ import {
 } from "../sidebar/Default";
 import Link from "next/link";
 
+const NAV_ICONS: Record<
+  DashboardNavIconKey,
+  ComponentType<{ className?: string }>
+> = {
+  content: IconFileDescription,
+  languages: IconLanguage,
+  tags: IconTags,
+  users: IconUsers,
+};
+
 export function NavMain({
   items,
   dashboardHref = "/dashboard",
@@ -20,7 +38,7 @@ export function NavMain({
   items: {
     title: string;
     url: string;
-    icon?: Icon;
+    iconKey: DashboardNavIconKey;
   }[];
   dashboardHref?: string;
 }) {
@@ -45,20 +63,23 @@ export function NavMain({
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton
-                tooltip={item.title}
-                asChild
-                isActive={isActiveNavPath(pathname, item.url)}
-              >
-                <Link href={item.url}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {items.map((item) => {
+            const Icon = NAV_ICONS[item.iconKey];
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  asChild
+                  isActive={isActiveNavPath(pathname, item.url)}
+                >
+                  <Link href={item.url}>
+                    <Icon />
+                    <span>{item.title}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { isElevatedRole } from "@/lib/user-auth/roles";
 import {
   deleteContentMediaFile,
   saveContentMediaFile,
@@ -250,7 +251,7 @@ export async function updateContentAction(
   const parsed: ContentActionValues = parsedResult.data;
 
   const whereClause =
-    current.user.role === "ADMIN" ? { id } : { id, ownerId: current.user.id };
+    isElevatedRole(current.user.role) ? { id } : { id, ownerId: current.user.id };
 
   const row = await prisma.content.findFirst({
     where: whereClause,
@@ -330,7 +331,7 @@ export async function deleteContentAction(
   }
 
   const whereClause =
-    current.user.role === "ADMIN" ? { id } : { id, ownerId: current.user.id };
+    isElevatedRole(current.user.role) ? { id } : { id, ownerId: current.user.id };
 
   const row = await prisma.content.findFirst({
     where: whereClause,

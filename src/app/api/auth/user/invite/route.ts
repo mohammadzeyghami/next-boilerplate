@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { requireAccess } from "@/lib/user-auth/http";
-import { toPublicUserAuth } from "@/lib/user-auth/public-dto";
+import { toUserAuthSelfClientDto } from "@/lib/user-auth/public-dto";
 
 /**
  * SetInviter(userId, inviteCode) — caller must match `userId` (from body) and be authenticated.
@@ -55,11 +55,12 @@ export async function POST(request: Request) {
     const updated = await prisma.userAuth.update({
       where: { id: selfAuth.id },
       data: { inviterId: inviter.id },
+      include: { user: true },
     });
 
     return NextResponse.json({
       code: "SUCCESS",
-      data: toPublicUserAuth(updated),
+      data: toUserAuthSelfClientDto(updated, updated.user),
     });
   } catch (e) {
     console.error(e);

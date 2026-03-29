@@ -134,22 +134,24 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.email = token.email as string;
         session.user.name = token.name as string | null | undefined;
 
-        let image =
-          (token.picture as string | null | undefined)?.trim() ||
-          session.user.image?.trim() ||
-          "";
-
-        if (!image && token.sub) {
+        let image: string | null = null;
+        if (token.sub) {
           const row = await prisma.user.findUnique({
             where: { id: token.sub },
             select: { image: true },
           });
-          if (row?.image) {
-            image = row.image;
+          if (row?.image?.trim()) {
+            image = row.image.trim();
           }
         }
+        if (!image) {
+          image =
+            (token.picture as string | null | undefined)?.trim() ||
+            session.user.image?.trim() ||
+            null;
+        }
 
-        session.user.image = image || null;
+        session.user.image = image;
       }
       return session;
     },

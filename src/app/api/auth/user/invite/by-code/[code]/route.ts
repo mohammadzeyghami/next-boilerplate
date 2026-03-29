@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
-import { toPublicUserAuth } from "@/lib/user-auth/public-dto";
+import { toUserAuthOtherPublicDto } from "@/lib/user-auth/public-dto";
 
 export async function GET(
   _request: Request,
@@ -26,7 +26,7 @@ export async function GET(
 
     return NextResponse.json({
       code: "SUCCESS",
-      data: toPublicUserAuth(ua),
+      data: toUserAuthOtherPublicDto(ua),
     });
   } catch (e) {
     console.error(e);

@@ -24,14 +24,9 @@ export * from './enums';
 export type User = Prisma.UserModel
 /**
  * Model UserAuth
- * Application auth record (guest, OTP, username/password, etc.)
+ * Identity + profile (single record per user)
  */
 export type UserAuth = Prisma.UserAuthModel
-/**
- * Model UserProfile
- * 
- */
-export type UserProfile = Prisma.UserProfileModel
 /**
  * Model RefreshToken
  * 
@@ -47,6 +42,11 @@ export type Content = Prisma.ContentModel
  * 
  */
 export type Language = Prisma.LanguageModel
+/**
+ * Model ContentTag
+ * Maps to table "Tag"; model name yields `prisma.contentTag` (avoids fragile `prisma.tag` in dev).
+ */
+export type ContentTag = Prisma.ContentTagModel
 /**
  * Model Account
  * 

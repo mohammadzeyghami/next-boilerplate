@@ -2,6 +2,8 @@ import "server-only";
 
 import { SignJWT, jwtVerify } from "jose";
 
+import type { UserRole } from "@/generated/prisma/enums";
+
 import { getJwtSecretBytes } from "./config";
 
 const ACCESS_ISS = "user-auth-access";
@@ -10,8 +12,14 @@ const ACCESS_TTL = "15m";
 export type AccessClaims = {
   sub: string;
   userAuthId: string;
-  role: "USER" | "ADMIN";
+  role: UserRole;
 };
+
+const USER_ROLES: UserRole[] = ["USER", "ADMIN", "SUPER_ADMIN"];
+
+function isUserRole(v: unknown): v is UserRole {
+  return typeof v === "string" && (USER_ROLES as string[]).includes(v);
+}
 
 export async function signAccessToken(c: AccessClaims): Promise<string> {
   const secret = getJwtSecretBytes();
@@ -37,13 +45,14 @@ export async function verifyAccessToken(
   });
   const sub = payload.sub;
   const userAuthId = payload.userAuthId;
-  const role = payload.role;
+  const legacy = payload.profileRole;
+  const roleRaw = payload.role ?? legacy;
   if (
     typeof sub !== "string" ||
     typeof userAuthId !== "string" ||
-    (role !== "USER" && role !== "ADMIN")
+    !isUserRole(roleRaw)
   ) {
     throw new Error("Invalid access token.");
   }
-  return { sub, userAuthId, role };
+  return { sub, userAuthId, role: roleRaw };
 }

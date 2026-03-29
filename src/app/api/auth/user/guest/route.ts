@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { signTokensForUserAuth } from "@/lib/user-auth/tokens-bundle";
-import { toPublicUserAuth } from "@/lib/user-auth/public-dto";
+import { toUserAuthSelfClientDto } from "@/lib/user-auth/public-dto";
 import { createUserWithAuthProfile } from "@/lib/user-auth/user-bootstrap";
 
 export async function POST(request: Request) {
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       code: "SUCCESS",
       data: {
-        UserAuth: toPublicUserAuth(ua),
+        UserAuth: toUserAuthSelfClientDto(ua, ua.user),
         token,
         refreshToken,
       },

@@ -10,10 +10,10 @@
  */
 export type * from './models/User'
 export type * from './models/UserAuth'
-export type * from './models/UserProfile'
 export type * from './models/RefreshToken'
 export type * from './models/Content'
 export type * from './models/Language'
+export type * from './models/ContentTag'
 export type * from './models/Account'
 export type * from './models/Session'
 export type * from './models/VerificationToken'

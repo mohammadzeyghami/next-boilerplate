@@ -11,18 +11,29 @@
 
 export const UserRole = {
   USER: 'USER',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN'
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
-export const AccountStatus = {
-  ACTIVE: 'ACTIVE',
-  DISABLED: 'DISABLED'
+export const ProfileRole = {
+  USER: 'USER',
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN'
 } as const
 
-export type AccountStatus = (typeof AccountStatus)[keyof typeof AccountStatus]
+export type ProfileRole = (typeof ProfileRole)[keyof typeof ProfileRole]
+
+
+export const StatusAccount = {
+  ACTIVE: 'ACTIVE',
+  DEACTIVE: 'DEACTIVE',
+  SUSPEND: 'SUSPEND'
+} as const
+
+export type StatusAccount = (typeof StatusAccount)[keyof typeof StatusAccount]
 
 
 export const AuthOtpType = {

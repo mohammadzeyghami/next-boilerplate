@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import type { UserRole } from "@/generated/prisma/enums";
+
 import { verifyAccessToken } from "./access-jwt";
 
 export function bearerToken(request: Request): string | null {
@@ -11,7 +13,12 @@ export function bearerToken(request: Request): string | null {
 export async function requireAccess(
   request: Request,
 ): Promise<
-  | { ok: true; userId: string; userAuthId: string; role: "USER" | "ADMIN" }
+  | {
+      ok: true;
+      userId: string;
+      userAuthId: string;
+      role: UserRole;
+    }
   | { ok: false; response: NextResponse }
 > {
   const raw = bearerToken(request);
@@ -37,10 +44,11 @@ export async function requireAccess(
   }
 }
 
+/** ADMIN or SUPER_ADMIN (dashboard / admin APIs). */
 export async function requireAdmin(request: Request) {
   const r = await requireAccess(request);
   if (!r.ok) return r;
-  if (r.role !== "ADMIN") {
+  if (r.role !== "ADMIN" && r.role !== "SUPER_ADMIN") {
     return {
       ok: false as const,
       response: NextResponse.json({ code: "FORBIDDEN" }, { status: 403 }),

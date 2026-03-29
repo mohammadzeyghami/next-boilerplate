@@ -10,11 +10,19 @@ datasource db {
 enum UserRole {
   USER
   ADMIN
+  SUPER_ADMIN
 }
 
-enum AccountStatus {
+enum ProfileRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum StatusAccount {
   ACTIVE
-  DISABLED
+  DEACTIVE
+  SUSPEND
 }
 
 enum AuthOtpType {
@@ -55,45 +63,43 @@ model User {
   contents            Content[]            @relation("UserContents")
 }
 
-/// Application auth record (guest, OTP, username/password, etc.)
+/// Identity + profile (single record per user)
 model UserAuth {
-  id           String        @id @default(cuid())
-  userId       String        @unique
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String         @id @default(cuid())
+  userId       String         @unique
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  deviceId     String?       @unique
-  username     String?       @unique
-  email        String?       @unique
-  phoneNumber  String?       @unique
+  deviceId     String?        @unique
+  username     String?        @unique
+  email        String?        @unique
+  phoneNumber  String?        @unique
   passwordHash String?
-  isGuest      Boolean       @default(false)
-  inviteCode   String        @unique
+  isGuest      Boolean        @default(false)
+  inviteCode   String         @unique
   inviterId    String?
-  status       AccountStatus @default(ACTIVE)
+  status       StatusAccount  @default(ACTIVE)
 
-  inviter      UserAuth?     @relation("UserInvites", fields: [inviterId], references: [id], onDelete: SetNull)
-  invitees     UserAuth[]    @relation("UserInvites")
-  profile      UserProfile?
+  name         String?
+  profileRole  ProfileRole    @default(USER)
+
+  lastName     String?
+  born         DateTime?
+  metadata     Json?
+  contentIds   String[]       @default([])
+  firebaseId   String?        @unique
+  steamId      String?        @unique
+
+  inviter      UserAuth?      @relation("UserInvites", fields: [inviterId], references: [id], onDelete: SetNull)
+  invitees     UserAuth[]     @relation("UserInvites")
   refreshTokens RefreshToken[]
 
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 
   @@index([email])
   @@index([phoneNumber])
   @@index([username])
   @@index([deviceId])
-}
-
-model UserProfile {
-  id          String   @id @default(cuid())
-  userAuthId  String   @unique
-  userAuth    UserAuth @relation(fields: [userAuthId], references: [id], onDelete: Cascade)
-  displayName String?
-  avatarUrl   String?
-  metadata    Json?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
 }
 
 model RefreshToken {
@@ -135,6 +141,21 @@ model Language {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  @@index([name])
+}
+
+/// Maps to table "Tag"; model name yields `prisma.contentTag` (avoids fragile `prisma.tag` in dev).
+model ContentTag {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  label       String?
+  metadata    Json?
+  contentIds  String[] @default([])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("Tag")
   @@index([name])
 }
 

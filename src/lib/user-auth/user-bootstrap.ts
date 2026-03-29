@@ -11,13 +11,15 @@ export async function createUserWithAuthProfile(input: {
   username?: string | null;
   isGuest?: boolean;
   deviceId?: string | null;
+  name?: string | null;
+  lastName?: string | null;
 }) {
   const inviteCode = await generateUniqueInviteCode();
   return prisma.$transaction(async (tx) => {
     const user = await tx.user.create({
       data: {
         email: input.email ?? null,
-        name: null,
+        name: input.name ?? null,
         role: "USER",
       },
     });
@@ -31,10 +33,8 @@ export async function createUserWithAuthProfile(input: {
         isGuest: input.isGuest ?? false,
         deviceId: input.deviceId ?? null,
         inviteCode,
+        lastName: input.lastName ?? null,
       },
-    });
-    await tx.userProfile.create({
-      data: { userAuthId: ua.id },
     });
     return tx.userAuth.findUniqueOrThrow({
       where: { id: ua.id },

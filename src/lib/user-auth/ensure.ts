@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { generateUniqueInviteCode } from "./invite-code";
 
 /**
- * Ensures OAuth / legacy users have `UserAuth` + `UserProfile` rows.
+ * Ensures OAuth / legacy users have a `UserAuth` row.
  */
 export async function ensureUserAuthForUser(userId: string) {
   const existing = await prisma.userAuth.findUnique({
@@ -25,13 +25,6 @@ export async function ensureUserAuthForUser(userId: string) {
         email: user.email,
         inviteCode,
         isGuest: false,
-      },
-    });
-    await tx.userProfile.create({
-      data: {
-        userAuthId: ua.id,
-        displayName: user.name,
-        avatarUrl: user.image,
       },
     });
     return ua;
