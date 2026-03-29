@@ -33,6 +33,11 @@ export type UserAuth = Prisma.UserAuthModel
  */
 export type RefreshToken = Prisma.RefreshTokenModel
 /**
+ * Model Category
+ * 
+ */
+export type Category = Prisma.CategoryModel
+/**
  * Model Content
  * 
  */

@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   UserAuth: 'UserAuth',
   RefreshToken: 'RefreshToken',
+  Category: 'Category',
   Content: 'Content',
   Language: 'Language',
   ContentTag: 'ContentTag',
@@ -127,6 +128,20 @@ export const RefreshTokenScalarFieldEnum = {
 } as const
 
 export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
+
+
+export const CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  label: 'label',
+  metadata: 'metadata',
+  contentIds: 'contentIds',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
 export const ContentScalarFieldEnum = {

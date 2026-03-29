@@ -113,6 +113,19 @@ model RefreshToken {
   @@index([userAuthId])
 }
 
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  label       String?
+  metadata    Json?
+  contentIds  String[] @default([])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([name])
+}
+
 model Content {
   id         String         @id @default(cuid())
   name       String

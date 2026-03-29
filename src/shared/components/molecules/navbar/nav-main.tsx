@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   IconCirclePlusFilled,
   IconFileDescription,
+  IconFolders,
   IconLanguage,
   IconTags,
   IconUsers,
@@ -25,6 +26,7 @@ const NAV_ICONS: Record<
   DashboardNavIconKey,
   ComponentType<{ className?: string }>
 > = {
+  categories: IconFolders,
   content: IconFileDescription,
   languages: IconLanguage,
   tags: IconTags,

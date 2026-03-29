@@ -1,5 +1,10 @@
 /** Serializable nav item (safe to pass from Server → Client). */
-export type DashboardNavIconKey = "content" | "languages" | "tags" | "users";
+export type DashboardNavIconKey =
+  | "categories"
+  | "content"
+  | "languages"
+  | "tags"
+  | "users";
 
 export type DashboardNavItem = {
   title: string;
@@ -22,6 +27,11 @@ export const baseDashboardNavMain: DashboardNavItem[] = [
     title: "Tags",
     url: "/dashboard/tags",
     iconKey: "tags",
+  },
+  {
+    title: "Categories",
+    url: "/dashboard/categories",
+    iconKey: "categories",
   },
 ];
 

@@ -11,6 +11,7 @@
 export type * from './models/User'
 export type * from './models/UserAuth'
 export type * from './models/RefreshToken'
+export type * from './models/Category'
 export type * from './models/Content'
 export type * from './models/Language'
 export type * from './models/ContentTag'
