@@ -28,6 +28,11 @@ export type User = Prisma.UserModel
  */
 export type Content = Prisma.ContentModel
 /**
+ * Model Language
+ * 
+ */
+export type Language = Prisma.LanguageModel
+/**
  * Model Account
  * 
  */
