@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { verifyOtpJwt } from "@/lib/user-auth/otp-jwt";
-import { toPublicUserAuth } from "@/lib/user-auth/public-dto";
+import { toUserAuthSelfClientDto } from "@/lib/user-auth/public-dto";
 import { signTokensForUserAuth } from "@/lib/user-auth/tokens-bundle";
 import { createUserWithAuthProfile } from "@/lib/user-auth/user-bootstrap";
 import { bearerToken } from "@/lib/user-auth/http";
@@ -103,7 +103,7 @@ export async function POST(request: Request) {
       return NextResponse.json({
         code: "SUCCESS",
         data: {
-          UserAuth: toPublicUserAuth(ua),
+          UserAuth: toUserAuthSelfClientDto(ua, ua.user),
           token: access,
           refreshToken,
         },
@@ -132,7 +132,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       code: "SUCCESS",
       data: {
-        UserAuth: toPublicUserAuth(created),
+        UserAuth: toUserAuthSelfClientDto(created, created.user),
         token: access,
         refreshToken,
       },

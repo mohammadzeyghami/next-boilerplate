@@ -10,11 +10,10 @@ export async function signTokensForUserAuth(
   userId: string,
   role: UserRole,
 ) {
-  const accessRole = role === "ADMIN" ? "ADMIN" : "USER";
   const token = await signAccessToken({
     sub: userId,
     userAuthId,
-    role: accessRole,
+    role,
   });
   const refreshToken = await issueRefreshToken(userAuthId);
   return { token, refreshToken };

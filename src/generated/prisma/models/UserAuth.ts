@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model UserAuth
- * Application auth record (guest, OTP, username/password, etc.)
+ * Identity + profile (single record per user)
  */
 export type UserAuthModel = runtime.Types.Result.DefaultSelection<Prisma.$UserAuthPayload>
 
@@ -35,7 +35,11 @@ export type UserAuthMinAggregateOutputType = {
   isGuest: boolean | null
   inviteCode: string | null
   inviterId: string | null
-  status: $Enums.AccountStatus | null
+  status: $Enums.StatusAccount | null
+  lastName: string | null
+  born: Date | null
+  firebaseId: string | null
+  steamId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -51,7 +55,11 @@ export type UserAuthMaxAggregateOutputType = {
   isGuest: boolean | null
   inviteCode: string | null
   inviterId: string | null
-  status: $Enums.AccountStatus | null
+  status: $Enums.StatusAccount | null
+  lastName: string | null
+  born: Date | null
+  firebaseId: string | null
+  steamId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -68,6 +76,12 @@ export type UserAuthCountAggregateOutputType = {
   inviteCode: number
   inviterId: number
   status: number
+  lastName: number
+  born: number
+  metadata: number
+  contentIds: number
+  firebaseId: number
+  steamId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -86,6 +100,10 @@ export type UserAuthMinAggregateInputType = {
   inviteCode?: true
   inviterId?: true
   status?: true
+  lastName?: true
+  born?: true
+  firebaseId?: true
+  steamId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -102,6 +120,10 @@ export type UserAuthMaxAggregateInputType = {
   inviteCode?: true
   inviterId?: true
   status?: true
+  lastName?: true
+  born?: true
+  firebaseId?: true
+  steamId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -118,6 +140,12 @@ export type UserAuthCountAggregateInputType = {
   inviteCode?: true
   inviterId?: true
   status?: true
+  lastName?: true
+  born?: true
+  metadata?: true
+  contentIds?: true
+  firebaseId?: true
+  steamId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -206,7 +234,13 @@ export type UserAuthGroupByOutputType = {
   isGuest: boolean
   inviteCode: string
   inviterId: string | null
-  status: $Enums.AccountStatus
+  status: $Enums.StatusAccount
+  lastName: string | null
+  born: Date | null
+  metadata: runtime.JsonValue | null
+  contentIds: string[]
+  firebaseId: string | null
+  steamId: string | null
   createdAt: Date
   updatedAt: Date
   _count: UserAuthCountAggregateOutputType | null
@@ -243,13 +277,18 @@ export type UserAuthWhereInput = {
   isGuest?: Prisma.BoolFilter<"UserAuth"> | boolean
   inviteCode?: Prisma.StringFilter<"UserAuth"> | string
   inviterId?: Prisma.StringNullableFilter<"UserAuth"> | string | null
-  status?: Prisma.EnumAccountStatusFilter<"UserAuth"> | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFilter<"UserAuth"> | $Enums.StatusAccount
+  lastName?: Prisma.StringNullableFilter<"UserAuth"> | string | null
+  born?: Prisma.DateTimeNullableFilter<"UserAuth"> | Date | string | null
+  metadata?: Prisma.JsonNullableFilter<"UserAuth">
+  contentIds?: Prisma.StringNullableListFilter<"UserAuth">
+  firebaseId?: Prisma.StringNullableFilter<"UserAuth"> | string | null
+  steamId?: Prisma.StringNullableFilter<"UserAuth"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserAuth"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserAuth"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   inviter?: Prisma.XOR<Prisma.UserAuthNullableScalarRelationFilter, Prisma.UserAuthWhereInput> | null
   invitees?: Prisma.UserAuthListRelationFilter
-  profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
 }
 
@@ -265,12 +304,17 @@ export type UserAuthOrderByWithRelationInput = {
   inviteCode?: Prisma.SortOrder
   inviterId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  lastName?: Prisma.SortOrderInput | Prisma.SortOrder
+  born?: Prisma.SortOrderInput | Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentIds?: Prisma.SortOrder
+  firebaseId?: Prisma.SortOrderInput | Prisma.SortOrder
+  steamId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   inviter?: Prisma.UserAuthOrderByWithRelationInput
   invitees?: Prisma.UserAuthOrderByRelationAggregateInput
-  profile?: Prisma.UserProfileOrderByWithRelationInput
   refreshTokens?: Prisma.RefreshTokenOrderByRelationAggregateInput
 }
 
@@ -282,21 +326,26 @@ export type UserAuthWhereUniqueInput = Prisma.AtLeast<{
   email?: string
   phoneNumber?: string
   inviteCode?: string
+  firebaseId?: string
+  steamId?: string
   AND?: Prisma.UserAuthWhereInput | Prisma.UserAuthWhereInput[]
   OR?: Prisma.UserAuthWhereInput[]
   NOT?: Prisma.UserAuthWhereInput | Prisma.UserAuthWhereInput[]
   passwordHash?: Prisma.StringNullableFilter<"UserAuth"> | string | null
   isGuest?: Prisma.BoolFilter<"UserAuth"> | boolean
   inviterId?: Prisma.StringNullableFilter<"UserAuth"> | string | null
-  status?: Prisma.EnumAccountStatusFilter<"UserAuth"> | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFilter<"UserAuth"> | $Enums.StatusAccount
+  lastName?: Prisma.StringNullableFilter<"UserAuth"> | string | null
+  born?: Prisma.DateTimeNullableFilter<"UserAuth"> | Date | string | null
+  metadata?: Prisma.JsonNullableFilter<"UserAuth">
+  contentIds?: Prisma.StringNullableListFilter<"UserAuth">
   createdAt?: Prisma.DateTimeFilter<"UserAuth"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserAuth"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   inviter?: Prisma.XOR<Prisma.UserAuthNullableScalarRelationFilter, Prisma.UserAuthWhereInput> | null
   invitees?: Prisma.UserAuthListRelationFilter
-  profile?: Prisma.XOR<Prisma.UserProfileNullableScalarRelationFilter, Prisma.UserProfileWhereInput> | null
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
-}, "id" | "userId" | "deviceId" | "username" | "email" | "phoneNumber" | "inviteCode">
+}, "id" | "userId" | "deviceId" | "username" | "email" | "phoneNumber" | "inviteCode" | "firebaseId" | "steamId">
 
 export type UserAuthOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -310,6 +359,12 @@ export type UserAuthOrderByWithAggregationInput = {
   inviteCode?: Prisma.SortOrder
   inviterId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  lastName?: Prisma.SortOrderInput | Prisma.SortOrder
+  born?: Prisma.SortOrderInput | Prisma.SortOrder
+  metadata?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentIds?: Prisma.SortOrder
+  firebaseId?: Prisma.SortOrderInput | Prisma.SortOrder
+  steamId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserAuthCountOrderByAggregateInput
@@ -331,7 +386,13 @@ export type UserAuthScalarWhereWithAggregatesInput = {
   isGuest?: Prisma.BoolWithAggregatesFilter<"UserAuth"> | boolean
   inviteCode?: Prisma.StringWithAggregatesFilter<"UserAuth"> | string
   inviterId?: Prisma.StringNullableWithAggregatesFilter<"UserAuth"> | string | null
-  status?: Prisma.EnumAccountStatusWithAggregatesFilter<"UserAuth"> | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountWithAggregatesFilter<"UserAuth"> | $Enums.StatusAccount
+  lastName?: Prisma.StringNullableWithAggregatesFilter<"UserAuth"> | string | null
+  born?: Prisma.DateTimeNullableWithAggregatesFilter<"UserAuth"> | Date | string | null
+  metadata?: Prisma.JsonNullableWithAggregatesFilter<"UserAuth">
+  contentIds?: Prisma.StringNullableListFilter<"UserAuth">
+  firebaseId?: Prisma.StringNullableWithAggregatesFilter<"UserAuth"> | string | null
+  steamId?: Prisma.StringNullableWithAggregatesFilter<"UserAuth"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserAuth"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserAuth"> | Date | string
 }
@@ -345,13 +406,18 @@ export type UserAuthCreateInput = {
   passwordHash?: string | null
   isGuest?: boolean
   inviteCode: string
-  status?: $Enums.AccountStatus
+  status?: $Enums.StatusAccount
+  lastName?: string | null
+  born?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthCreatecontentIdsInput | string[]
+  firebaseId?: string | null
+  steamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserAuthInput
   inviter?: Prisma.UserAuthCreateNestedOneWithoutInviteesInput
   invitees?: Prisma.UserAuthCreateNestedManyWithoutInviterInput
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserAuthInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserAuthInput
 }
 
@@ -366,11 +432,16 @@ export type UserAuthUncheckedCreateInput = {
   isGuest?: boolean
   inviteCode: string
   inviterId?: string | null
-  status?: $Enums.AccountStatus
+  status?: $Enums.StatusAccount
+  lastName?: string | null
+  born?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthCreatecontentIdsInput | string[]
+  firebaseId?: string | null
+  steamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   invitees?: Prisma.UserAuthUncheckedCreateNestedManyWithoutInviterInput
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserAuthInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserAuthInput
 }
 
@@ -383,13 +454,18 @@ export type UserAuthUpdateInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserAuthNestedInput
   inviter?: Prisma.UserAuthUpdateOneWithoutInviteesNestedInput
   invitees?: Prisma.UserAuthUpdateManyWithoutInviterNestedInput
-  profile?: Prisma.UserProfileUpdateOneWithoutUserAuthNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserAuthNestedInput
 }
 
@@ -404,11 +480,16 @@ export type UserAuthUncheckedUpdateInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invitees?: Prisma.UserAuthUncheckedUpdateManyWithoutInviterNestedInput
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserAuthNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserAuthNestedInput
 }
 
@@ -423,7 +504,13 @@ export type UserAuthCreateManyInput = {
   isGuest?: boolean
   inviteCode: string
   inviterId?: string | null
-  status?: $Enums.AccountStatus
+  status?: $Enums.StatusAccount
+  lastName?: string | null
+  born?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthCreatecontentIdsInput | string[]
+  firebaseId?: string | null
+  steamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -437,7 +524,13 @@ export type UserAuthUpdateManyMutationInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -453,7 +546,13 @@ export type UserAuthUncheckedUpdateManyInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -461,6 +560,14 @@ export type UserAuthUncheckedUpdateManyInput = {
 export type UserAuthNullableScalarRelationFilter = {
   is?: Prisma.UserAuthWhereInput | null
   isNot?: Prisma.UserAuthWhereInput | null
+}
+
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type UserAuthListRelationFilter = {
@@ -485,6 +592,12 @@ export type UserAuthCountOrderByAggregateInput = {
   inviteCode?: Prisma.SortOrder
   inviterId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  lastName?: Prisma.SortOrder
+  born?: Prisma.SortOrder
+  metadata?: Prisma.SortOrder
+  contentIds?: Prisma.SortOrder
+  firebaseId?: Prisma.SortOrder
+  steamId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -501,6 +614,10 @@ export type UserAuthMaxOrderByAggregateInput = {
   inviteCode?: Prisma.SortOrder
   inviterId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  lastName?: Prisma.SortOrder
+  born?: Prisma.SortOrder
+  firebaseId?: Prisma.SortOrder
+  steamId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -517,6 +634,10 @@ export type UserAuthMinOrderByAggregateInput = {
   inviteCode?: Prisma.SortOrder
   inviterId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  lastName?: Prisma.SortOrder
+  born?: Prisma.SortOrder
+  firebaseId?: Prisma.SortOrder
+  steamId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -558,6 +679,10 @@ export type UserAuthUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserAuthUpdateToOneWithWhereWithoutUserInput, Prisma.UserAuthUpdateWithoutUserInput>, Prisma.UserAuthUncheckedUpdateWithoutUserInput>
 }
 
+export type UserAuthCreatecontentIdsInput = {
+  set: string[]
+}
+
 export type UserAuthCreateNestedOneWithoutInviteesInput = {
   create?: Prisma.XOR<Prisma.UserAuthCreateWithoutInviteesInput, Prisma.UserAuthUncheckedCreateWithoutInviteesInput>
   connectOrCreate?: Prisma.UserAuthCreateOrConnectWithoutInviteesInput
@@ -582,8 +707,13 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type EnumAccountStatusFieldUpdateOperationsInput = {
-  set?: $Enums.AccountStatus
+export type EnumStatusAccountFieldUpdateOperationsInput = {
+  set?: $Enums.StatusAccount
+}
+
+export type UserAuthUpdatecontentIdsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -628,20 +758,6 @@ export type UserAuthUncheckedUpdateManyWithoutInviterNestedInput = {
   deleteMany?: Prisma.UserAuthScalarWhereInput | Prisma.UserAuthScalarWhereInput[]
 }
 
-export type UserAuthCreateNestedOneWithoutProfileInput = {
-  create?: Prisma.XOR<Prisma.UserAuthCreateWithoutProfileInput, Prisma.UserAuthUncheckedCreateWithoutProfileInput>
-  connectOrCreate?: Prisma.UserAuthCreateOrConnectWithoutProfileInput
-  connect?: Prisma.UserAuthWhereUniqueInput
-}
-
-export type UserAuthUpdateOneRequiredWithoutProfileNestedInput = {
-  create?: Prisma.XOR<Prisma.UserAuthCreateWithoutProfileInput, Prisma.UserAuthUncheckedCreateWithoutProfileInput>
-  connectOrCreate?: Prisma.UserAuthCreateOrConnectWithoutProfileInput
-  upsert?: Prisma.UserAuthUpsertWithoutProfileInput
-  connect?: Prisma.UserAuthWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserAuthUpdateToOneWithWhereWithoutProfileInput, Prisma.UserAuthUpdateWithoutProfileInput>, Prisma.UserAuthUncheckedUpdateWithoutProfileInput>
-}
-
 export type UserAuthCreateNestedOneWithoutRefreshTokensInput = {
   create?: Prisma.XOR<Prisma.UserAuthCreateWithoutRefreshTokensInput, Prisma.UserAuthUncheckedCreateWithoutRefreshTokensInput>
   connectOrCreate?: Prisma.UserAuthCreateOrConnectWithoutRefreshTokensInput
@@ -665,12 +781,17 @@ export type UserAuthCreateWithoutUserInput = {
   passwordHash?: string | null
   isGuest?: boolean
   inviteCode: string
-  status?: $Enums.AccountStatus
+  status?: $Enums.StatusAccount
+  lastName?: string | null
+  born?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthCreatecontentIdsInput | string[]
+  firebaseId?: string | null
+  steamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   inviter?: Prisma.UserAuthCreateNestedOneWithoutInviteesInput
   invitees?: Prisma.UserAuthCreateNestedManyWithoutInviterInput
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserAuthInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserAuthInput
 }
 
@@ -684,11 +805,16 @@ export type UserAuthUncheckedCreateWithoutUserInput = {
   isGuest?: boolean
   inviteCode: string
   inviterId?: string | null
-  status?: $Enums.AccountStatus
+  status?: $Enums.StatusAccount
+  lastName?: string | null
+  born?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthCreatecontentIdsInput | string[]
+  firebaseId?: string | null
+  steamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   invitees?: Prisma.UserAuthUncheckedCreateNestedManyWithoutInviterInput
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserAuthInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserAuthInput
 }
 
@@ -717,12 +843,17 @@ export type UserAuthUpdateWithoutUserInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inviter?: Prisma.UserAuthUpdateOneWithoutInviteesNestedInput
   invitees?: Prisma.UserAuthUpdateManyWithoutInviterNestedInput
-  profile?: Prisma.UserProfileUpdateOneWithoutUserAuthNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserAuthNestedInput
 }
 
@@ -736,11 +867,16 @@ export type UserAuthUncheckedUpdateWithoutUserInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invitees?: Prisma.UserAuthUncheckedUpdateManyWithoutInviterNestedInput
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserAuthNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserAuthNestedInput
 }
 
@@ -753,12 +889,17 @@ export type UserAuthCreateWithoutInviteesInput = {
   passwordHash?: string | null
   isGuest?: boolean
   inviteCode: string
-  status?: $Enums.AccountStatus
+  status?: $Enums.StatusAccount
+  lastName?: string | null
+  born?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthCreatecontentIdsInput | string[]
+  firebaseId?: string | null
+  steamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserAuthInput
   inviter?: Prisma.UserAuthCreateNestedOneWithoutInviteesInput
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserAuthInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserAuthInput
 }
 
@@ -773,10 +914,15 @@ export type UserAuthUncheckedCreateWithoutInviteesInput = {
   isGuest?: boolean
   inviteCode: string
   inviterId?: string | null
-  status?: $Enums.AccountStatus
+  status?: $Enums.StatusAccount
+  lastName?: string | null
+  born?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthCreatecontentIdsInput | string[]
+  firebaseId?: string | null
+  steamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserAuthInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserAuthInput
 }
 
@@ -794,12 +940,17 @@ export type UserAuthCreateWithoutInviterInput = {
   passwordHash?: string | null
   isGuest?: boolean
   inviteCode: string
-  status?: $Enums.AccountStatus
+  status?: $Enums.StatusAccount
+  lastName?: string | null
+  born?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthCreatecontentIdsInput | string[]
+  firebaseId?: string | null
+  steamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserAuthInput
   invitees?: Prisma.UserAuthCreateNestedManyWithoutInviterInput
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserAuthInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserAuthInput
 }
 
@@ -813,11 +964,16 @@ export type UserAuthUncheckedCreateWithoutInviterInput = {
   passwordHash?: string | null
   isGuest?: boolean
   inviteCode: string
-  status?: $Enums.AccountStatus
+  status?: $Enums.StatusAccount
+  lastName?: string | null
+  born?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthCreatecontentIdsInput | string[]
+  firebaseId?: string | null
+  steamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   invitees?: Prisma.UserAuthUncheckedCreateNestedManyWithoutInviterInput
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserAuthInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserAuthInput
 }
 
@@ -851,12 +1007,17 @@ export type UserAuthUpdateWithoutInviteesInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserAuthNestedInput
   inviter?: Prisma.UserAuthUpdateOneWithoutInviteesNestedInput
-  profile?: Prisma.UserProfileUpdateOneWithoutUserAuthNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserAuthNestedInput
 }
 
@@ -871,10 +1032,15 @@ export type UserAuthUncheckedUpdateWithoutInviteesInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserAuthNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserAuthNestedInput
 }
 
@@ -908,97 +1074,15 @@ export type UserAuthScalarWhereInput = {
   isGuest?: Prisma.BoolFilter<"UserAuth"> | boolean
   inviteCode?: Prisma.StringFilter<"UserAuth"> | string
   inviterId?: Prisma.StringNullableFilter<"UserAuth"> | string | null
-  status?: Prisma.EnumAccountStatusFilter<"UserAuth"> | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFilter<"UserAuth"> | $Enums.StatusAccount
+  lastName?: Prisma.StringNullableFilter<"UserAuth"> | string | null
+  born?: Prisma.DateTimeNullableFilter<"UserAuth"> | Date | string | null
+  metadata?: Prisma.JsonNullableFilter<"UserAuth">
+  contentIds?: Prisma.StringNullableListFilter<"UserAuth">
+  firebaseId?: Prisma.StringNullableFilter<"UserAuth"> | string | null
+  steamId?: Prisma.StringNullableFilter<"UserAuth"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserAuth"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserAuth"> | Date | string
-}
-
-export type UserAuthCreateWithoutProfileInput = {
-  id?: string
-  deviceId?: string | null
-  username?: string | null
-  email?: string | null
-  phoneNumber?: string | null
-  passwordHash?: string | null
-  isGuest?: boolean
-  inviteCode: string
-  status?: $Enums.AccountStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutUserAuthInput
-  inviter?: Prisma.UserAuthCreateNestedOneWithoutInviteesInput
-  invitees?: Prisma.UserAuthCreateNestedManyWithoutInviterInput
-  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserAuthInput
-}
-
-export type UserAuthUncheckedCreateWithoutProfileInput = {
-  id?: string
-  userId: string
-  deviceId?: string | null
-  username?: string | null
-  email?: string | null
-  phoneNumber?: string | null
-  passwordHash?: string | null
-  isGuest?: boolean
-  inviteCode: string
-  inviterId?: string | null
-  status?: $Enums.AccountStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  invitees?: Prisma.UserAuthUncheckedCreateNestedManyWithoutInviterInput
-  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserAuthInput
-}
-
-export type UserAuthCreateOrConnectWithoutProfileInput = {
-  where: Prisma.UserAuthWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserAuthCreateWithoutProfileInput, Prisma.UserAuthUncheckedCreateWithoutProfileInput>
-}
-
-export type UserAuthUpsertWithoutProfileInput = {
-  update: Prisma.XOR<Prisma.UserAuthUpdateWithoutProfileInput, Prisma.UserAuthUncheckedUpdateWithoutProfileInput>
-  create: Prisma.XOR<Prisma.UserAuthCreateWithoutProfileInput, Prisma.UserAuthUncheckedCreateWithoutProfileInput>
-  where?: Prisma.UserAuthWhereInput
-}
-
-export type UserAuthUpdateToOneWithWhereWithoutProfileInput = {
-  where?: Prisma.UserAuthWhereInput
-  data: Prisma.XOR<Prisma.UserAuthUpdateWithoutProfileInput, Prisma.UserAuthUncheckedUpdateWithoutProfileInput>
-}
-
-export type UserAuthUpdateWithoutProfileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  deviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutUserAuthNestedInput
-  inviter?: Prisma.UserAuthUpdateOneWithoutInviteesNestedInput
-  invitees?: Prisma.UserAuthUpdateManyWithoutInviterNestedInput
-  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserAuthNestedInput
-}
-
-export type UserAuthUncheckedUpdateWithoutProfileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  deviceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
-  inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  invitees?: Prisma.UserAuthUncheckedUpdateManyWithoutInviterNestedInput
-  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserAuthNestedInput
 }
 
 export type UserAuthCreateWithoutRefreshTokensInput = {
@@ -1010,13 +1094,18 @@ export type UserAuthCreateWithoutRefreshTokensInput = {
   passwordHash?: string | null
   isGuest?: boolean
   inviteCode: string
-  status?: $Enums.AccountStatus
+  status?: $Enums.StatusAccount
+  lastName?: string | null
+  born?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthCreatecontentIdsInput | string[]
+  firebaseId?: string | null
+  steamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutUserAuthInput
   inviter?: Prisma.UserAuthCreateNestedOneWithoutInviteesInput
   invitees?: Prisma.UserAuthCreateNestedManyWithoutInviterInput
-  profile?: Prisma.UserProfileCreateNestedOneWithoutUserAuthInput
 }
 
 export type UserAuthUncheckedCreateWithoutRefreshTokensInput = {
@@ -1030,11 +1119,16 @@ export type UserAuthUncheckedCreateWithoutRefreshTokensInput = {
   isGuest?: boolean
   inviteCode: string
   inviterId?: string | null
-  status?: $Enums.AccountStatus
+  status?: $Enums.StatusAccount
+  lastName?: string | null
+  born?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthCreatecontentIdsInput | string[]
+  firebaseId?: string | null
+  steamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   invitees?: Prisma.UserAuthUncheckedCreateNestedManyWithoutInviterInput
-  profile?: Prisma.UserProfileUncheckedCreateNestedOneWithoutUserAuthInput
 }
 
 export type UserAuthCreateOrConnectWithoutRefreshTokensInput = {
@@ -1062,13 +1156,18 @@ export type UserAuthUpdateWithoutRefreshTokensInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserAuthNestedInput
   inviter?: Prisma.UserAuthUpdateOneWithoutInviteesNestedInput
   invitees?: Prisma.UserAuthUpdateManyWithoutInviterNestedInput
-  profile?: Prisma.UserProfileUpdateOneWithoutUserAuthNestedInput
 }
 
 export type UserAuthUncheckedUpdateWithoutRefreshTokensInput = {
@@ -1082,11 +1181,16 @@ export type UserAuthUncheckedUpdateWithoutRefreshTokensInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invitees?: Prisma.UserAuthUncheckedUpdateManyWithoutInviterNestedInput
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserAuthNestedInput
 }
 
 export type UserAuthCreateManyInviterInput = {
@@ -1099,7 +1203,13 @@ export type UserAuthCreateManyInviterInput = {
   passwordHash?: string | null
   isGuest?: boolean
   inviteCode: string
-  status?: $Enums.AccountStatus
+  status?: $Enums.StatusAccount
+  lastName?: string | null
+  born?: Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthCreatecontentIdsInput | string[]
+  firebaseId?: string | null
+  steamId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1113,12 +1223,17 @@ export type UserAuthUpdateWithoutInviterInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutUserAuthNestedInput
   invitees?: Prisma.UserAuthUpdateManyWithoutInviterNestedInput
-  profile?: Prisma.UserProfileUpdateOneWithoutUserAuthNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserAuthNestedInput
 }
 
@@ -1132,11 +1247,16 @@ export type UserAuthUncheckedUpdateWithoutInviterInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invitees?: Prisma.UserAuthUncheckedUpdateManyWithoutInviterNestedInput
-  profile?: Prisma.UserProfileUncheckedUpdateOneWithoutUserAuthNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserAuthNestedInput
 }
 
@@ -1150,7 +1270,13 @@ export type UserAuthUncheckedUpdateManyWithoutInviterInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumAccountStatusFieldUpdateOperationsInput | $Enums.AccountStatus
+  status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  contentIds?: Prisma.UserAuthUpdatecontentIdsInput | string[]
+  firebaseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  steamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1207,12 +1333,17 @@ export type UserAuthSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   inviteCode?: boolean
   inviterId?: boolean
   status?: boolean
+  lastName?: boolean
+  born?: boolean
+  metadata?: boolean
+  contentIds?: boolean
+  firebaseId?: boolean
+  steamId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   inviter?: boolean | Prisma.UserAuth$inviterArgs<ExtArgs>
   invitees?: boolean | Prisma.UserAuth$inviteesArgs<ExtArgs>
-  profile?: boolean | Prisma.UserAuth$profileArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.UserAuth$refreshTokensArgs<ExtArgs>
   _count?: boolean | Prisma.UserAuthCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userAuth"]>
@@ -1229,6 +1360,12 @@ export type UserAuthSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   inviteCode?: boolean
   inviterId?: boolean
   status?: boolean
+  lastName?: boolean
+  born?: boolean
+  metadata?: boolean
+  contentIds?: boolean
+  firebaseId?: boolean
+  steamId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1247,6 +1384,12 @@ export type UserAuthSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   inviteCode?: boolean
   inviterId?: boolean
   status?: boolean
+  lastName?: boolean
+  born?: boolean
+  metadata?: boolean
+  contentIds?: boolean
+  firebaseId?: boolean
+  steamId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1265,16 +1408,21 @@ export type UserAuthSelectScalar = {
   inviteCode?: boolean
   inviterId?: boolean
   status?: boolean
+  lastName?: boolean
+  born?: boolean
+  metadata?: boolean
+  contentIds?: boolean
+  firebaseId?: boolean
+  steamId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserAuthOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "deviceId" | "username" | "email" | "phoneNumber" | "passwordHash" | "isGuest" | "inviteCode" | "inviterId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["userAuth"]>
+export type UserAuthOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "deviceId" | "username" | "email" | "phoneNumber" | "passwordHash" | "isGuest" | "inviteCode" | "inviterId" | "status" | "lastName" | "born" | "metadata" | "contentIds" | "firebaseId" | "steamId" | "createdAt" | "updatedAt", ExtArgs["result"]["userAuth"]>
 export type UserAuthInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   inviter?: boolean | Prisma.UserAuth$inviterArgs<ExtArgs>
   invitees?: boolean | Prisma.UserAuth$inviteesArgs<ExtArgs>
-  profile?: boolean | Prisma.UserAuth$profileArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.UserAuth$refreshTokensArgs<ExtArgs>
   _count?: boolean | Prisma.UserAuthCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1293,7 +1441,6 @@ export type $UserAuthPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     user: Prisma.$UserPayload<ExtArgs>
     inviter: Prisma.$UserAuthPayload<ExtArgs> | null
     invitees: Prisma.$UserAuthPayload<ExtArgs>[]
-    profile: Prisma.$UserProfilePayload<ExtArgs> | null
     refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1307,7 +1454,13 @@ export type $UserAuthPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     isGuest: boolean
     inviteCode: string
     inviterId: string | null
-    status: $Enums.AccountStatus
+    status: $Enums.StatusAccount
+    lastName: string | null
+    born: Date | null
+    metadata: runtime.JsonValue | null
+    contentIds: string[]
+    firebaseId: string | null
+    steamId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["userAuth"]>
@@ -1707,7 +1860,6 @@ export interface Prisma__UserAuthClient<T, Null = never, ExtArgs extends runtime
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   inviter<T extends Prisma.UserAuth$inviterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAuth$inviterArgs<ExtArgs>>): Prisma.Prisma__UserAuthClient<runtime.Types.Result.GetResult<Prisma.$UserAuthPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   invitees<T extends Prisma.UserAuth$inviteesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAuth$inviteesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAuthPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  profile<T extends Prisma.UserAuth$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAuth$profileArgs<ExtArgs>>): Prisma.Prisma__UserProfileClient<runtime.Types.Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   refreshTokens<T extends Prisma.UserAuth$refreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserAuth$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1748,7 +1900,13 @@ export interface UserAuthFieldRefs {
   readonly isGuest: Prisma.FieldRef<"UserAuth", 'Boolean'>
   readonly inviteCode: Prisma.FieldRef<"UserAuth", 'String'>
   readonly inviterId: Prisma.FieldRef<"UserAuth", 'String'>
-  readonly status: Prisma.FieldRef<"UserAuth", 'AccountStatus'>
+  readonly status: Prisma.FieldRef<"UserAuth", 'StatusAccount'>
+  readonly lastName: Prisma.FieldRef<"UserAuth", 'String'>
+  readonly born: Prisma.FieldRef<"UserAuth", 'DateTime'>
+  readonly metadata: Prisma.FieldRef<"UserAuth", 'Json'>
+  readonly contentIds: Prisma.FieldRef<"UserAuth", 'String[]'>
+  readonly firebaseId: Prisma.FieldRef<"UserAuth", 'String'>
+  readonly steamId: Prisma.FieldRef<"UserAuth", 'String'>
   readonly createdAt: Prisma.FieldRef<"UserAuth", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UserAuth", 'DateTime'>
 }
@@ -2192,25 +2350,6 @@ export type UserAuth$inviteesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.UserAuthScalarFieldEnum | Prisma.UserAuthScalarFieldEnum[]
-}
-
-/**
- * UserAuth.profile
- */
-export type UserAuth$profileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the UserProfile
-   */
-  select?: Prisma.UserProfileSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the UserProfile
-   */
-  omit?: Prisma.UserProfileOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserProfileInclude<ExtArgs> | null
-  where?: Prisma.UserProfileWhereInput
 }
 
 /**

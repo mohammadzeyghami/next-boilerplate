@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
 import { prisma } from "@/lib/prisma";
-import { toPublicUserAuth } from "@/lib/user-auth/public-dto";
+import { toUserAuthSelfClientDto } from "@/lib/user-auth/public-dto";
 
 export async function POST(request: Request) {
   try {
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       code: "SUCCESS",
-      data: toPublicUserAuth(ua),
+      data: toUserAuthSelfClientDto(ua, ua.user),
     });
   } catch (e) {
     console.error(e);

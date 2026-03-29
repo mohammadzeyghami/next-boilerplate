@@ -5,6 +5,8 @@ import { z } from "zod";
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { isElevatedRole } from "@/lib/user-auth/roles";
+import type { UserRole } from "@/generated/prisma/enums";
 
 export type LanguageActionResult = {
   ok: boolean;
@@ -38,7 +40,7 @@ const languageCreateSchema = z.object({
   contentIds: z.array(z.string().min(1)),
 });
 
-type DbUserBrief = { id: string; role: "USER" | "ADMIN" };
+type DbUserBrief = { id: string; role: UserRole };
 
 async function getCurrentDbUser(): Promise<
   { error: string } | { user: DbUserBrief }
@@ -120,10 +122,9 @@ export async function listLanguageContentOptionsAction(): Promise<
     return { ok: false, error: current.error };
   }
 
-  const where =
-    current.user.role === "ADMIN"
-      ? {}
-      : { ownerId: current.user.id };
+  const where = isElevatedRole(current.user.role)
+    ? {}
+    : { ownerId: current.user.id };
 
   const rows = await prisma.content.findMany({
     where,
@@ -142,7 +143,7 @@ export async function createLanguageAction(
     return { ok: false, error: current.error };
   }
 
-  if (current.user.role !== "ADMIN") {
+  if (!isElevatedRole(current.user.role)) {
     return { ok: false, error: "You are not allowed to create languages." };
   }
 
@@ -198,7 +199,7 @@ export async function deleteLanguageAction(
     return { ok: false, error: current.error };
   }
 
-  if (current.user.role !== "ADMIN") {
+  if (!isElevatedRole(current.user.role)) {
     return { ok: false, error: "You are not allowed to delete languages." };
   }
 

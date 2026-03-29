@@ -44,10 +44,6 @@ export async function POST(request: Request) {
         where: { id: ua.userId },
         data: { name },
       });
-      await prisma.userProfile.updateMany({
-        where: { userAuthId: ua.id },
-        data: { displayName: name },
-      });
     }
 
     return NextResponse.json({ ok: true });

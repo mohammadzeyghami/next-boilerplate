@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import AdminUsersPage from "@/modules/admin-users/pages/AdminUsers";
 import { isElevatedRole } from "@/lib/user-auth/roles";
-import LanguagePage from "@/modules/language/pages/Language";
 import { redirect } from "next/navigation";
 
-export default async function LanguagesDashboardPage() {
+export default async function AdminUsersDashboardPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
@@ -13,7 +13,11 @@ export default async function LanguagesDashboardPage() {
     select: { role: true },
   });
 
-  const canManageLanguages = isElevatedRole(user?.role);
+  if (!isElevatedRole(user?.role)) {
+    redirect("/dashboard");
+  }
 
-  return <LanguagePage canManageLanguages={canManageLanguages} />;
+  return (
+    <AdminUsersPage canAssignSuperAdmin={user?.role === "SUPER_ADMIN"} />
+  );
 }

@@ -46,10 +46,6 @@ export async function registerWithPasswordAction(
       where: { id: ua.userId },
       data: { name },
     })
-    await prisma.userProfile.updateMany({
-      where: { userAuthId: ua.id },
-      data: { displayName: name },
-    })
   }
 
   return { ok: true }

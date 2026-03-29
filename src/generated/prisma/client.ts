@@ -48,14 +48,9 @@ export { Prisma }
 export type User = Prisma.UserModel
 /**
  * Model UserAuth
- * Application auth record (guest, OTP, username/password, etc.)
+ * Identity + profile (single record per user)
  */
 export type UserAuth = Prisma.UserAuthModel
-/**
- * Model UserProfile
- * 
- */
-export type UserProfile = Prisma.UserProfileModel
 /**
  * Model RefreshToken
  * 
