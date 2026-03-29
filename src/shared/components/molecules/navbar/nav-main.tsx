@@ -6,6 +6,7 @@ import {
   IconCirclePlusFilled,
   IconFileDescription,
   IconLanguage,
+  IconTags,
   IconUsers,
 } from "@tabler/icons-react";
 
@@ -26,6 +27,7 @@ const NAV_ICONS: Record<
 > = {
   content: IconFileDescription,
   languages: IconLanguage,
+  tags: IconTags,
   users: IconUsers,
 };
 

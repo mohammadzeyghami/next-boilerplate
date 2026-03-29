@@ -389,6 +389,7 @@ export const ModelName = {
   RefreshToken: 'RefreshToken',
   Content: 'Content',
   Language: 'Language',
+  ContentTag: 'ContentTag',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
@@ -408,7 +409,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userAuth" | "refreshToken" | "content" | "language" | "account" | "session" | "verificationToken" | "passwordResetToken"
+    modelProps: "user" | "userAuth" | "refreshToken" | "content" | "language" | "contentTag" | "account" | "session" | "verificationToken" | "passwordResetToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -782,6 +783,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ContentTag: {
+      payload: Prisma.$ContentTagPayload<ExtArgs>
+      fields: Prisma.ContentTagFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ContentTagFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTagPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ContentTagFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTagPayload>
+        }
+        findFirst: {
+          args: Prisma.ContentTagFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTagPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ContentTagFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTagPayload>
+        }
+        findMany: {
+          args: Prisma.ContentTagFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTagPayload>[]
+        }
+        create: {
+          args: Prisma.ContentTagCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTagPayload>
+        }
+        createMany: {
+          args: Prisma.ContentTagCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ContentTagCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTagPayload>[]
+        }
+        delete: {
+          args: Prisma.ContentTagDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTagPayload>
+        }
+        update: {
+          args: Prisma.ContentTagUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTagPayload>
+        }
+        deleteMany: {
+          args: Prisma.ContentTagDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ContentTagUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ContentTagUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTagPayload>[]
+        }
+        upsert: {
+          args: Prisma.ContentTagUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTagPayload>
+        }
+        aggregate: {
+          args: Prisma.ContentTagAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateContentTag>
+        }
+        groupBy: {
+          args: Prisma.ContentTagGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContentTagGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ContentTagCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContentTagCountAggregateOutputType> | number
+        }
+      }
+    }
     Account: {
       payload: Prisma.$AccountPayload<ExtArgs>
       fields: Prisma.AccountFieldRefs
@@ -1141,6 +1216,8 @@ export const UserAuthScalarFieldEnum = {
   inviteCode: 'inviteCode',
   inviterId: 'inviterId',
   status: 'status',
+  name: 'name',
+  profileRole: 'profileRole',
   lastName: 'lastName',
   born: 'born',
   metadata: 'metadata',
@@ -1192,6 +1269,20 @@ export const LanguageScalarFieldEnum = {
 } as const
 
 export type LanguageScalarFieldEnum = (typeof LanguageScalarFieldEnum)[keyof typeof LanguageScalarFieldEnum]
+
+
+export const ContentTagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  label: 'label',
+  metadata: 'metadata',
+  contentIds: 'contentIds',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ContentTagScalarFieldEnum = (typeof ContentTagScalarFieldEnum)[keyof typeof ContentTagScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {
@@ -1349,6 +1440,20 @@ export type EnumStatusAccountFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'StatusAccount[]'
  */
 export type ListEnumStatusAccountFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusAccount[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ProfileRole'
+ */
+export type EnumProfileRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfileRole'>
+    
+
+
+/**
+ * Reference to a field of type 'ProfileRole[]'
+ */
+export type ListEnumProfileRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfileRole[]'>
     
 
 
@@ -1521,6 +1626,7 @@ export type GlobalOmitConfig = {
   refreshToken?: Prisma.RefreshTokenOmit
   content?: Prisma.ContentOmit
   language?: Prisma.LanguageOmit
+  contentTag?: Prisma.ContentTagOmit
   account?: Prisma.AccountOmit
   session?: Prisma.SessionOmit
   verificationToken?: Prisma.VerificationTokenOmit

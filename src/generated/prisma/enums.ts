@@ -18,6 +18,15 @@ export const UserRole = {
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
+export const ProfileRole = {
+  USER: 'USER',
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN'
+} as const
+
+export type ProfileRole = (typeof ProfileRole)[keyof typeof ProfileRole]
+
+
 export const StatusAccount = {
   ACTIVE: 'ACTIVE',
   DEACTIVE: 'DEACTIVE',

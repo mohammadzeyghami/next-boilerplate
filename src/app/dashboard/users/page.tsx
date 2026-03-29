@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import AdminUsersPage from "@/modules/admin-users/pages/AdminUsers";
-import { isElevatedRole } from "@/lib/user-auth/roles";
+import { canAccessAdminUsersModule } from "@/lib/user-auth/roles";
 import { redirect } from "next/navigation";
 
 export default async function AdminUsersDashboardPage() {
@@ -13,7 +13,7 @@ export default async function AdminUsersDashboardPage() {
     select: { role: true },
   });
 
-  if (!isElevatedRole(user?.role)) {
+  if (!canAccessAdminUsersModule(user?.role)) {
     redirect("/dashboard");
   }
 

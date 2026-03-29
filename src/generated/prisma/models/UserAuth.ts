@@ -36,6 +36,8 @@ export type UserAuthMinAggregateOutputType = {
   inviteCode: string | null
   inviterId: string | null
   status: $Enums.StatusAccount | null
+  name: string | null
+  profileRole: $Enums.ProfileRole | null
   lastName: string | null
   born: Date | null
   firebaseId: string | null
@@ -56,6 +58,8 @@ export type UserAuthMaxAggregateOutputType = {
   inviteCode: string | null
   inviterId: string | null
   status: $Enums.StatusAccount | null
+  name: string | null
+  profileRole: $Enums.ProfileRole | null
   lastName: string | null
   born: Date | null
   firebaseId: string | null
@@ -76,6 +80,8 @@ export type UserAuthCountAggregateOutputType = {
   inviteCode: number
   inviterId: number
   status: number
+  name: number
+  profileRole: number
   lastName: number
   born: number
   metadata: number
@@ -100,6 +106,8 @@ export type UserAuthMinAggregateInputType = {
   inviteCode?: true
   inviterId?: true
   status?: true
+  name?: true
+  profileRole?: true
   lastName?: true
   born?: true
   firebaseId?: true
@@ -120,6 +128,8 @@ export type UserAuthMaxAggregateInputType = {
   inviteCode?: true
   inviterId?: true
   status?: true
+  name?: true
+  profileRole?: true
   lastName?: true
   born?: true
   firebaseId?: true
@@ -140,6 +150,8 @@ export type UserAuthCountAggregateInputType = {
   inviteCode?: true
   inviterId?: true
   status?: true
+  name?: true
+  profileRole?: true
   lastName?: true
   born?: true
   metadata?: true
@@ -235,6 +247,8 @@ export type UserAuthGroupByOutputType = {
   inviteCode: string
   inviterId: string | null
   status: $Enums.StatusAccount
+  name: string | null
+  profileRole: $Enums.ProfileRole
   lastName: string | null
   born: Date | null
   metadata: runtime.JsonValue | null
@@ -278,6 +292,8 @@ export type UserAuthWhereInput = {
   inviteCode?: Prisma.StringFilter<"UserAuth"> | string
   inviterId?: Prisma.StringNullableFilter<"UserAuth"> | string | null
   status?: Prisma.EnumStatusAccountFilter<"UserAuth"> | $Enums.StatusAccount
+  name?: Prisma.StringNullableFilter<"UserAuth"> | string | null
+  profileRole?: Prisma.EnumProfileRoleFilter<"UserAuth"> | $Enums.ProfileRole
   lastName?: Prisma.StringNullableFilter<"UserAuth"> | string | null
   born?: Prisma.DateTimeNullableFilter<"UserAuth"> | Date | string | null
   metadata?: Prisma.JsonNullableFilter<"UserAuth">
@@ -304,6 +320,8 @@ export type UserAuthOrderByWithRelationInput = {
   inviteCode?: Prisma.SortOrder
   inviterId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  name?: Prisma.SortOrderInput | Prisma.SortOrder
+  profileRole?: Prisma.SortOrder
   lastName?: Prisma.SortOrderInput | Prisma.SortOrder
   born?: Prisma.SortOrderInput | Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -335,6 +353,8 @@ export type UserAuthWhereUniqueInput = Prisma.AtLeast<{
   isGuest?: Prisma.BoolFilter<"UserAuth"> | boolean
   inviterId?: Prisma.StringNullableFilter<"UserAuth"> | string | null
   status?: Prisma.EnumStatusAccountFilter<"UserAuth"> | $Enums.StatusAccount
+  name?: Prisma.StringNullableFilter<"UserAuth"> | string | null
+  profileRole?: Prisma.EnumProfileRoleFilter<"UserAuth"> | $Enums.ProfileRole
   lastName?: Prisma.StringNullableFilter<"UserAuth"> | string | null
   born?: Prisma.DateTimeNullableFilter<"UserAuth"> | Date | string | null
   metadata?: Prisma.JsonNullableFilter<"UserAuth">
@@ -359,6 +379,8 @@ export type UserAuthOrderByWithAggregationInput = {
   inviteCode?: Prisma.SortOrder
   inviterId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  name?: Prisma.SortOrderInput | Prisma.SortOrder
+  profileRole?: Prisma.SortOrder
   lastName?: Prisma.SortOrderInput | Prisma.SortOrder
   born?: Prisma.SortOrderInput | Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -387,6 +409,8 @@ export type UserAuthScalarWhereWithAggregatesInput = {
   inviteCode?: Prisma.StringWithAggregatesFilter<"UserAuth"> | string
   inviterId?: Prisma.StringNullableWithAggregatesFilter<"UserAuth"> | string | null
   status?: Prisma.EnumStatusAccountWithAggregatesFilter<"UserAuth"> | $Enums.StatusAccount
+  name?: Prisma.StringNullableWithAggregatesFilter<"UserAuth"> | string | null
+  profileRole?: Prisma.EnumProfileRoleWithAggregatesFilter<"UserAuth"> | $Enums.ProfileRole
   lastName?: Prisma.StringNullableWithAggregatesFilter<"UserAuth"> | string | null
   born?: Prisma.DateTimeNullableWithAggregatesFilter<"UserAuth"> | Date | string | null
   metadata?: Prisma.JsonNullableWithAggregatesFilter<"UserAuth">
@@ -407,6 +431,8 @@ export type UserAuthCreateInput = {
   isGuest?: boolean
   inviteCode: string
   status?: $Enums.StatusAccount
+  name?: string | null
+  profileRole?: $Enums.ProfileRole
   lastName?: string | null
   born?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -433,6 +459,8 @@ export type UserAuthUncheckedCreateInput = {
   inviteCode: string
   inviterId?: string | null
   status?: $Enums.StatusAccount
+  name?: string | null
+  profileRole?: $Enums.ProfileRole
   lastName?: string | null
   born?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -455,6 +483,8 @@ export type UserAuthUpdateInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -481,6 +511,8 @@ export type UserAuthUncheckedUpdateInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -505,6 +537,8 @@ export type UserAuthCreateManyInput = {
   inviteCode: string
   inviterId?: string | null
   status?: $Enums.StatusAccount
+  name?: string | null
+  profileRole?: $Enums.ProfileRole
   lastName?: string | null
   born?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -525,6 +559,8 @@ export type UserAuthUpdateManyMutationInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -547,6 +583,8 @@ export type UserAuthUncheckedUpdateManyInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -592,6 +630,8 @@ export type UserAuthCountOrderByAggregateInput = {
   inviteCode?: Prisma.SortOrder
   inviterId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  profileRole?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   born?: Prisma.SortOrder
   metadata?: Prisma.SortOrder
@@ -614,6 +654,8 @@ export type UserAuthMaxOrderByAggregateInput = {
   inviteCode?: Prisma.SortOrder
   inviterId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  profileRole?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   born?: Prisma.SortOrder
   firebaseId?: Prisma.SortOrder
@@ -634,6 +676,8 @@ export type UserAuthMinOrderByAggregateInput = {
   inviteCode?: Prisma.SortOrder
   inviterId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  profileRole?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   born?: Prisma.SortOrder
   firebaseId?: Prisma.SortOrder
@@ -711,6 +755,10 @@ export type EnumStatusAccountFieldUpdateOperationsInput = {
   set?: $Enums.StatusAccount
 }
 
+export type EnumProfileRoleFieldUpdateOperationsInput = {
+  set?: $Enums.ProfileRole
+}
+
 export type UserAuthUpdatecontentIdsInput = {
   set?: string[]
   push?: string | string[]
@@ -782,6 +830,8 @@ export type UserAuthCreateWithoutUserInput = {
   isGuest?: boolean
   inviteCode: string
   status?: $Enums.StatusAccount
+  name?: string | null
+  profileRole?: $Enums.ProfileRole
   lastName?: string | null
   born?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -806,6 +856,8 @@ export type UserAuthUncheckedCreateWithoutUserInput = {
   inviteCode: string
   inviterId?: string | null
   status?: $Enums.StatusAccount
+  name?: string | null
+  profileRole?: $Enums.ProfileRole
   lastName?: string | null
   born?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -844,6 +896,8 @@ export type UserAuthUpdateWithoutUserInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -868,6 +922,8 @@ export type UserAuthUncheckedUpdateWithoutUserInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -890,6 +946,8 @@ export type UserAuthCreateWithoutInviteesInput = {
   isGuest?: boolean
   inviteCode: string
   status?: $Enums.StatusAccount
+  name?: string | null
+  profileRole?: $Enums.ProfileRole
   lastName?: string | null
   born?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -915,6 +973,8 @@ export type UserAuthUncheckedCreateWithoutInviteesInput = {
   inviteCode: string
   inviterId?: string | null
   status?: $Enums.StatusAccount
+  name?: string | null
+  profileRole?: $Enums.ProfileRole
   lastName?: string | null
   born?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -941,6 +1001,8 @@ export type UserAuthCreateWithoutInviterInput = {
   isGuest?: boolean
   inviteCode: string
   status?: $Enums.StatusAccount
+  name?: string | null
+  profileRole?: $Enums.ProfileRole
   lastName?: string | null
   born?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -965,6 +1027,8 @@ export type UserAuthUncheckedCreateWithoutInviterInput = {
   isGuest?: boolean
   inviteCode: string
   status?: $Enums.StatusAccount
+  name?: string | null
+  profileRole?: $Enums.ProfileRole
   lastName?: string | null
   born?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1008,6 +1072,8 @@ export type UserAuthUpdateWithoutInviteesInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1033,6 +1099,8 @@ export type UserAuthUncheckedUpdateWithoutInviteesInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1075,6 +1143,8 @@ export type UserAuthScalarWhereInput = {
   inviteCode?: Prisma.StringFilter<"UserAuth"> | string
   inviterId?: Prisma.StringNullableFilter<"UserAuth"> | string | null
   status?: Prisma.EnumStatusAccountFilter<"UserAuth"> | $Enums.StatusAccount
+  name?: Prisma.StringNullableFilter<"UserAuth"> | string | null
+  profileRole?: Prisma.EnumProfileRoleFilter<"UserAuth"> | $Enums.ProfileRole
   lastName?: Prisma.StringNullableFilter<"UserAuth"> | string | null
   born?: Prisma.DateTimeNullableFilter<"UserAuth"> | Date | string | null
   metadata?: Prisma.JsonNullableFilter<"UserAuth">
@@ -1095,6 +1165,8 @@ export type UserAuthCreateWithoutRefreshTokensInput = {
   isGuest?: boolean
   inviteCode: string
   status?: $Enums.StatusAccount
+  name?: string | null
+  profileRole?: $Enums.ProfileRole
   lastName?: string | null
   born?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1120,6 +1192,8 @@ export type UserAuthUncheckedCreateWithoutRefreshTokensInput = {
   inviteCode: string
   inviterId?: string | null
   status?: $Enums.StatusAccount
+  name?: string | null
+  profileRole?: $Enums.ProfileRole
   lastName?: string | null
   born?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1157,6 +1231,8 @@ export type UserAuthUpdateWithoutRefreshTokensInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1182,6 +1258,8 @@ export type UserAuthUncheckedUpdateWithoutRefreshTokensInput = {
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   inviterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1204,6 +1282,8 @@ export type UserAuthCreateManyInviterInput = {
   isGuest?: boolean
   inviteCode: string
   status?: $Enums.StatusAccount
+  name?: string | null
+  profileRole?: $Enums.ProfileRole
   lastName?: string | null
   born?: Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1224,6 +1304,8 @@ export type UserAuthUpdateWithoutInviterInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1248,6 +1330,8 @@ export type UserAuthUncheckedUpdateWithoutInviterInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1271,6 +1355,8 @@ export type UserAuthUncheckedUpdateManyWithoutInviterInput = {
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   inviteCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumStatusAccountFieldUpdateOperationsInput | $Enums.StatusAccount
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profileRole?: Prisma.EnumProfileRoleFieldUpdateOperationsInput | $Enums.ProfileRole
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   born?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1333,6 +1419,8 @@ export type UserAuthSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   inviteCode?: boolean
   inviterId?: boolean
   status?: boolean
+  name?: boolean
+  profileRole?: boolean
   lastName?: boolean
   born?: boolean
   metadata?: boolean
@@ -1360,6 +1448,8 @@ export type UserAuthSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   inviteCode?: boolean
   inviterId?: boolean
   status?: boolean
+  name?: boolean
+  profileRole?: boolean
   lastName?: boolean
   born?: boolean
   metadata?: boolean
@@ -1384,6 +1474,8 @@ export type UserAuthSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   inviteCode?: boolean
   inviterId?: boolean
   status?: boolean
+  name?: boolean
+  profileRole?: boolean
   lastName?: boolean
   born?: boolean
   metadata?: boolean
@@ -1408,6 +1500,8 @@ export type UserAuthSelectScalar = {
   inviteCode?: boolean
   inviterId?: boolean
   status?: boolean
+  name?: boolean
+  profileRole?: boolean
   lastName?: boolean
   born?: boolean
   metadata?: boolean
@@ -1418,7 +1512,7 @@ export type UserAuthSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserAuthOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "deviceId" | "username" | "email" | "phoneNumber" | "passwordHash" | "isGuest" | "inviteCode" | "inviterId" | "status" | "lastName" | "born" | "metadata" | "contentIds" | "firebaseId" | "steamId" | "createdAt" | "updatedAt", ExtArgs["result"]["userAuth"]>
+export type UserAuthOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "deviceId" | "username" | "email" | "phoneNumber" | "passwordHash" | "isGuest" | "inviteCode" | "inviterId" | "status" | "name" | "profileRole" | "lastName" | "born" | "metadata" | "contentIds" | "firebaseId" | "steamId" | "createdAt" | "updatedAt", ExtArgs["result"]["userAuth"]>
 export type UserAuthInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   inviter?: boolean | Prisma.UserAuth$inviterArgs<ExtArgs>
@@ -1455,6 +1549,8 @@ export type $UserAuthPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     inviteCode: string
     inviterId: string | null
     status: $Enums.StatusAccount
+    name: string | null
+    profileRole: $Enums.ProfileRole
     lastName: string | null
     born: Date | null
     metadata: runtime.JsonValue | null
@@ -1901,6 +1997,8 @@ export interface UserAuthFieldRefs {
   readonly inviteCode: Prisma.FieldRef<"UserAuth", 'String'>
   readonly inviterId: Prisma.FieldRef<"UserAuth", 'String'>
   readonly status: Prisma.FieldRef<"UserAuth", 'StatusAccount'>
+  readonly name: Prisma.FieldRef<"UserAuth", 'String'>
+  readonly profileRole: Prisma.FieldRef<"UserAuth", 'ProfileRole'>
   readonly lastName: Prisma.FieldRef<"UserAuth", 'String'>
   readonly born: Prisma.FieldRef<"UserAuth", 'DateTime'>
   readonly metadata: Prisma.FieldRef<"UserAuth", 'Json'>

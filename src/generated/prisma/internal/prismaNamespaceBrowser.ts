@@ -56,6 +56,7 @@ export const ModelName = {
   RefreshToken: 'RefreshToken',
   Content: 'Content',
   Language: 'Language',
+  ContentTag: 'ContentTag',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
@@ -102,6 +103,8 @@ export const UserAuthScalarFieldEnum = {
   inviteCode: 'inviteCode',
   inviterId: 'inviterId',
   status: 'status',
+  name: 'name',
+  profileRole: 'profileRole',
   lastName: 'lastName',
   born: 'born',
   metadata: 'metadata',
@@ -153,6 +156,20 @@ export const LanguageScalarFieldEnum = {
 } as const
 
 export type LanguageScalarFieldEnum = (typeof LanguageScalarFieldEnum)[keyof typeof LanguageScalarFieldEnum]
+
+
+export const ContentTagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  label: 'label',
+  metadata: 'metadata',
+  contentIds: 'contentIds',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ContentTagScalarFieldEnum = (typeof ContentTagScalarFieldEnum)[keyof typeof ContentTagScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {

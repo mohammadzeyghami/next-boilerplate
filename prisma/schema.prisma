@@ -144,6 +144,21 @@ model Language {
   @@index([name])
 }
 
+/// Maps to table "Tag"; model name yields `prisma.contentTag` (avoids fragile `prisma.tag` in dev).
+model ContentTag {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  label       String?
+  metadata    Json?
+  contentIds  String[] @default([])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("Tag")
+  @@index([name])
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String

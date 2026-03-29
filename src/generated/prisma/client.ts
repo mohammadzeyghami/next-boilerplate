@@ -67,6 +67,11 @@ export type Content = Prisma.ContentModel
  */
 export type Language = Prisma.LanguageModel
 /**
+ * Model ContentTag
+ * Maps to table "Tag"; model name yields `prisma.contentTag` (avoids fragile `prisma.tag` in dev).
+ */
+export type ContentTag = Prisma.ContentTagModel
+/**
  * Model Account
  * 
  */

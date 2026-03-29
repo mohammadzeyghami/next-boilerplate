@@ -9,7 +9,7 @@ import {
 import { AppSidebar } from "@/shared/components/sections/sidebar/dashboardSidebar";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { isElevatedRole } from "@/lib/user-auth/roles";
+import { canAccessAdminUsersModule } from "@/lib/user-auth/roles";
 import React from "react";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
@@ -26,7 +26,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
       where: { id: session.user.id },
       select: { role: true },
     });
-    if (isElevatedRole(dbUser?.role)) {
+    if (canAccessAdminUsersModule(dbUser?.role)) {
       mainNav = [...mainNav, dashboardUsersNavItem];
     }
   }
