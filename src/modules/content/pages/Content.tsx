@@ -12,13 +12,16 @@ import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalF
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contentFormSchema } from "../interfaces/content.schema";
 import { createContentAction } from "../actions/content.actions";
+import { ContentDeleteButton } from "../components/content-delete-button";
+import { ContentEditDialog } from "../components/content-edit-dialog";
 import { toast } from "@/shared/components/atoms/toast/toast-store";
 import { toFormData } from "@/shared/utils/toFormData";
 import ContentForm from "./form";
+import type { ContentListItem } from "../types/content-list-item";
 type ContentAccess = "PUBLIC" | "PRIVATE";
 type ContentType = "TEXT" | "IMAGE" | "VIDEO" | "SOUND" | "FILE";
 
-export type ContentItem = {
+export type ContentItem = ContentListItem & {
   id: string;
   name: string;
   ownerId: string;
@@ -174,6 +177,19 @@ export default function ContentPage({ items }: { items: ContentItem[] }) {
           const date = new Date(getValue<string>());
           return date.toLocaleDateString();
         },
+      },
+      {
+        id: "actions",
+        header: "Actions",
+        cell: ({ row }) => (
+          <div
+            data-table-no-copy
+            className="flex flex-wrap items-center gap-2"
+          >
+            <ContentEditDialog item={row.original} />
+            <ContentDeleteButton contentId={row.original.id} />
+          </div>
+        ),
       },
     ],
     [],

@@ -2,8 +2,8 @@
 
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { Trash2 } from "lucide-react";
 
-import { Button } from "@/shared/components/atoms/button/Button";
 import { deleteContentAction } from "@/modules/content/actions/content.actions";
 
 type ContentDeleteButtonProps = {
@@ -15,12 +15,12 @@ export function ContentDeleteButton({ contentId }: ContentDeleteButtonProps) {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <Button
+    <button
       type="button"
-      variant="outline"
-      size="sm"
       disabled={isPending}
-      className="text-destructive hover:bg-destructive/10"
+      aria-label="Delete content"
+      title="Delete"
+      className="inline-flex size-9 items-center justify-center rounded-md text-destructive transition-colors hover:bg-destructive/10 disabled:cursor-not-allowed disabled:opacity-50"
       onClick={() =>
         startTransition(async () => {
           const res = await deleteContentAction(contentId);
@@ -28,7 +28,7 @@ export function ContentDeleteButton({ contentId }: ContentDeleteButtonProps) {
         })
       }
     >
-      {isPending ? "…" : "Delete"}
-    </Button>
+      {isPending ? <span className="text-sm">…</span> : <Trash2 className="size-4" />}
+    </button>
   );
 }

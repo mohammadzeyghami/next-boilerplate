@@ -38,7 +38,6 @@ export function ContentEditDialog({ item }: ContentEditDialogProps) {
     null,
   );
   const [metadataText, setMetadataText] = useState(
-    // @ts-ignore
     item.metadata ? JSON.stringify(item.metadata, null, 2) : "",
   );
 
@@ -53,8 +52,7 @@ export function ContentEditDialog({ item }: ContentEditDialogProps) {
       access: item.access,
       type: item.type,
       isEarnable: item.isEarnable,
-      // @ts-ignore
-      metadata: item.metadata ?? null,
+      metadata: item.metadata ? JSON.stringify(item.metadata) : "",
     },
   });
 
@@ -70,7 +68,6 @@ export function ContentEditDialog({ item }: ContentEditDialogProps) {
     setError(null);
     setRemoveFile(false);
     setMetadataText(
-      // @ts-ignore
       item.metadata ? JSON.stringify(item.metadata, null, 2) : "",
     );
 
@@ -80,8 +77,7 @@ export function ContentEditDialog({ item }: ContentEditDialogProps) {
       access: item.access,
       type: item.type,
       isEarnable: item.isEarnable,
-      // @ts-ignore
-      metadata: item.metadata ?? null,
+      metadata: item.metadata ? JSON.stringify(item.metadata) : "",
     });
 
     if (fileRef.current) {
@@ -101,7 +97,6 @@ export function ContentEditDialog({ item }: ContentEditDialogProps) {
     item.access,
     item.type,
     item.isEarnable,
-    // @ts-ignore
     item.metadata,
     methods,
   ]);
@@ -168,11 +163,12 @@ export function ContentEditDialog({ item }: ContentEditDialogProps) {
       fd.append("isEarnable", String(values.isEarnable));
 
       try {
-        const parsedMetadata = metadataText.trim()
-          ? JSON.parse(metadataText)
-          : null;
-
-        fd.append("metadata", JSON.stringify(parsedMetadata));
+        if (metadataText.trim()) {
+          const parsedMetadata = JSON.parse(metadataText);
+          fd.append("metadata", JSON.stringify(parsedMetadata));
+        } else {
+          fd.append("metadata", "");
+        }
       } catch {
         setError("Metadata must be valid JSON.");
         return;
@@ -212,16 +208,15 @@ export function ContentEditDialog({ item }: ContentEditDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button
+      <button
         type="button"
-        variant="outline"
-        size="sm"
-        className="gap-1.5"
+        aria-label="Edit content"
+        title="Edit"
+        className="inline-flex size-9 items-center justify-center rounded-md transition-colors hover:bg-muted"
         onClick={() => setOpen(true)}
       >
-        <Pencil className="size-3.5" aria-hidden />
-        Edit
-      </Button>
+        <Pencil className="size-4" aria-hidden />
+      </button>
 
       <DialogContent className="max-h-[min(90vh,720px)] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
@@ -231,7 +226,6 @@ export function ContentEditDialog({ item }: ContentEditDialogProps) {
           </DialogDescription>
         </DialogHeader>
 
-        {/* @ts-ignore */}
         <FormProvider methods={methods} onSubmit={onSubmit}>
           <div className="grid gap-4 py-2">
             {error ? <FormError message={error} /> : null}

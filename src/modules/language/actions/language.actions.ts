@@ -191,6 +191,72 @@ export async function createLanguageAction(
   return { ok: true };
 }
 
+export async function updateLanguageAction(
+  formData: FormData,
+): Promise<LanguageActionResult> {
+  const current = await getCurrentDbUser();
+  if ("error" in current) {
+    return { ok: false, error: current.error };
+  }
+
+  if (!isElevatedRole(current.user.role)) {
+    return { ok: false, error: "You are not allowed to update languages." };
+  }
+
+  const id = String(formData.get("id") ?? "").trim();
+  const name = String(formData.get("name") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
+  const contentIds = parseContentIdsJson(formData.get("contentIds"));
+
+  if (!id) {
+    return { ok: false, error: "Missing language id." };
+  }
+
+  const parsed = languageCreateSchema.safeParse({
+    name,
+    description,
+    contentIds,
+  });
+
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: parsed.error.issues[0]?.message ?? "Invalid input.",
+    };
+  }
+
+  const { name: n, description: descRaw, contentIds: ids } = parsed.data;
+  const d = descRaw.trim();
+
+  if (ids.length > 0) {
+    const count = await prisma.content.count({
+      where: { id: { in: ids } },
+    });
+    if (count !== ids.length) {
+      return {
+        ok: false,
+        error: "One or more selected contents do not exist.",
+      };
+    }
+  }
+
+  try {
+    await prisma.language.update({
+      where: { id },
+      data: {
+        name: n,
+        description: d ? d : null,
+        contentIds: ids,
+      },
+    });
+  } catch {
+    return { ok: false, error: "Language not found." };
+  }
+
+  revalidatePath("/dashboard/languages");
+  return { ok: true };
+}
+
 export async function deleteLanguageAction(
   id: string,
 ): Promise<LanguageActionResult> {

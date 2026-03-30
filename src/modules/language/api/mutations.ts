@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createLanguageAction,
   deleteLanguageAction,
+  updateLanguageAction,
 } from "@/modules/language/actions/language.actions";
 import { toFormData } from "@/shared/utils/toFormData";
 
@@ -37,6 +38,30 @@ export function useDeleteLanguageMutation() {
 
   return useMutation({
     mutationFn: (id: string) => deleteLanguageAction(id),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: languageKeys.list() });
+    },
+  });
+}
+
+export function useUpdateLanguageMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (payload: {
+      id: string;
+      name: string;
+      description: string;
+      contentIds: string[];
+    }) => {
+      const formData = toFormData({
+        id: payload.id,
+        name: payload.name,
+        description: payload.description,
+        contentIds: payload.contentIds,
+      });
+      return updateLanguageAction(formData);
+    },
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: languageKeys.list() });
     },

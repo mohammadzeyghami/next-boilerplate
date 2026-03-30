@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import { type ColumnDef } from "@tanstack/react-table";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,6 +21,7 @@ import {
 import {
   useCreateLanguageMutation,
   useDeleteLanguageMutation,
+  useUpdateLanguageMutation,
 } from "../api/mutations";
 import {
   useLanguageContentOptionsQuery,
@@ -34,6 +35,9 @@ export default function LanguagePage({
   canManageLanguages: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const [editingLanguage, setEditingLanguage] = useState<LanguageDto | null>(
+    null,
+  );
 
   const {
     data: languages = [],
@@ -44,11 +48,12 @@ export default function LanguagePage({
   } = useLanguagesQuery();
 
   const { data: contentOptions = [] } = useLanguageContentOptionsQuery(
-    canManageLanguages && open,
+    canManageLanguages && (open || Boolean(editingLanguage)),
   );
 
   const createMutation = useCreateLanguageMutation();
   const deleteMutation = useDeleteLanguageMutation();
+  const updateMutation = useUpdateLanguageMutation();
 
   const methods = useForm<LanguageFormValues>({
     defaultValues: {
@@ -79,6 +84,38 @@ export default function LanguagePage({
     setOpen(false);
   };
 
+  const editMethods = useForm<LanguageFormValues>({
+    defaultValues: {
+      name: "",
+      description: "",
+      contentIds: [],
+    },
+    resolver: zodResolver(languageFormSchema),
+  });
+
+  const onEditSubmit = async (values: LanguageFormValues) => {
+    if (!editingLanguage) return;
+
+    const res = await updateMutation.mutateAsync({
+      id: editingLanguage.id,
+      name: values.name.trim(),
+      description: values.description.trim(),
+      contentIds: values.contentIds,
+    });
+
+    if (!res.ok) {
+      toast({
+        title: "Failed to update language",
+        description: res.error ?? "Please try again.",
+      });
+      return;
+    }
+
+    toast({ title: "Language updated" });
+    editMethods.reset();
+    setEditingLanguage(null);
+  };
+
   const columns: ColumnDef<LanguageDto>[] = useMemo(
     () => [
       { accessorKey: "name", header: "Name" },
@@ -107,35 +144,57 @@ export default function LanguagePage({
               id: "actions",
               header: "",
               cell: ({ row }) => (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="text-destructive hover:text-destructive"
-                  disabled={deleteMutation.isPending}
-                  onClick={async () => {
-                    const res = await deleteMutation.mutateAsync(
-                      row.original.id,
-                    );
-                    if (!res.ok) {
-                      toast({
-                        title: "Delete failed",
-                        description: res.error ?? "Try again.",
-                      });
-                      return;
-                    }
-                    toast({ title: "Language removed" });
-                  }}
-                  aria-label={`Delete ${row.original.name}`}
+                <div
+                  data-table-no-copy
+                  className="flex items-center justify-end gap-1"
                 >
-                  <Trash2 className="size-4" />
-                </Button>
+                  <button
+                    type="button"
+                    className="inline-flex size-9 items-center justify-center rounded-md transition-colors hover:bg-muted"
+                    aria-label={`Edit ${row.original.name}`}
+                    title="Edit"
+                    onClick={() => {
+                      editMethods.reset({
+                        name: row.original.name,
+                        description: row.original.description ?? "",
+                        contentIds: row.original.contentIds,
+                      });
+                      setEditingLanguage(row.original);
+                    }}
+                  >
+                    <Pencil className="size-4" />
+                  </button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="text-destructive hover:text-destructive"
+                    disabled={deleteMutation.isPending}
+                    onClick={async () => {
+                      console.log(row.original);
+                      const res = await deleteMutation.mutateAsync(
+                        row.original.id,
+                      );
+                      if (!res.ok) {
+                        toast({
+                          title: "Delete failed",
+                          description: res.error ?? "Try again.",
+                        });
+                        return;
+                      }
+                      toast({ title: "Language removed" });
+                    }}
+                    aria-label={`Delete ${row.original.name}`}
+                  >
+                    <Trash2 className="size-4" />
+                  </Button>
+                </div>
               ),
             } satisfies ColumnDef<LanguageDto>,
           ]
         : []),
     ],
-    [canManageLanguages, deleteMutation],
+    [canManageLanguages, deleteMutation, editMethods],
   );
 
   return (
@@ -197,6 +256,29 @@ export default function LanguagePage({
           confirmText="Save"
           submitting={
             methods.formState.isSubmitting || createMutation.isPending
+          }
+        >
+          <LanguageForm contentOptions={contentOptions} />
+        </ModalFormShell>
+      )}
+
+      {canManageLanguages && editingLanguage && (
+        <ModalFormShell
+          open={Boolean(editingLanguage)}
+          onOpenChange={(next) => {
+            if (!next) {
+              editMethods.reset();
+              setEditingLanguage(null);
+            }
+          }}
+          methods={editMethods}
+          onSubmit={onEditSubmit}
+          title="Edit language"
+          description="Update the language details and linked contents."
+          size="lg"
+          confirmText="Save changes"
+          submitting={
+            editMethods.formState.isSubmitting || updateMutation.isPending
           }
         >
           <LanguageForm contentOptions={contentOptions} />

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const contentAccessValues = ["PRIVATE", "PUBLIC"] as const;
+
 export const contentTypeValues = [
   "TEXT",
   "IMAGE",
@@ -20,7 +21,9 @@ export const contentFormSchema = z
     text: z
       .string()
       .trim()
-      .max(20000, "Text must be at most 20,000 characters."),
+      .max(20000, "Text must be at most 20,000 characters.")
+      .optional()
+      .or(z.literal("")),
 
     access: z.enum(contentAccessValues),
 
@@ -28,9 +31,9 @@ export const contentFormSchema = z
 
     isEarnable: z.boolean(),
 
-    contentUrl: z.string().trim(),
+    contentUrl: z.string().trim().optional().or(z.literal("")),
 
-    metadata: z.string().trim(),
+    metadata: z.string().trim().optional().or(z.literal("")),
   })
   .superRefine((values, ctx) => {
     const needsFileUrl = ["IMAGE", "VIDEO", "SOUND", "FILE"].includes(
