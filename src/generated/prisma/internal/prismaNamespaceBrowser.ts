@@ -58,6 +58,8 @@ export const ModelName = {
   Content: 'Content',
   Language: 'Language',
   ContentTag: 'ContentTag',
+  UserEvent: 'UserEvent',
+  EventTypeStatistic: 'EventTypeStatistic',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
@@ -187,6 +189,33 @@ export const ContentTagScalarFieldEnum = {
 } as const
 
 export type ContentTagScalarFieldEnum = (typeof ContentTagScalarFieldEnum)[keyof typeof ContentTagScalarFieldEnum]
+
+
+export const UserEventScalarFieldEnum = {
+  id: 'id',
+  eventType: 'eventType',
+  type: 'type',
+  userId: 'userId',
+  metadata: 'metadata',
+  payload: 'payload',
+  context: 'context',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  createdAt: 'createdAt'
+} as const
+
+export type UserEventScalarFieldEnum = (typeof UserEventScalarFieldEnum)[keyof typeof UserEventScalarFieldEnum]
+
+
+export const EventTypeStatisticScalarFieldEnum = {
+  id: 'id',
+  eventType: 'eventType',
+  count: 'count',
+  updatedAt: 'updatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type EventTypeStatisticScalarFieldEnum = (typeof EventTypeStatisticScalarFieldEnum)[keyof typeof EventTypeStatisticScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {

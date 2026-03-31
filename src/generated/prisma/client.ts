@@ -77,6 +77,16 @@ export type Language = Prisma.LanguageModel
  */
 export type ContentTag = Prisma.ContentTagModel
 /**
+ * Model UserEvent
+ * 
+ */
+export type UserEvent = Prisma.UserEventModel
+/**
+ * Model EventTypeStatistic
+ * 
+ */
+export type EventTypeStatistic = Prisma.EventTypeStatisticModel
+/**
  * Model Account
  * 
  */

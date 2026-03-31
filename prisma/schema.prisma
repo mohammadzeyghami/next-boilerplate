@@ -48,6 +48,11 @@ enum ContentType {
   FILE
 }
 
+enum UserEventActorType {
+  USER
+  SYSTEM
+}
+
 model User {
   id                  String               @id @default(cuid())
   name                String?
@@ -61,6 +66,7 @@ model User {
   sessions            Session[]
   passwordResetTokens PasswordResetToken[]
   contents            Content[]            @relation("UserContents")
+  userEvents          UserEvent[]
 }
 
 /// Identity + profile (single record per user)
@@ -172,6 +178,34 @@ model ContentTag {
 
   @@map("Tag")
   @@index([name])
+}
+
+model UserEvent {
+  id         String             @id @default(cuid())
+  eventType  String
+  type       UserEventActorType
+  userId     String
+  metadata   Json?
+  payload    Json?
+  context    Json?
+  entityType String?
+  entityId   String?
+  createdAt  DateTime           @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([eventType, createdAt])
+  @@index([type, createdAt])
+  @@index([entityType, entityId])
+}
+
+model EventTypeStatistic {
+  id        String   @id @default(cuid())
+  eventType String   @unique
+  count     Int      @default(0)
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
 }
 
 model Account {

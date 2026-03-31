@@ -4,6 +4,7 @@ import {
 } from "@/shared/components/molecules/sidebar/Default";
 import {
   baseDashboardNavMain,
+  dashboardUserEventsNavItem,
   dashboardUsersNavItem,
 } from "@/shared/components/sections/sidebar/dashboard-nav-config";
 import { AppSidebar } from "@/shared/components/sections/sidebar/dashboardSidebar";
@@ -28,7 +29,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
       select: { role: true },
     });
     if (canAccessAdminUsersModule(dbUser?.role)) {
-      mainNav = [...mainNav, dashboardUsersNavItem];
+      mainNav = [...mainNav, dashboardUserEventsNavItem, dashboardUsersNavItem];
     }
   }
 

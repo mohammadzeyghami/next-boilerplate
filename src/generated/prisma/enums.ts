@@ -69,3 +69,11 @@ export const ContentType = {
 } as const
 
 export type ContentType = (typeof ContentType)[keyof typeof ContentType]
+
+
+export const UserEventActorType = {
+  USER: 'USER',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type UserEventActorType = (typeof UserEventActorType)[keyof typeof UserEventActorType]
