@@ -399,6 +399,8 @@ export const ModelName = {
   UserCreditTimed: 'UserCreditTimed',
   Currency: 'Currency',
   UserCurrency: 'UserCurrency',
+  Meta: 'Meta',
+  UserMeta: 'UserMeta',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
@@ -418,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userAuth" | "refreshToken" | "category" | "content" | "language" | "contentTag" | "userEvent" | "eventTypeStatistic" | "credit" | "creditLifeTime" | "userCredit" | "userCreditTimed" | "currency" | "userCurrency" | "account" | "session" | "verificationToken" | "passwordResetToken"
+    modelProps: "user" | "userAuth" | "refreshToken" | "category" | "content" | "language" | "contentTag" | "userEvent" | "eventTypeStatistic" | "credit" | "creditLifeTime" | "userCredit" | "userCreditTimed" | "currency" | "userCurrency" | "meta" | "userMeta" | "account" | "session" | "verificationToken" | "passwordResetToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1532,6 +1534,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Meta: {
+      payload: Prisma.$MetaPayload<ExtArgs>
+      fields: Prisma.MetaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MetaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MetaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MetaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MetaPayload>
+        }
+        findFirst: {
+          args: Prisma.MetaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MetaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MetaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MetaPayload>
+        }
+        findMany: {
+          args: Prisma.MetaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MetaPayload>[]
+        }
+        create: {
+          args: Prisma.MetaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MetaPayload>
+        }
+        createMany: {
+          args: Prisma.MetaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MetaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MetaPayload>[]
+        }
+        delete: {
+          args: Prisma.MetaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MetaPayload>
+        }
+        update: {
+          args: Prisma.MetaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MetaPayload>
+        }
+        deleteMany: {
+          args: Prisma.MetaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MetaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MetaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MetaPayload>[]
+        }
+        upsert: {
+          args: Prisma.MetaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MetaPayload>
+        }
+        aggregate: {
+          args: Prisma.MetaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMeta>
+        }
+        groupBy: {
+          args: Prisma.MetaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MetaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MetaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MetaCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserMeta: {
+      payload: Prisma.$UserMetaPayload<ExtArgs>
+      fields: Prisma.UserMetaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserMetaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMetaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserMetaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMetaPayload>
+        }
+        findFirst: {
+          args: Prisma.UserMetaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMetaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserMetaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMetaPayload>
+        }
+        findMany: {
+          args: Prisma.UserMetaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMetaPayload>[]
+        }
+        create: {
+          args: Prisma.UserMetaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMetaPayload>
+        }
+        createMany: {
+          args: Prisma.UserMetaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserMetaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMetaPayload>[]
+        }
+        delete: {
+          args: Prisma.UserMetaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMetaPayload>
+        }
+        update: {
+          args: Prisma.UserMetaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMetaPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserMetaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserMetaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserMetaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMetaPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserMetaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMetaPayload>
+        }
+        aggregate: {
+          args: Prisma.UserMetaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserMeta>
+        }
+        groupBy: {
+          args: Prisma.UserMetaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserMetaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserMetaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserMetaCountAggregateOutputType> | number
+        }
+      }
+    }
     Account: {
       payload: Prisma.$AccountPayload<ExtArgs>
       fields: Prisma.AccountFieldRefs
@@ -2082,6 +2232,34 @@ export const UserCurrencyScalarFieldEnum = {
 export type UserCurrencyScalarFieldEnum = (typeof UserCurrencyScalarFieldEnum)[keyof typeof UserCurrencyScalarFieldEnum]
 
 
+export const MetaScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  key: 'key',
+  metadata: 'metadata',
+  contentTypes: 'contentTypes',
+  defaultValue: 'defaultValue',
+  minValue: 'minValue',
+  maxValue: 'maxValue',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MetaScalarFieldEnum = (typeof MetaScalarFieldEnum)[keyof typeof MetaScalarFieldEnum]
+
+
+export const UserMetaScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  metaId: 'metaId',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserMetaScalarFieldEnum = (typeof UserMetaScalarFieldEnum)[keyof typeof UserMetaScalarFieldEnum]
+
+
 export const AccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2447,6 +2625,8 @@ export type GlobalOmitConfig = {
   userCreditTimed?: Prisma.UserCreditTimedOmit
   currency?: Prisma.CurrencyOmit
   userCurrency?: Prisma.UserCurrencyOmit
+  meta?: Prisma.MetaOmit
+  userMeta?: Prisma.UserMetaOmit
   account?: Prisma.AccountOmit
   session?: Prisma.SessionOmit
   verificationToken?: Prisma.VerificationTokenOmit

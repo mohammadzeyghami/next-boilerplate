@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
 import { initializeDefaultCurrenciesForUserTx } from "@/modules/currency/actions/currency.actions";
+import { initializeDefaultMetasForUserTx } from "@/modules/meta/actions/meta.actions";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/user-auth/http";
 import { toAdminUserAuthDto } from "@/lib/user-auth/public-dto";
@@ -130,6 +131,7 @@ export async function POST(request: Request) {
         },
       });
       await initializeDefaultCurrenciesForUserTx(tx, user.id);
+      await initializeDefaultMetasForUserTx(tx, user.id);
       return tx.userAuth.findUniqueOrThrow({
         where: { id: row.id },
         include: {

@@ -10,6 +10,7 @@ import {
   IconFileDescription,
   IconFolders,
   IconLanguage,
+  IconMedal,
   IconTags,
   IconUsers,
 } from "@tabler/icons-react";
@@ -35,6 +36,7 @@ const NAV_ICONS: Record<
   currencies: IconCoins,
   events: IconClockBolt,
   languages: IconLanguage,
+  metas: IconMedal,
   tags: IconTags,
   users: IconUsers,
 };

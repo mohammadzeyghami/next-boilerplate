@@ -6,6 +6,7 @@ export type DashboardNavIconKey =
   | "currencies"
   | "events"
   | "languages"
+  | "metas"
   | "tags"
   | "users";
 
@@ -61,4 +62,10 @@ export const dashboardCurrenciesNavItem: DashboardNavItem = {
   title: "Currencies",
   url: "/dashboard/currencies",
   iconKey: "currencies",
+};
+
+export const dashboardMetasNavItem: DashboardNavItem = {
+  title: "Metas",
+  url: "/dashboard/metas",
+  iconKey: "metas",
 };

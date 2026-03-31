@@ -1,6 +1,7 @@
 import "server-only";
 
 import { initializeDefaultCurrenciesForUserTx } from "@/modules/currency/actions/currency.actions";
+import { initializeDefaultMetasForUserTx } from "@/modules/meta/actions/meta.actions";
 import { prisma } from "@/lib/prisma";
 
 import { generateUniqueInviteCode } from "./invite-code";
@@ -38,6 +39,7 @@ export async function createUserWithAuthProfile(input: {
       },
     });
     await initializeDefaultCurrenciesForUserTx(tx, user.id);
+    await initializeDefaultMetasForUserTx(tx, user.id);
     return tx.userAuth.findUniqueOrThrow({
       where: { id: ua.id },
       include: { user: true },

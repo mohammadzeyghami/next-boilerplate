@@ -7,6 +7,7 @@ import { z } from "zod";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { initializeDefaultCurrenciesForUserTx } from "@/modules/currency/actions/currency.actions";
+import { initializeDefaultMetasForUserTx } from "@/modules/meta/actions/meta.actions";
 import { generateUniqueInviteCode } from "@/lib/user-auth/invite-code";
 import { isElevatedRole } from "@/lib/user-auth/roles";
 import type { StatusAccount, UserRole } from "@/generated/prisma/enums";
@@ -162,6 +163,7 @@ export async function createAdminUserAction(
       },
     });
     await initializeDefaultCurrenciesForUserTx(tx, user.id);
+    await initializeDefaultMetasForUserTx(tx, user.id);
   });
 
   revalidatePath("/dashboard/users");

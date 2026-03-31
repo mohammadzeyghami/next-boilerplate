@@ -6,6 +6,7 @@ import {
   baseDashboardNavMain,
   dashboardCreditsNavItem,
   dashboardCurrenciesNavItem,
+  dashboardMetasNavItem,
   dashboardUserEventsNavItem,
   dashboardUsersNavItem,
 } from "@/shared/components/sections/sidebar/dashboard-nav-config";
@@ -34,6 +35,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
       mainNav = [
         ...mainNav,
         dashboardCurrenciesNavItem,
+        dashboardMetasNavItem,
         dashboardCreditsNavItem,
         dashboardUserEventsNavItem,
         dashboardUsersNavItem,

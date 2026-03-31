@@ -66,6 +66,8 @@ export const ModelName = {
   UserCreditTimed: 'UserCreditTimed',
   Currency: 'Currency',
   UserCurrency: 'UserCurrency',
+  Meta: 'Meta',
+  UserMeta: 'UserMeta',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
@@ -301,6 +303,34 @@ export const UserCurrencyScalarFieldEnum = {
 } as const
 
 export type UserCurrencyScalarFieldEnum = (typeof UserCurrencyScalarFieldEnum)[keyof typeof UserCurrencyScalarFieldEnum]
+
+
+export const MetaScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  key: 'key',
+  metadata: 'metadata',
+  contentTypes: 'contentTypes',
+  defaultValue: 'defaultValue',
+  minValue: 'minValue',
+  maxValue: 'maxValue',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MetaScalarFieldEnum = (typeof MetaScalarFieldEnum)[keyof typeof MetaScalarFieldEnum]
+
+
+export const UserMetaScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  metaId: 'metaId',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserMetaScalarFieldEnum = (typeof UserMetaScalarFieldEnum)[keyof typeof UserMetaScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {

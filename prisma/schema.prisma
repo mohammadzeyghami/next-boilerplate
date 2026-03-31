@@ -70,6 +70,7 @@ model User {
   userCredits         UserCredit[]
   userCreditsTimed    UserCreditTimed[]
   userCurrencies      UserCurrency[]
+  userMetas           UserMeta[]
 }
 
 /// Identity + profile (single record per user)
@@ -300,6 +301,38 @@ model UserCurrency {
   @@unique([userId, currencyId])
   @@index([userId, createdAt])
   @@index([currencyId, createdAt])
+}
+
+model Meta {
+  id           String        @id @default(cuid())
+  name         String
+  key          String        @unique
+  metadata     Json?
+  contentTypes ContentType[] @default([])
+  defaultValue Float         @default(0)
+  minValue     Float?
+  maxValue     Float?
+  userMetas    UserMeta[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([name])
+}
+
+model UserMeta {
+  id        String   @id @default(cuid())
+  userId    String
+  metaId    String
+  value     Float    @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  meta Meta @relation(fields: [metaId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, metaId])
+  @@index([userId, createdAt])
+  @@index([metaId, createdAt])
 }
 
 model Account {

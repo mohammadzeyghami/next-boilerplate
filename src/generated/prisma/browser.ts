@@ -93,6 +93,16 @@ export type Currency = Prisma.CurrencyModel
  */
 export type UserCurrency = Prisma.UserCurrencyModel
 /**
+ * Model Meta
+ * 
+ */
+export type Meta = Prisma.MetaModel
+/**
+ * Model UserMeta
+ * 
+ */
+export type UserMeta = Prisma.UserMetaModel
+/**
  * Model Account
  * 
  */
