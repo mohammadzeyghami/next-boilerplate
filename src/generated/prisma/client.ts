@@ -87,6 +87,26 @@ export type UserEvent = Prisma.UserEventModel
  */
 export type EventTypeStatistic = Prisma.EventTypeStatisticModel
 /**
+ * Model Credit
+ * 
+ */
+export type Credit = Prisma.CreditModel
+/**
+ * Model CreditLifeTime
+ * 
+ */
+export type CreditLifeTime = Prisma.CreditLifeTimeModel
+/**
+ * Model UserCredit
+ * 
+ */
+export type UserCredit = Prisma.UserCreditModel
+/**
+ * Model UserCreditTimed
+ * 
+ */
+export type UserCreditTimed = Prisma.UserCreditTimedModel
+/**
  * Model Account
  * 
  */

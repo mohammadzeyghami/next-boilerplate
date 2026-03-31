@@ -60,6 +60,10 @@ export const ModelName = {
   ContentTag: 'ContentTag',
   UserEvent: 'UserEvent',
   EventTypeStatistic: 'EventTypeStatistic',
+  Credit: 'Credit',
+  CreditLifeTime: 'CreditLifeTime',
+  UserCredit: 'UserCredit',
+  UserCreditTimed: 'UserCreditTimed',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
@@ -216,6 +220,58 @@ export const EventTypeStatisticScalarFieldEnum = {
 } as const
 
 export type EventTypeStatisticScalarFieldEnum = (typeof EventTypeStatisticScalarFieldEnum)[keyof typeof EventTypeStatisticScalarFieldEnum]
+
+
+export const CreditScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  metadata: 'metadata',
+  contentTypes: 'contentTypes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CreditScalarFieldEnum = (typeof CreditScalarFieldEnum)[keyof typeof CreditScalarFieldEnum]
+
+
+export const CreditLifeTimeScalarFieldEnum = {
+  id: 'id',
+  creditsId: 'creditsId',
+  name: 'name',
+  metadata: 'metadata',
+  lifeTime: 'lifeTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CreditLifeTimeScalarFieldEnum = (typeof CreditLifeTimeScalarFieldEnum)[keyof typeof CreditLifeTimeScalarFieldEnum]
+
+
+export const UserCreditScalarFieldEnum = {
+  id: 'id',
+  creditsId: 'creditsId',
+  userId: 'userId',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserCreditScalarFieldEnum = (typeof UserCreditScalarFieldEnum)[keyof typeof UserCreditScalarFieldEnum]
+
+
+export const UserCreditTimedScalarFieldEnum = {
+  id: 'id',
+  creditsId: 'creditsId',
+  userId: 'userId',
+  value: 'value',
+  total: 'total',
+  lifeTime: 'lifeTime',
+  startedAt: 'startedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserCreditTimedScalarFieldEnum = (typeof UserCreditTimedScalarFieldEnum)[keyof typeof UserCreditTimedScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {

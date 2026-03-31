@@ -196,6 +196,8 @@ export type UserWhereInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
   contents?: Prisma.ContentListRelationFilter
   userEvents?: Prisma.UserEventListRelationFilter
+  userCredits?: Prisma.UserCreditListRelationFilter
+  userCreditsTimed?: Prisma.UserCreditTimedListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -211,6 +213,8 @@ export type UserOrderByWithRelationInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
   contents?: Prisma.ContentOrderByRelationAggregateInput
   userEvents?: Prisma.UserEventOrderByRelationAggregateInput
+  userCredits?: Prisma.UserCreditOrderByRelationAggregateInput
+  userCreditsTimed?: Prisma.UserCreditTimedOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -229,6 +233,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
   contents?: Prisma.ContentListRelationFilter
   userEvents?: Prisma.UserEventListRelationFilter
+  userCredits?: Prisma.UserCreditListRelationFilter
+  userCreditsTimed?: Prisma.UserCreditTimedListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -268,6 +274,8 @@ export type UserCreateInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   contents?: Prisma.ContentCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -283,6 +291,8 @@ export type UserUncheckedCreateInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -298,6 +308,8 @@ export type UserUpdateInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   contents?: Prisma.ContentUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -313,6 +325,8 @@ export type UserUncheckedUpdateInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.ContentUncheckedUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -432,6 +446,34 @@ export type UserUpdateOneRequiredWithoutUserEventsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserEventsInput, Prisma.UserUpdateWithoutUserEventsInput>, Prisma.UserUncheckedUpdateWithoutUserEventsInput>
 }
 
+export type UserCreateNestedOneWithoutUserCreditsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserCreditsInput, Prisma.UserUncheckedCreateWithoutUserCreditsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserCreditsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUserCreditsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserCreditsInput, Prisma.UserUncheckedCreateWithoutUserCreditsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserCreditsInput
+  upsert?: Prisma.UserUpsertWithoutUserCreditsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserCreditsInput, Prisma.UserUpdateWithoutUserCreditsInput>, Prisma.UserUncheckedUpdateWithoutUserCreditsInput>
+}
+
+export type UserCreateNestedOneWithoutUserCreditsTimedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserCreditsTimedInput, Prisma.UserUncheckedCreateWithoutUserCreditsTimedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserCreditsTimedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUserCreditsTimedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserCreditsTimedInput, Prisma.UserUncheckedCreateWithoutUserCreditsTimedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserCreditsTimedInput
+  upsert?: Prisma.UserUpsertWithoutUserCreditsTimedInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserCreditsTimedInput, Prisma.UserUpdateWithoutUserCreditsTimedInput>, Prisma.UserUncheckedUpdateWithoutUserCreditsTimedInput>
+}
+
 export type UserCreateNestedOneWithoutAccountsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountsInput
@@ -486,6 +528,8 @@ export type UserCreateWithoutUserAuthInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   contents?: Prisma.ContentCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserAuthInput = {
@@ -500,6 +544,8 @@ export type UserUncheckedCreateWithoutUserAuthInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserAuthInput = {
@@ -530,6 +576,8 @@ export type UserUpdateWithoutUserAuthInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   contents?: Prisma.ContentUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserAuthInput = {
@@ -544,6 +592,8 @@ export type UserUncheckedUpdateWithoutUserAuthInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.ContentUncheckedUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutContentsInput = {
@@ -558,6 +608,8 @@ export type UserCreateWithoutContentsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutContentsInput = {
@@ -572,6 +624,8 @@ export type UserUncheckedCreateWithoutContentsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutContentsInput = {
@@ -602,6 +656,8 @@ export type UserUpdateWithoutContentsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContentsInput = {
@@ -616,6 +672,8 @@ export type UserUncheckedUpdateWithoutContentsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserEventsInput = {
@@ -630,6 +688,8 @@ export type UserCreateWithoutUserEventsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   contents?: Prisma.ContentCreateNestedManyWithoutOwnerInput
+  userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserEventsInput = {
@@ -644,6 +704,8 @@ export type UserUncheckedCreateWithoutUserEventsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutOwnerInput
+  userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserEventsInput = {
@@ -674,6 +736,8 @@ export type UserUpdateWithoutUserEventsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   contents?: Prisma.ContentUpdateManyWithoutOwnerNestedInput
+  userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserEventsInput = {
@@ -688,6 +752,168 @@ export type UserUncheckedUpdateWithoutUserEventsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.ContentUncheckedUpdateManyWithoutOwnerNestedInput
+  userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutUserCreditsInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  image?: string | null
+  role?: $Enums.UserRole
+  userAuth?: Prisma.UserAuthCreateNestedOneWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  contents?: Prisma.ContentCreateNestedManyWithoutOwnerInput
+  userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutUserCreditsInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  image?: string | null
+  role?: $Enums.UserRole
+  userAuth?: Prisma.UserAuthUncheckedCreateNestedOneWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  contents?: Prisma.ContentUncheckedCreateNestedManyWithoutOwnerInput
+  userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutUserCreditsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserCreditsInput, Prisma.UserUncheckedCreateWithoutUserCreditsInput>
+}
+
+export type UserUpsertWithoutUserCreditsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUserCreditsInput, Prisma.UserUncheckedUpdateWithoutUserCreditsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserCreditsInput, Prisma.UserUncheckedCreateWithoutUserCreditsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUserCreditsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUserCreditsInput, Prisma.UserUncheckedUpdateWithoutUserCreditsInput>
+}
+
+export type UserUpdateWithoutUserCreditsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  userAuth?: Prisma.UserAuthUpdateOneWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  contents?: Prisma.ContentUpdateManyWithoutOwnerNestedInput
+  userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUserCreditsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  userAuth?: Prisma.UserAuthUncheckedUpdateOneWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  contents?: Prisma.ContentUncheckedUpdateManyWithoutOwnerNestedInput
+  userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutUserCreditsTimedInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  image?: string | null
+  role?: $Enums.UserRole
+  userAuth?: Prisma.UserAuthCreateNestedOneWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  contents?: Prisma.ContentCreateNestedManyWithoutOwnerInput
+  userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutUserCreditsTimedInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  image?: string | null
+  role?: $Enums.UserRole
+  userAuth?: Prisma.UserAuthUncheckedCreateNestedOneWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  contents?: Prisma.ContentUncheckedCreateNestedManyWithoutOwnerInput
+  userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutUserCreditsTimedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserCreditsTimedInput, Prisma.UserUncheckedCreateWithoutUserCreditsTimedInput>
+}
+
+export type UserUpsertWithoutUserCreditsTimedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUserCreditsTimedInput, Prisma.UserUncheckedUpdateWithoutUserCreditsTimedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserCreditsTimedInput, Prisma.UserUncheckedCreateWithoutUserCreditsTimedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUserCreditsTimedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUserCreditsTimedInput, Prisma.UserUncheckedUpdateWithoutUserCreditsTimedInput>
+}
+
+export type UserUpdateWithoutUserCreditsTimedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  userAuth?: Prisma.UserAuthUpdateOneWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  contents?: Prisma.ContentUpdateManyWithoutOwnerNestedInput
+  userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUserCreditsTimedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  userAuth?: Prisma.UserAuthUncheckedUpdateOneWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  contents?: Prisma.ContentUncheckedUpdateManyWithoutOwnerNestedInput
+  userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -702,6 +928,8 @@ export type UserCreateWithoutAccountsInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   contents?: Prisma.ContentCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -716,6 +944,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -746,6 +976,8 @@ export type UserUpdateWithoutAccountsInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   contents?: Prisma.ContentUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -760,6 +992,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.ContentUncheckedUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -774,6 +1008,8 @@ export type UserCreateWithoutSessionsInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
   contents?: Prisma.ContentCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -788,6 +1024,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -818,6 +1056,8 @@ export type UserUpdateWithoutSessionsInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
   contents?: Prisma.ContentUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -832,6 +1072,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.ContentUncheckedUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPasswordResetTokensInput = {
@@ -846,6 +1088,8 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   contents?: Prisma.ContentCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
@@ -860,6 +1104,8 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
@@ -890,6 +1136,8 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   contents?: Prisma.ContentUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
@@ -904,6 +1152,8 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   contents?: Prisma.ContentUncheckedUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -917,6 +1167,8 @@ export type UserCountOutputType = {
   passwordResetTokens: number
   contents: number
   userEvents: number
+  userCredits: number
+  userCreditsTimed: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -925,6 +1177,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
   contents?: boolean | UserCountOutputTypeCountContentsArgs
   userEvents?: boolean | UserCountOutputTypeCountUserEventsArgs
+  userCredits?: boolean | UserCountOutputTypeCountUserCreditsArgs
+  userCreditsTimed?: boolean | UserCountOutputTypeCountUserCreditsTimedArgs
 }
 
 /**
@@ -972,6 +1226,20 @@ export type UserCountOutputTypeCountUserEventsArgs<ExtArgs extends runtime.Types
   where?: Prisma.UserEventWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUserCreditsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserCreditWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUserCreditsTimedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserCreditTimedWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -986,6 +1254,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   contents?: boolean | Prisma.User$contentsArgs<ExtArgs>
   userEvents?: boolean | Prisma.User$userEventsArgs<ExtArgs>
+  userCredits?: boolean | Prisma.User$userCreditsArgs<ExtArgs>
+  userCreditsTimed?: boolean | Prisma.User$userCreditsTimedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1024,6 +1294,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
   contents?: boolean | Prisma.User$contentsArgs<ExtArgs>
   userEvents?: boolean | Prisma.User$userEventsArgs<ExtArgs>
+  userCredits?: boolean | Prisma.User$userCreditsArgs<ExtArgs>
+  userCreditsTimed?: boolean | Prisma.User$userCreditsTimedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1038,6 +1310,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
     contents: Prisma.$ContentPayload<ExtArgs>[]
     userEvents: Prisma.$UserEventPayload<ExtArgs>[]
+    userCredits: Prisma.$UserCreditPayload<ExtArgs>[]
+    userCreditsTimed: Prisma.$UserCreditTimedPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1446,6 +1720,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   passwordResetTokens<T extends Prisma.User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   contents<T extends Prisma.User$contentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$contentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userEvents<T extends Prisma.User$userEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userCredits<T extends Prisma.User$userCreditsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userCreditsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCreditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userCreditsTimed<T extends Prisma.User$userCreditsTimedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userCreditsTimedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCreditTimedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2010,6 +2286,54 @@ export type User$userEventsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.UserEventScalarFieldEnum | Prisma.UserEventScalarFieldEnum[]
+}
+
+/**
+ * User.userCredits
+ */
+export type User$userCreditsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserCredit
+   */
+  select?: Prisma.UserCreditSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserCredit
+   */
+  omit?: Prisma.UserCreditOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserCreditInclude<ExtArgs> | null
+  where?: Prisma.UserCreditWhereInput
+  orderBy?: Prisma.UserCreditOrderByWithRelationInput | Prisma.UserCreditOrderByWithRelationInput[]
+  cursor?: Prisma.UserCreditWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserCreditScalarFieldEnum | Prisma.UserCreditScalarFieldEnum[]
+}
+
+/**
+ * User.userCreditsTimed
+ */
+export type User$userCreditsTimedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserCreditTimed
+   */
+  select?: Prisma.UserCreditTimedSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserCreditTimed
+   */
+  omit?: Prisma.UserCreditTimedOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserCreditTimedInclude<ExtArgs> | null
+  where?: Prisma.UserCreditTimedWhereInput
+  orderBy?: Prisma.UserCreditTimedOrderByWithRelationInput | Prisma.UserCreditTimedOrderByWithRelationInput[]
+  cursor?: Prisma.UserCreditTimedWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserCreditTimedScalarFieldEnum | Prisma.UserCreditTimedScalarFieldEnum[]
 }
 
 /**

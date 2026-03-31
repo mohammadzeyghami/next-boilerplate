@@ -4,6 +4,7 @@ import type { ComponentType } from "react";
 import { usePathname } from "next/navigation";
 import {
   IconCirclePlusFilled,
+  IconCoin,
   IconClockBolt,
   IconFileDescription,
   IconFolders,
@@ -29,6 +30,7 @@ const NAV_ICONS: Record<
 > = {
   categories: IconFolders,
   content: IconFileDescription,
+  credits: IconCoin,
   events: IconClockBolt,
   languages: IconLanguage,
   tags: IconTags,

@@ -67,6 +67,8 @@ model User {
   passwordResetTokens PasswordResetToken[]
   contents            Content[]            @relation("UserContents")
   userEvents          UserEvent[]
+  userCredits         UserCredit[]
+  userCreditsTimed    UserCreditTimed[]
 }
 
 /// Identity + profile (single record per user)
@@ -206,6 +208,66 @@ model EventTypeStatistic {
   count     Int      @default(0)
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
+}
+
+model Credit {
+  id            String            @id @default(cuid())
+  name          String
+  metadata      Json?
+  contentTypes  ContentType[]     @default([])
+  creditLives   CreditLifeTime[]
+  userCredits   UserCredit[]
+  userTimed     UserCreditTimed[]
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  @@index([name])
+}
+
+model CreditLifeTime {
+  id        String   @id @default(cuid())
+  creditsId String
+  name      String
+  metadata  Json?
+  lifeTime  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  credit Credit @relation(fields: [creditsId], references: [id], onDelete: Cascade)
+
+  @@index([creditsId, createdAt])
+}
+
+model UserCredit {
+  id        String   @id @default(cuid())
+  creditsId String
+  userId    String
+  value     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  credit Credit @relation(fields: [creditsId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([creditsId, userId])
+  @@index([userId, createdAt])
+}
+
+model UserCreditTimed {
+  id        String    @id @default(cuid())
+  creditsId String
+  userId    String
+  value     Int
+  total     Int
+  lifeTime  Int
+  startedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  credit Credit @relation(fields: [creditsId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, creditsId, createdAt])
 }
 
 model Account {

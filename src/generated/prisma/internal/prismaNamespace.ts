@@ -393,6 +393,10 @@ export const ModelName = {
   ContentTag: 'ContentTag',
   UserEvent: 'UserEvent',
   EventTypeStatistic: 'EventTypeStatistic',
+  Credit: 'Credit',
+  CreditLifeTime: 'CreditLifeTime',
+  UserCredit: 'UserCredit',
+  UserCreditTimed: 'UserCreditTimed',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
@@ -412,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userAuth" | "refreshToken" | "category" | "content" | "language" | "contentTag" | "userEvent" | "eventTypeStatistic" | "account" | "session" | "verificationToken" | "passwordResetToken"
+    modelProps: "user" | "userAuth" | "refreshToken" | "category" | "content" | "language" | "contentTag" | "userEvent" | "eventTypeStatistic" | "credit" | "creditLifeTime" | "userCredit" | "userCreditTimed" | "account" | "session" | "verificationToken" | "passwordResetToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1082,6 +1086,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Credit: {
+      payload: Prisma.$CreditPayload<ExtArgs>
+      fields: Prisma.CreditFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CreditFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CreditFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPayload>
+        }
+        findFirst: {
+          args: Prisma.CreditFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CreditFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPayload>
+        }
+        findMany: {
+          args: Prisma.CreditFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPayload>[]
+        }
+        create: {
+          args: Prisma.CreditCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPayload>
+        }
+        createMany: {
+          args: Prisma.CreditCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CreditCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPayload>[]
+        }
+        delete: {
+          args: Prisma.CreditDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPayload>
+        }
+        update: {
+          args: Prisma.CreditUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPayload>
+        }
+        deleteMany: {
+          args: Prisma.CreditDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CreditUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CreditUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPayload>[]
+        }
+        upsert: {
+          args: Prisma.CreditUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditPayload>
+        }
+        aggregate: {
+          args: Prisma.CreditAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCredit>
+        }
+        groupBy: {
+          args: Prisma.CreditGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CreditGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CreditCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CreditCountAggregateOutputType> | number
+        }
+      }
+    }
+    CreditLifeTime: {
+      payload: Prisma.$CreditLifeTimePayload<ExtArgs>
+      fields: Prisma.CreditLifeTimeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CreditLifeTimeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditLifeTimePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CreditLifeTimeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditLifeTimePayload>
+        }
+        findFirst: {
+          args: Prisma.CreditLifeTimeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditLifeTimePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CreditLifeTimeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditLifeTimePayload>
+        }
+        findMany: {
+          args: Prisma.CreditLifeTimeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditLifeTimePayload>[]
+        }
+        create: {
+          args: Prisma.CreditLifeTimeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditLifeTimePayload>
+        }
+        createMany: {
+          args: Prisma.CreditLifeTimeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CreditLifeTimeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditLifeTimePayload>[]
+        }
+        delete: {
+          args: Prisma.CreditLifeTimeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditLifeTimePayload>
+        }
+        update: {
+          args: Prisma.CreditLifeTimeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditLifeTimePayload>
+        }
+        deleteMany: {
+          args: Prisma.CreditLifeTimeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CreditLifeTimeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CreditLifeTimeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditLifeTimePayload>[]
+        }
+        upsert: {
+          args: Prisma.CreditLifeTimeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CreditLifeTimePayload>
+        }
+        aggregate: {
+          args: Prisma.CreditLifeTimeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCreditLifeTime>
+        }
+        groupBy: {
+          args: Prisma.CreditLifeTimeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CreditLifeTimeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CreditLifeTimeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CreditLifeTimeCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserCredit: {
+      payload: Prisma.$UserCreditPayload<ExtArgs>
+      fields: Prisma.UserCreditFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserCreditFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserCreditFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditPayload>
+        }
+        findFirst: {
+          args: Prisma.UserCreditFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserCreditFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditPayload>
+        }
+        findMany: {
+          args: Prisma.UserCreditFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditPayload>[]
+        }
+        create: {
+          args: Prisma.UserCreditCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditPayload>
+        }
+        createMany: {
+          args: Prisma.UserCreditCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserCreditCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditPayload>[]
+        }
+        delete: {
+          args: Prisma.UserCreditDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditPayload>
+        }
+        update: {
+          args: Prisma.UserCreditUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserCreditDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserCreditUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserCreditUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserCreditUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditPayload>
+        }
+        aggregate: {
+          args: Prisma.UserCreditAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserCredit>
+        }
+        groupBy: {
+          args: Prisma.UserCreditGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserCreditGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserCreditCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserCreditCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserCreditTimed: {
+      payload: Prisma.$UserCreditTimedPayload<ExtArgs>
+      fields: Prisma.UserCreditTimedFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserCreditTimedFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditTimedPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserCreditTimedFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditTimedPayload>
+        }
+        findFirst: {
+          args: Prisma.UserCreditTimedFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditTimedPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserCreditTimedFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditTimedPayload>
+        }
+        findMany: {
+          args: Prisma.UserCreditTimedFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditTimedPayload>[]
+        }
+        create: {
+          args: Prisma.UserCreditTimedCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditTimedPayload>
+        }
+        createMany: {
+          args: Prisma.UserCreditTimedCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserCreditTimedCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditTimedPayload>[]
+        }
+        delete: {
+          args: Prisma.UserCreditTimedDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditTimedPayload>
+        }
+        update: {
+          args: Prisma.UserCreditTimedUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditTimedPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserCreditTimedDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserCreditTimedUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserCreditTimedUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditTimedPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserCreditTimedUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCreditTimedPayload>
+        }
+        aggregate: {
+          args: Prisma.UserCreditTimedAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserCreditTimed>
+        }
+        groupBy: {
+          args: Prisma.UserCreditTimedGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserCreditTimedGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserCreditTimedCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserCreditTimedCountAggregateOutputType> | number
+        }
+      }
+    }
     Account: {
       payload: Prisma.$AccountPayload<ExtArgs>
       fields: Prisma.AccountFieldRefs
@@ -1553,6 +1853,58 @@ export const EventTypeStatisticScalarFieldEnum = {
 export type EventTypeStatisticScalarFieldEnum = (typeof EventTypeStatisticScalarFieldEnum)[keyof typeof EventTypeStatisticScalarFieldEnum]
 
 
+export const CreditScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  metadata: 'metadata',
+  contentTypes: 'contentTypes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CreditScalarFieldEnum = (typeof CreditScalarFieldEnum)[keyof typeof CreditScalarFieldEnum]
+
+
+export const CreditLifeTimeScalarFieldEnum = {
+  id: 'id',
+  creditsId: 'creditsId',
+  name: 'name',
+  metadata: 'metadata',
+  lifeTime: 'lifeTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CreditLifeTimeScalarFieldEnum = (typeof CreditLifeTimeScalarFieldEnum)[keyof typeof CreditLifeTimeScalarFieldEnum]
+
+
+export const UserCreditScalarFieldEnum = {
+  id: 'id',
+  creditsId: 'creditsId',
+  userId: 'userId',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserCreditScalarFieldEnum = (typeof UserCreditScalarFieldEnum)[keyof typeof UserCreditScalarFieldEnum]
+
+
+export const UserCreditTimedScalarFieldEnum = {
+  id: 'id',
+  creditsId: 'creditsId',
+  userId: 'userId',
+  value: 'value',
+  total: 'total',
+  lifeTime: 'lifeTime',
+  startedAt: 'startedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserCreditTimedScalarFieldEnum = (typeof UserCreditTimedScalarFieldEnum)[keyof typeof UserCreditTimedScalarFieldEnum]
+
+
 export const AccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -1912,6 +2264,10 @@ export type GlobalOmitConfig = {
   contentTag?: Prisma.ContentTagOmit
   userEvent?: Prisma.UserEventOmit
   eventTypeStatistic?: Prisma.EventTypeStatisticOmit
+  credit?: Prisma.CreditOmit
+  creditLifeTime?: Prisma.CreditLifeTimeOmit
+  userCredit?: Prisma.UserCreditOmit
+  userCreditTimed?: Prisma.UserCreditTimedOmit
   account?: Prisma.AccountOmit
   session?: Prisma.SessionOmit
   verificationToken?: Prisma.VerificationTokenOmit

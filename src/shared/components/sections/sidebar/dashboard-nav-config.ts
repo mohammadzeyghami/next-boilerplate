@@ -2,6 +2,7 @@
 export type DashboardNavIconKey =
   | "categories"
   | "content"
+  | "credits"
   | "events"
   | "languages"
   | "tags"
@@ -47,4 +48,10 @@ export const dashboardUserEventsNavItem: DashboardNavItem = {
   title: "User Events",
   url: "/dashboard/user-events",
   iconKey: "events",
+};
+
+export const dashboardCreditsNavItem: DashboardNavItem = {
+  title: "Credits",
+  url: "/dashboard/credits",
+  iconKey: "credits",
 };
