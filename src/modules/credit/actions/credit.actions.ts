@@ -482,10 +482,10 @@ export async function useTimedCredits(
   creditsId: string,
   value: number,
 ) {
-  return useTimedUserCredits(userId, creditsId, value);
+  return consumeTimedUserCredits(userId, creditsId, value);
 }
 
-export async function useTimedUserCredits(
+export async function consumeTimedUserCredits(
   userId: string,
   creditsId: string,
   value: number,
@@ -586,7 +586,7 @@ export async function totalCreditsValue(
   };
 }
 
-export async function useCredits(
+export async function consumeCredits(
   userId: string,
   creditsId: string,
   value: number,
@@ -607,7 +607,11 @@ export async function useCredits(
     };
   }
 
-  const remainingAfterTimed = await useTimedUserCredits(userId, creditsId, value);
+  const remainingAfterTimed = await consumeTimedUserCredits(
+    userId,
+    creditsId,
+    value,
+  );
   if (remainingAfterTimed > 0) {
     await prisma.userCredit.upsert({
       where: { creditsId_userId: { creditsId, userId } },
