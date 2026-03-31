@@ -166,6 +166,8 @@ export const LanguageScalarFieldEnum = {
   name: 'name',
   description: 'description',
   contentIds: 'contentIds',
+  categoryIds: 'categoryIds',
+  tagIds: 'tagIds',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -19,11 +19,15 @@ export function useCreateLanguageMutation() {
       name: string;
       description: string;
       contentIds: string[];
+      categoryIds: string[];
+      tagIds: string[];
     }) => {
       const formData = toFormData({
         name: payload.name,
         description: payload.description,
         contentIds: payload.contentIds,
+        categoryIds: payload.categoryIds,
+        tagIds: payload.tagIds,
       });
       return createLanguageAction(formData);
     },
@@ -53,12 +57,16 @@ export function useUpdateLanguageMutation() {
       name: string;
       description: string;
       contentIds: string[];
+      categoryIds: string[];
+      tagIds: string[];
     }) => {
       const formData = toFormData({
         id: payload.id,
         name: payload.name,
         description: payload.description,
         contentIds: payload.contentIds,
+        categoryIds: payload.categoryIds,
+        tagIds: payload.tagIds,
       });
       return updateLanguageAction(formData);
     },

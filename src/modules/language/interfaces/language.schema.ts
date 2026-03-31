@@ -11,6 +11,8 @@ export const languageFormSchema = z.object({
     .trim()
     .max(2000, "Description must be at most 2,000 characters."),
   contentIds: z.array(z.string().min(1)),
+  categoryIds: z.array(z.string().min(1)),
+  tagIds: z.array(z.string().min(1)),
 });
 
 export type LanguageFormValues = z.infer<typeof languageFormSchema>;

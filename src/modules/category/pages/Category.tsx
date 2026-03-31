@@ -84,11 +84,14 @@ export default function CategoryPage({
     setDialogOpen(true);
   }, [methods]);
 
-  const openEditDialog = useCallback((category: CategoryDto) => {
-    setEditingCategory(category);
-    methods.reset(categoryDtoToFormValues(category));
-    setDialogOpen(true);
-  }, [methods]);
+  const openEditDialog = useCallback(
+    (category: CategoryDto) => {
+      setEditingCategory(category);
+      methods.reset(categoryDtoToFormValues(category));
+      setDialogOpen(true);
+    },
+    [methods],
+  );
 
   const onDialogOpenChange = (next: boolean) => {
     setDialogOpen(next);
@@ -250,9 +253,7 @@ export default function CategoryPage({
         </div>
 
         {isPending && (
-          <P className="text-muted-foreground text-sm">
-            Loading categories…
-          </P>
+          <P className="text-muted-foreground text-sm">Loading categories…</P>
         )}
         {isError && (
           <div className="space-y-2">
@@ -294,7 +295,8 @@ export default function CategoryPage({
             updateMutation.isPending
           }
         >
-          <CategoryForm contentOptions={contentOptions} />
+          {/* contentOptions={contentOptions} */}
+          <CategoryForm />
         </ModalFormShell>
       )}
     </div>

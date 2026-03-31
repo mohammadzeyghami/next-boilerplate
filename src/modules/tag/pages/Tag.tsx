@@ -41,11 +41,7 @@ function tagDtoToFormValues(t: TagDto): TagFormValues {
   };
 }
 
-export default function TagPage({
-  canManageTags,
-}: {
-  canManageTags: boolean;
-}) {
+export default function TagPage({ canManageTags }: { canManageTags: boolean }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingTag, setEditingTag] = useState<TagDto | null>(null);
 
@@ -76,11 +72,14 @@ export default function TagPage({
     setDialogOpen(true);
   }, [methods]);
 
-  const openEditDialog = useCallback((tag: TagDto) => {
-    setEditingTag(tag);
-    methods.reset(tagDtoToFormValues(tag));
-    setDialogOpen(true);
-  }, [methods]);
+  const openEditDialog = useCallback(
+    (tag: TagDto) => {
+      setEditingTag(tag);
+      methods.reset(tagDtoToFormValues(tag));
+      setDialogOpen(true);
+    },
+    [methods],
+  );
 
   const onDialogOpenChange = (next: boolean) => {
     setDialogOpen(next);
@@ -254,7 +253,9 @@ export default function TagPage({
             </Button>
           </div>
         )}
-        {!isPending && !isError && <TablePrimary data={tags} columns={columns} />}
+        {!isPending && !isError && (
+          <TablePrimary data={tags} columns={columns} />
+        )}
       </main>
 
       {canManageTags && (
@@ -277,7 +278,7 @@ export default function TagPage({
             updateMutation.isPending
           }
         >
-          <TagForm contentOptions={contentOptions} />
+          <TagForm />
         </ModalFormShell>
       )}
     </div>

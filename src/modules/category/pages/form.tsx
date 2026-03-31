@@ -1,22 +1,17 @@
 "use client";
 
-import { Controller, useFormContext } from "react-hook-form";
-
-import { Checkbox } from "@/shared/components/molecules/check-box/Default";
 import InputR from "@/shared/components/molecules/inputs/Controllerd";
-import LabelPrimary from "@/shared/components/molecules/label/Primary";
 import P from "@/shared/components/atoms/typography/P";
 
-import type { CategoryContentOption } from "../actions/category.actions";
 import type { CategoryFormValues } from "../interfaces/category.schema";
 
-export default function CategoryForm({
-  contentOptions,
-}: {
-  contentOptions: CategoryContentOption[];
-}) {
-  const { control } = useFormContext<CategoryFormValues>();
-
+export default function CategoryForm(
+  {
+    // contentOptions,
+  }: {
+    // contentOptions: CategoryContentOption[];
+  },
+) {
   return (
     <div className="flex flex-col gap-4">
       <InputR<CategoryFormValues>
@@ -48,10 +43,10 @@ export default function CategoryForm({
       </P>
 
       <div className="flex flex-col gap-2">
-        <LabelPrimary className="text-sm font-medium text-foreground">
+        {/* <LabelPrimary className="text-sm font-medium text-foreground">
           Linked contents
-        </LabelPrimary>
-        <P className="text-muted-foreground text-xs">
+        </LabelPrimary> */}
+        {/* <P className="text-muted-foreground text-xs">
           Optional. Link content items to this category (same visibility rules
           as the content list).
         </P>
@@ -90,7 +85,7 @@ export default function CategoryForm({
               )}
             </div>
           )}
-        />
+        /> */}
       </div>
     </div>
   );

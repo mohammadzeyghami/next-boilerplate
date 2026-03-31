@@ -151,6 +151,8 @@ model Language {
   name        String
   description String?
   contentIds  String[] @default([])
+  categoryIds String[] @default([])
+  tagIds      String[] @default([])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

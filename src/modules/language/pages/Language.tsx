@@ -12,6 +12,8 @@ import { Button } from "@/shared/components/atoms/button";
 import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalFormShell";
 import { toast } from "@/shared/components/atoms/toast/toast-store";
 import P from "@/shared/components/atoms/typography/P";
+import { useCategoriesQuery } from "@/modules/category/api/queries";
+import { useTagsQuery } from "@/modules/tag/api/queries";
 
 import type { LanguageDto } from "../actions/language.actions";
 import {
@@ -50,6 +52,8 @@ export default function LanguagePage({
   const { data: contentOptions = [] } = useLanguageContentOptionsQuery(
     canManageLanguages && (open || Boolean(editingLanguage)),
   );
+  const { data: categories = [] } = useCategoriesQuery();
+  const { data: tags = [] } = useTagsQuery();
 
   const createMutation = useCreateLanguageMutation();
   const deleteMutation = useDeleteLanguageMutation();
@@ -60,6 +64,8 @@ export default function LanguagePage({
       name: "",
       description: "",
       contentIds: [],
+      categoryIds: [],
+      tagIds: [],
     },
     resolver: zodResolver(languageFormSchema),
   });
@@ -69,6 +75,8 @@ export default function LanguagePage({
       name: values.name.trim(),
       description: values.description.trim(),
       contentIds: values.contentIds,
+      categoryIds: values.categoryIds,
+      tagIds: values.tagIds,
     });
 
     if (!res.ok) {
@@ -89,6 +97,8 @@ export default function LanguagePage({
       name: "",
       description: "",
       contentIds: [],
+      categoryIds: [],
+      tagIds: [],
     },
     resolver: zodResolver(languageFormSchema),
   });
@@ -101,6 +111,8 @@ export default function LanguagePage({
       name: values.name.trim(),
       description: values.description.trim(),
       contentIds: values.contentIds,
+      categoryIds: values.categoryIds,
+      tagIds: values.tagIds,
     });
 
     if (!res.ok) {
@@ -133,6 +145,16 @@ export default function LanguagePage({
         cell: ({ row }) => row.original.contentIds.length,
       },
       {
+        id: "categoryIds",
+        header: "Categories",
+        cell: ({ row }) => row.original.categoryIds.length,
+      },
+      {
+        id: "tagIds",
+        header: "Tags",
+        cell: ({ row }) => row.original.tagIds.length,
+      },
+      {
         accessorKey: "createdAt",
         header: "Created",
         cell: ({ getValue }) =>
@@ -158,6 +180,8 @@ export default function LanguagePage({
                         name: row.original.name,
                         description: row.original.description ?? "",
                         contentIds: row.original.contentIds,
+                        categoryIds: row.original.categoryIds,
+                        tagIds: row.original.tagIds,
                       });
                       setEditingLanguage(row.original);
                     }}
@@ -258,7 +282,13 @@ export default function LanguagePage({
             methods.formState.isSubmitting || createMutation.isPending
           }
         >
-          <LanguageForm contentOptions={contentOptions} />
+          <LanguageForm
+            contentOptions={contentOptions}
+            categories={categories}
+            tags={tags}
+            canManageCategories={canManageLanguages}
+            canManageTags={canManageLanguages}
+          />
         </ModalFormShell>
       )}
 
@@ -281,7 +311,13 @@ export default function LanguagePage({
             editMethods.formState.isSubmitting || updateMutation.isPending
           }
         >
-          <LanguageForm contentOptions={contentOptions} />
+          <LanguageForm
+            contentOptions={contentOptions}
+            categories={categories}
+            tags={tags}
+            canManageCategories={canManageLanguages}
+            canManageTags={canManageLanguages}
+          />
         </ModalFormShell>
       )}
     </div>

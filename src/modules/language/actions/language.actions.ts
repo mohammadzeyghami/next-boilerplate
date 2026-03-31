@@ -18,6 +18,8 @@ export type LanguageDto = {
   name: string;
   description: string | null;
   contentIds: string[];
+  categoryIds: string[];
+  tagIds: string[];
   createdAt: string;
   updatedAt: string;
 };
@@ -38,6 +40,8 @@ const languageCreateSchema = z.object({
     .trim()
     .max(2000, "Description must be at most 2,000 characters."),
   contentIds: z.array(z.string().min(1)),
+  categoryIds: z.array(z.string().min(1)),
+  tagIds: z.array(z.string().min(1)),
 });
 
 type DbUserBrief = { id: string; role: UserRole };
@@ -71,6 +75,8 @@ function toDto(row: {
   name: string;
   description: string | null;
   contentIds: string[];
+  categoryIds: string[];
+  tagIds: string[];
   createdAt: Date;
   updatedAt: Date;
 }): LanguageDto {
@@ -79,12 +85,42 @@ function toDto(row: {
     name: row.name,
     description: row.description,
     contentIds: row.contentIds,
+    categoryIds: row.categoryIds,
+    tagIds: row.tagIds,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   };
 }
 
 function parseContentIdsJson(raw: FormDataEntryValue | null): string[] {
+  const s = String(raw ?? "").trim();
+  if (!s) return [];
+  try {
+    const parsed = JSON.parse(s) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (x): x is string => typeof x === "string" && x.trim().length > 0,
+    );
+  } catch {
+    return [];
+  }
+}
+
+function parseCategoryIdsJson(raw: FormDataEntryValue | null): string[] {
+  const s = String(raw ?? "").trim();
+  if (!s) return [];
+  try {
+    const parsed = JSON.parse(s) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (x): x is string => typeof x === "string" && x.trim().length > 0,
+    );
+  } catch {
+    return [];
+  }
+}
+
+function parseTagIdsJson(raw: FormDataEntryValue | null): string[] {
   const s = String(raw ?? "").trim();
   if (!s) return [];
   try {
@@ -150,11 +186,15 @@ export async function createLanguageAction(
   const name = String(formData.get("name") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
   const contentIds = parseContentIdsJson(formData.get("contentIds"));
+  const categoryIds = parseCategoryIdsJson(formData.get("categoryIds"));
+  const tagIds = parseTagIdsJson(formData.get("tagIds"));
 
   const parsed = languageCreateSchema.safeParse({
     name,
     description,
     contentIds,
+    categoryIds,
+    tagIds,
   });
 
   if (!parsed.success) {
@@ -164,7 +204,13 @@ export async function createLanguageAction(
     };
   }
 
-  const { name: n, description: descRaw, contentIds: ids } = parsed.data;
+  const {
+    name: n,
+    description: descRaw,
+    contentIds: ids,
+    categoryIds: selectedCategoryIds,
+    tagIds: selectedTagIds,
+  } = parsed.data;
   const d = descRaw.trim();
 
   if (ids.length > 0) {
@@ -179,11 +225,37 @@ export async function createLanguageAction(
     }
   }
 
+  if (selectedCategoryIds.length > 0) {
+    const count = await prisma.category.count({
+      where: { id: { in: selectedCategoryIds } },
+    });
+    if (count !== selectedCategoryIds.length) {
+      return {
+        ok: false,
+        error: "One or more selected categories do not exist.",
+      };
+    }
+  }
+
+  if (selectedTagIds.length > 0) {
+    const count = await prisma.contentTag.count({
+      where: { id: { in: selectedTagIds } },
+    });
+    if (count !== selectedTagIds.length) {
+      return {
+        ok: false,
+        error: "One or more selected tags do not exist.",
+      };
+    }
+  }
+
   await prisma.language.create({
     data: {
       name: n,
       description: d ? d : null,
       contentIds: ids,
+      categoryIds: selectedCategoryIds,
+      tagIds: selectedTagIds,
     },
   });
 
@@ -207,6 +279,8 @@ export async function updateLanguageAction(
   const name = String(formData.get("name") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
   const contentIds = parseContentIdsJson(formData.get("contentIds"));
+  const categoryIds = parseCategoryIdsJson(formData.get("categoryIds"));
+  const tagIds = parseTagIdsJson(formData.get("tagIds"));
 
   if (!id) {
     return { ok: false, error: "Missing language id." };
@@ -216,6 +290,8 @@ export async function updateLanguageAction(
     name,
     description,
     contentIds,
+    categoryIds,
+    tagIds,
   });
 
   if (!parsed.success) {
@@ -225,7 +301,13 @@ export async function updateLanguageAction(
     };
   }
 
-  const { name: n, description: descRaw, contentIds: ids } = parsed.data;
+  const {
+    name: n,
+    description: descRaw,
+    contentIds: ids,
+    categoryIds: selectedCategoryIds,
+    tagIds: selectedTagIds,
+  } = parsed.data;
   const d = descRaw.trim();
 
   if (ids.length > 0) {
@@ -240,6 +322,30 @@ export async function updateLanguageAction(
     }
   }
 
+  if (selectedCategoryIds.length > 0) {
+    const count = await prisma.category.count({
+      where: { id: { in: selectedCategoryIds } },
+    });
+    if (count !== selectedCategoryIds.length) {
+      return {
+        ok: false,
+        error: "One or more selected categories do not exist.",
+      };
+    }
+  }
+
+  if (selectedTagIds.length > 0) {
+    const count = await prisma.contentTag.count({
+      where: { id: { in: selectedTagIds } },
+    });
+    if (count !== selectedTagIds.length) {
+      return {
+        ok: false,
+        error: "One or more selected tags do not exist.",
+      };
+    }
+  }
+
   try {
     await prisma.language.update({
       where: { id },
@@ -247,6 +353,8 @@ export async function updateLanguageAction(
         name: n,
         description: d ? d : null,
         contentIds: ids,
+        categoryIds: selectedCategoryIds,
+        tagIds: selectedTagIds,
       },
     });
   } catch {
