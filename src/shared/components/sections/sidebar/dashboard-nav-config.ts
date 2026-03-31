@@ -3,6 +3,7 @@ export type DashboardNavIconKey =
   | "categories"
   | "content"
   | "credits"
+  | "currencies"
   | "events"
   | "languages"
   | "tags"
@@ -54,4 +55,10 @@ export const dashboardCreditsNavItem: DashboardNavItem = {
   title: "Credits",
   url: "/dashboard/credits",
   iconKey: "credits",
+};
+
+export const dashboardCurrenciesNavItem: DashboardNavItem = {
+  title: "Currencies",
+  url: "/dashboard/currencies",
+  iconKey: "currencies",
 };

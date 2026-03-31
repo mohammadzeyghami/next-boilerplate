@@ -397,6 +397,8 @@ export const ModelName = {
   CreditLifeTime: 'CreditLifeTime',
   UserCredit: 'UserCredit',
   UserCreditTimed: 'UserCreditTimed',
+  Currency: 'Currency',
+  UserCurrency: 'UserCurrency',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
@@ -416,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "userAuth" | "refreshToken" | "category" | "content" | "language" | "contentTag" | "userEvent" | "eventTypeStatistic" | "credit" | "creditLifeTime" | "userCredit" | "userCreditTimed" | "account" | "session" | "verificationToken" | "passwordResetToken"
+    modelProps: "user" | "userAuth" | "refreshToken" | "category" | "content" | "language" | "contentTag" | "userEvent" | "eventTypeStatistic" | "credit" | "creditLifeTime" | "userCredit" | "userCreditTimed" | "currency" | "userCurrency" | "account" | "session" | "verificationToken" | "passwordResetToken"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1382,6 +1384,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Currency: {
+      payload: Prisma.$CurrencyPayload<ExtArgs>
+      fields: Prisma.CurrencyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CurrencyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CurrencyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CurrencyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CurrencyPayload>
+        }
+        findFirst: {
+          args: Prisma.CurrencyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CurrencyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CurrencyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CurrencyPayload>
+        }
+        findMany: {
+          args: Prisma.CurrencyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CurrencyPayload>[]
+        }
+        create: {
+          args: Prisma.CurrencyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CurrencyPayload>
+        }
+        createMany: {
+          args: Prisma.CurrencyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CurrencyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CurrencyPayload>[]
+        }
+        delete: {
+          args: Prisma.CurrencyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CurrencyPayload>
+        }
+        update: {
+          args: Prisma.CurrencyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CurrencyPayload>
+        }
+        deleteMany: {
+          args: Prisma.CurrencyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CurrencyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CurrencyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CurrencyPayload>[]
+        }
+        upsert: {
+          args: Prisma.CurrencyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CurrencyPayload>
+        }
+        aggregate: {
+          args: Prisma.CurrencyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCurrency>
+        }
+        groupBy: {
+          args: Prisma.CurrencyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CurrencyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CurrencyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CurrencyCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserCurrency: {
+      payload: Prisma.$UserCurrencyPayload<ExtArgs>
+      fields: Prisma.UserCurrencyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserCurrencyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCurrencyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserCurrencyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCurrencyPayload>
+        }
+        findFirst: {
+          args: Prisma.UserCurrencyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCurrencyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserCurrencyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCurrencyPayload>
+        }
+        findMany: {
+          args: Prisma.UserCurrencyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCurrencyPayload>[]
+        }
+        create: {
+          args: Prisma.UserCurrencyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCurrencyPayload>
+        }
+        createMany: {
+          args: Prisma.UserCurrencyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserCurrencyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCurrencyPayload>[]
+        }
+        delete: {
+          args: Prisma.UserCurrencyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCurrencyPayload>
+        }
+        update: {
+          args: Prisma.UserCurrencyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCurrencyPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserCurrencyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserCurrencyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserCurrencyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCurrencyPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserCurrencyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserCurrencyPayload>
+        }
+        aggregate: {
+          args: Prisma.UserCurrencyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserCurrency>
+        }
+        groupBy: {
+          args: Prisma.UserCurrencyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserCurrencyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserCurrencyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserCurrencyCountAggregateOutputType> | number
+        }
+      }
+    }
     Account: {
       payload: Prisma.$AccountPayload<ExtArgs>
       fields: Prisma.AccountFieldRefs
@@ -1905,6 +2055,33 @@ export const UserCreditTimedScalarFieldEnum = {
 export type UserCreditTimedScalarFieldEnum = (typeof UserCreditTimedScalarFieldEnum)[keyof typeof UserCreditTimedScalarFieldEnum]
 
 
+export const CurrencyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  key: 'key',
+  metadata: 'metadata',
+  contentTypes: 'contentTypes',
+  defaultValue: 'defaultValue',
+  stableValue: 'stableValue',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CurrencyScalarFieldEnum = (typeof CurrencyScalarFieldEnum)[keyof typeof CurrencyScalarFieldEnum]
+
+
+export const UserCurrencyScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  currencyId: 'currencyId',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserCurrencyScalarFieldEnum = (typeof UserCurrencyScalarFieldEnum)[keyof typeof UserCurrencyScalarFieldEnum]
+
+
 export const AccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2268,6 +2445,8 @@ export type GlobalOmitConfig = {
   creditLifeTime?: Prisma.CreditLifeTimeOmit
   userCredit?: Prisma.UserCreditOmit
   userCreditTimed?: Prisma.UserCreditTimedOmit
+  currency?: Prisma.CurrencyOmit
+  userCurrency?: Prisma.UserCurrencyOmit
   account?: Prisma.AccountOmit
   session?: Prisma.SessionOmit
   verificationToken?: Prisma.VerificationTokenOmit

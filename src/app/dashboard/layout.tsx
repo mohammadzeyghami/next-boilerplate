@@ -5,6 +5,7 @@ import {
 import {
   baseDashboardNavMain,
   dashboardCreditsNavItem,
+  dashboardCurrenciesNavItem,
   dashboardUserEventsNavItem,
   dashboardUsersNavItem,
 } from "@/shared/components/sections/sidebar/dashboard-nav-config";
@@ -32,6 +33,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
     if (canAccessAdminUsersModule(dbUser?.role)) {
       mainNav = [
         ...mainNav,
+        dashboardCurrenciesNavItem,
         dashboardCreditsNavItem,
         dashboardUserEventsNavItem,
         dashboardUsersNavItem,

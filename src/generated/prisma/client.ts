@@ -107,6 +107,16 @@ export type UserCredit = Prisma.UserCreditModel
  */
 export type UserCreditTimed = Prisma.UserCreditTimedModel
 /**
+ * Model Currency
+ * 
+ */
+export type Currency = Prisma.CurrencyModel
+/**
+ * Model UserCurrency
+ * 
+ */
+export type UserCurrency = Prisma.UserCurrencyModel
+/**
  * Model Account
  * 
  */

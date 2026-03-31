@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   IconCirclePlusFilled,
   IconCoin,
+  IconCoins,
   IconClockBolt,
   IconFileDescription,
   IconFolders,
@@ -31,6 +32,7 @@ const NAV_ICONS: Record<
   categories: IconFolders,
   content: IconFileDescription,
   credits: IconCoin,
+  currencies: IconCoins,
   events: IconClockBolt,
   languages: IconLanguage,
   tags: IconTags,

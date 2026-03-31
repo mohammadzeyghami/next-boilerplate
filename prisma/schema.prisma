@@ -69,6 +69,7 @@ model User {
   userEvents          UserEvent[]
   userCredits         UserCredit[]
   userCreditsTimed    UserCreditTimed[]
+  userCurrencies      UserCurrency[]
 }
 
 /// Identity + profile (single record per user)
@@ -268,6 +269,37 @@ model UserCreditTimed {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, creditsId, createdAt])
+}
+
+model Currency {
+  id           String        @id @default(cuid())
+  name         String
+  key          String        @unique
+  metadata     Json?
+  contentTypes ContentType[] @default([])
+  defaultValue Float         @default(0)
+  stableValue  Float         @default(1)
+  userBalances UserCurrency[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([name])
+}
+
+model UserCurrency {
+  id         String   @id @default(cuid())
+  userId     String
+  currencyId String
+  value      Float    @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currency Currency @relation(fields: [currencyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, currencyId])
+  @@index([userId, createdAt])
+  @@index([currencyId, createdAt])
 }
 
 model Account {

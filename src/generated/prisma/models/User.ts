@@ -198,6 +198,7 @@ export type UserWhereInput = {
   userEvents?: Prisma.UserEventListRelationFilter
   userCredits?: Prisma.UserCreditListRelationFilter
   userCreditsTimed?: Prisma.UserCreditTimedListRelationFilter
+  userCurrencies?: Prisma.UserCurrencyListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -215,6 +216,7 @@ export type UserOrderByWithRelationInput = {
   userEvents?: Prisma.UserEventOrderByRelationAggregateInput
   userCredits?: Prisma.UserCreditOrderByRelationAggregateInput
   userCreditsTimed?: Prisma.UserCreditTimedOrderByRelationAggregateInput
+  userCurrencies?: Prisma.UserCurrencyOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -235,6 +237,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   userEvents?: Prisma.UserEventListRelationFilter
   userCredits?: Prisma.UserCreditListRelationFilter
   userCreditsTimed?: Prisma.UserCreditTimedListRelationFilter
+  userCurrencies?: Prisma.UserCurrencyListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -276,6 +279,7 @@ export type UserCreateInput = {
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -293,6 +297,7 @@ export type UserUncheckedCreateInput = {
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -310,6 +315,7 @@ export type UserUpdateInput = {
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -327,6 +333,7 @@ export type UserUncheckedUpdateInput = {
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -474,6 +481,20 @@ export type UserUpdateOneRequiredWithoutUserCreditsTimedNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserCreditsTimedInput, Prisma.UserUpdateWithoutUserCreditsTimedInput>, Prisma.UserUncheckedUpdateWithoutUserCreditsTimedInput>
 }
 
+export type UserCreateNestedOneWithoutUserCurrenciesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserCurrenciesInput, Prisma.UserUncheckedCreateWithoutUserCurrenciesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserCurrenciesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUserCurrenciesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserCurrenciesInput, Prisma.UserUncheckedCreateWithoutUserCurrenciesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserCurrenciesInput
+  upsert?: Prisma.UserUpsertWithoutUserCurrenciesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserCurrenciesInput, Prisma.UserUpdateWithoutUserCurrenciesInput>, Prisma.UserUncheckedUpdateWithoutUserCurrenciesInput>
+}
+
 export type UserCreateNestedOneWithoutAccountsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAccountsInput, Prisma.UserUncheckedCreateWithoutAccountsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAccountsInput
@@ -530,6 +551,7 @@ export type UserCreateWithoutUserAuthInput = {
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserAuthInput = {
@@ -546,6 +568,7 @@ export type UserUncheckedCreateWithoutUserAuthInput = {
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserAuthInput = {
@@ -578,6 +601,7 @@ export type UserUpdateWithoutUserAuthInput = {
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserAuthInput = {
@@ -594,6 +618,7 @@ export type UserUncheckedUpdateWithoutUserAuthInput = {
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutContentsInput = {
@@ -610,6 +635,7 @@ export type UserCreateWithoutContentsInput = {
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutContentsInput = {
@@ -626,6 +652,7 @@ export type UserUncheckedCreateWithoutContentsInput = {
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutContentsInput = {
@@ -658,6 +685,7 @@ export type UserUpdateWithoutContentsInput = {
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContentsInput = {
@@ -674,6 +702,7 @@ export type UserUncheckedUpdateWithoutContentsInput = {
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserEventsInput = {
@@ -690,6 +719,7 @@ export type UserCreateWithoutUserEventsInput = {
   contents?: Prisma.ContentCreateNestedManyWithoutOwnerInput
   userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserEventsInput = {
@@ -706,6 +736,7 @@ export type UserUncheckedCreateWithoutUserEventsInput = {
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutOwnerInput
   userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserEventsInput = {
@@ -738,6 +769,7 @@ export type UserUpdateWithoutUserEventsInput = {
   contents?: Prisma.ContentUpdateManyWithoutOwnerNestedInput
   userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserEventsInput = {
@@ -754,6 +786,7 @@ export type UserUncheckedUpdateWithoutUserEventsInput = {
   contents?: Prisma.ContentUncheckedUpdateManyWithoutOwnerNestedInput
   userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserCreditsInput = {
@@ -770,6 +803,7 @@ export type UserCreateWithoutUserCreditsInput = {
   contents?: Prisma.ContentCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserCreditsInput = {
@@ -786,6 +820,7 @@ export type UserUncheckedCreateWithoutUserCreditsInput = {
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserCreditsInput = {
@@ -818,6 +853,7 @@ export type UserUpdateWithoutUserCreditsInput = {
   contents?: Prisma.ContentUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserCreditsInput = {
@@ -834,6 +870,7 @@ export type UserUncheckedUpdateWithoutUserCreditsInput = {
   contents?: Prisma.ContentUncheckedUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserCreditsTimedInput = {
@@ -850,6 +887,7 @@ export type UserCreateWithoutUserCreditsTimedInput = {
   contents?: Prisma.ContentCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserCreditsTimedInput = {
@@ -866,6 +904,7 @@ export type UserUncheckedCreateWithoutUserCreditsTimedInput = {
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutOwnerInput
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserCreditsTimedInput = {
@@ -898,6 +937,7 @@ export type UserUpdateWithoutUserCreditsTimedInput = {
   contents?: Prisma.ContentUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserCreditsTimedInput = {
@@ -914,6 +954,91 @@ export type UserUncheckedUpdateWithoutUserCreditsTimedInput = {
   contents?: Prisma.ContentUncheckedUpdateManyWithoutOwnerNestedInput
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutUserCurrenciesInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  image?: string | null
+  role?: $Enums.UserRole
+  userAuth?: Prisma.UserAuthCreateNestedOneWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  contents?: Prisma.ContentCreateNestedManyWithoutOwnerInput
+  userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutUserCurrenciesInput = {
+  id?: string
+  name?: string | null
+  email?: string | null
+  emailVerified?: Date | string | null
+  image?: string | null
+  role?: $Enums.UserRole
+  userAuth?: Prisma.UserAuthUncheckedCreateNestedOneWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  contents?: Prisma.ContentUncheckedCreateNestedManyWithoutOwnerInput
+  userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
+  userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutUserCurrenciesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserCurrenciesInput, Prisma.UserUncheckedCreateWithoutUserCurrenciesInput>
+}
+
+export type UserUpsertWithoutUserCurrenciesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUserCurrenciesInput, Prisma.UserUncheckedUpdateWithoutUserCurrenciesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserCurrenciesInput, Prisma.UserUncheckedCreateWithoutUserCurrenciesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUserCurrenciesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUserCurrenciesInput, Prisma.UserUncheckedUpdateWithoutUserCurrenciesInput>
+}
+
+export type UserUpdateWithoutUserCurrenciesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  userAuth?: Prisma.UserAuthUpdateOneWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  contents?: Prisma.ContentUpdateManyWithoutOwnerNestedInput
+  userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUserCurrenciesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  userAuth?: Prisma.UserAuthUncheckedUpdateOneWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  contents?: Prisma.ContentUncheckedUpdateManyWithoutOwnerNestedInput
+  userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
+  userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
+  userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -930,6 +1055,7 @@ export type UserCreateWithoutAccountsInput = {
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -946,6 +1072,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -978,6 +1105,7 @@ export type UserUpdateWithoutAccountsInput = {
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -994,6 +1122,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1010,6 +1139,7 @@ export type UserCreateWithoutSessionsInput = {
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1026,6 +1156,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1058,6 +1189,7 @@ export type UserUpdateWithoutSessionsInput = {
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1074,6 +1206,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPasswordResetTokensInput = {
@@ -1090,6 +1223,7 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   userEvents?: Prisma.UserEventCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
@@ -1106,6 +1240,7 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   userEvents?: Prisma.UserEventUncheckedCreateNestedManyWithoutUserInput
   userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutUserInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedCreateNestedManyWithoutUserInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
@@ -1138,6 +1273,7 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   userEvents?: Prisma.UserEventUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
@@ -1154,6 +1290,7 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   userEvents?: Prisma.UserEventUncheckedUpdateManyWithoutUserNestedInput
   userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutUserNestedInput
   userCreditsTimed?: Prisma.UserCreditTimedUncheckedUpdateManyWithoutUserNestedInput
+  userCurrencies?: Prisma.UserCurrencyUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1169,6 +1306,7 @@ export type UserCountOutputType = {
   userEvents: number
   userCredits: number
   userCreditsTimed: number
+  userCurrencies: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1179,6 +1317,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   userEvents?: boolean | UserCountOutputTypeCountUserEventsArgs
   userCredits?: boolean | UserCountOutputTypeCountUserCreditsArgs
   userCreditsTimed?: boolean | UserCountOutputTypeCountUserCreditsTimedArgs
+  userCurrencies?: boolean | UserCountOutputTypeCountUserCurrenciesArgs
 }
 
 /**
@@ -1240,6 +1379,13 @@ export type UserCountOutputTypeCountUserCreditsTimedArgs<ExtArgs extends runtime
   where?: Prisma.UserCreditTimedWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUserCurrenciesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserCurrencyWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1256,6 +1402,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   userEvents?: boolean | Prisma.User$userEventsArgs<ExtArgs>
   userCredits?: boolean | Prisma.User$userCreditsArgs<ExtArgs>
   userCreditsTimed?: boolean | Prisma.User$userCreditsTimedArgs<ExtArgs>
+  userCurrencies?: boolean | Prisma.User$userCurrenciesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1296,6 +1443,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   userEvents?: boolean | Prisma.User$userEventsArgs<ExtArgs>
   userCredits?: boolean | Prisma.User$userCreditsArgs<ExtArgs>
   userCreditsTimed?: boolean | Prisma.User$userCreditsTimedArgs<ExtArgs>
+  userCurrencies?: boolean | Prisma.User$userCurrenciesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1312,6 +1460,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     userEvents: Prisma.$UserEventPayload<ExtArgs>[]
     userCredits: Prisma.$UserCreditPayload<ExtArgs>[]
     userCreditsTimed: Prisma.$UserCreditTimedPayload<ExtArgs>[]
+    userCurrencies: Prisma.$UserCurrencyPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1722,6 +1871,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   userEvents<T extends Prisma.User$userEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userCredits<T extends Prisma.User$userCreditsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userCreditsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCreditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userCreditsTimed<T extends Prisma.User$userCreditsTimedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userCreditsTimedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCreditTimedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userCurrencies<T extends Prisma.User$userCurrenciesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userCurrenciesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCurrencyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2334,6 +2484,30 @@ export type User$userCreditsTimedArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.UserCreditTimedScalarFieldEnum | Prisma.UserCreditTimedScalarFieldEnum[]
+}
+
+/**
+ * User.userCurrencies
+ */
+export type User$userCurrenciesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserCurrency
+   */
+  select?: Prisma.UserCurrencySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserCurrency
+   */
+  omit?: Prisma.UserCurrencyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserCurrencyInclude<ExtArgs> | null
+  where?: Prisma.UserCurrencyWhereInput
+  orderBy?: Prisma.UserCurrencyOrderByWithRelationInput | Prisma.UserCurrencyOrderByWithRelationInput[]
+  cursor?: Prisma.UserCurrencyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserCurrencyScalarFieldEnum | Prisma.UserCurrencyScalarFieldEnum[]
 }
 
 /**
