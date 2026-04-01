@@ -216,7 +216,7 @@ model Credit {
   id            String            @id @default(cuid())
   name          String
   metadata      Json?
-  contentTypes  ContentType[]     @default([])
+  contentIds    String[]          @default([])
   creditLives   CreditLifeTime[]
   userCredits   UserCredit[]
   userTimed     UserCreditTimed[]
@@ -277,7 +277,7 @@ model Currency {
   name         String
   key          String        @unique
   metadata     Json?
-  contentTypes ContentType[] @default([])
+  contentIds   String[]      @default([])
   defaultValue Float         @default(0)
   stableValue  Float         @default(1)
   userBalances UserCurrency[]
@@ -308,7 +308,7 @@ model Meta {
   name         String
   key          String        @unique
   metadata     Json?
-  contentTypes ContentType[] @default([])
+  contentIds   String[]      @default([])
   defaultValue Float         @default(0)
   minValue     Float?
   maxValue     Float?

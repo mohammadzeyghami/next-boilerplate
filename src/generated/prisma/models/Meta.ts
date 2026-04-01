@@ -65,7 +65,7 @@ export type MetaCountAggregateOutputType = {
   name: number
   key: number
   metadata: number
-  contentTypes: number
+  contentIds: number
   defaultValue: number
   minValue: number
   maxValue: number
@@ -114,7 +114,7 @@ export type MetaCountAggregateInputType = {
   name?: true
   key?: true
   metadata?: true
-  contentTypes?: true
+  contentIds?: true
   defaultValue?: true
   minValue?: true
   maxValue?: true
@@ -214,7 +214,7 @@ export type MetaGroupByOutputType = {
   name: string
   key: string
   metadata: runtime.JsonValue | null
-  contentTypes: $Enums.ContentType[]
+  contentIds: string[]
   defaultValue: number
   minValue: number | null
   maxValue: number | null
@@ -250,7 +250,7 @@ export type MetaWhereInput = {
   name?: Prisma.StringFilter<"Meta"> | string
   key?: Prisma.StringFilter<"Meta"> | string
   metadata?: Prisma.JsonNullableFilter<"Meta">
-  contentTypes?: Prisma.EnumContentTypeNullableListFilter<"Meta">
+  contentIds?: Prisma.StringNullableListFilter<"Meta">
   defaultValue?: Prisma.FloatFilter<"Meta"> | number
   minValue?: Prisma.FloatNullableFilter<"Meta"> | number | null
   maxValue?: Prisma.FloatNullableFilter<"Meta"> | number | null
@@ -264,7 +264,7 @@ export type MetaOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   key?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
-  contentTypes?: Prisma.SortOrder
+  contentIds?: Prisma.SortOrder
   defaultValue?: Prisma.SortOrder
   minValue?: Prisma.SortOrderInput | Prisma.SortOrder
   maxValue?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -281,7 +281,7 @@ export type MetaWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.MetaWhereInput | Prisma.MetaWhereInput[]
   name?: Prisma.StringFilter<"Meta"> | string
   metadata?: Prisma.JsonNullableFilter<"Meta">
-  contentTypes?: Prisma.EnumContentTypeNullableListFilter<"Meta">
+  contentIds?: Prisma.StringNullableListFilter<"Meta">
   defaultValue?: Prisma.FloatFilter<"Meta"> | number
   minValue?: Prisma.FloatNullableFilter<"Meta"> | number | null
   maxValue?: Prisma.FloatNullableFilter<"Meta"> | number | null
@@ -295,7 +295,7 @@ export type MetaOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   key?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
-  contentTypes?: Prisma.SortOrder
+  contentIds?: Prisma.SortOrder
   defaultValue?: Prisma.SortOrder
   minValue?: Prisma.SortOrderInput | Prisma.SortOrder
   maxValue?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -316,7 +316,7 @@ export type MetaScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Meta"> | string
   key?: Prisma.StringWithAggregatesFilter<"Meta"> | string
   metadata?: Prisma.JsonNullableWithAggregatesFilter<"Meta">
-  contentTypes?: Prisma.EnumContentTypeNullableListFilter<"Meta">
+  contentIds?: Prisma.StringNullableListFilter<"Meta">
   defaultValue?: Prisma.FloatWithAggregatesFilter<"Meta"> | number
   minValue?: Prisma.FloatNullableWithAggregatesFilter<"Meta"> | number | null
   maxValue?: Prisma.FloatNullableWithAggregatesFilter<"Meta"> | number | null
@@ -329,7 +329,7 @@ export type MetaCreateInput = {
   name: string
   key: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.MetaCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.MetaCreatecontentIdsInput | string[]
   defaultValue?: number
   minValue?: number | null
   maxValue?: number | null
@@ -343,7 +343,7 @@ export type MetaUncheckedCreateInput = {
   name: string
   key: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.MetaCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.MetaCreatecontentIdsInput | string[]
   defaultValue?: number
   minValue?: number | null
   maxValue?: number | null
@@ -357,7 +357,7 @@ export type MetaUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   key?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.MetaUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.MetaUpdatecontentIdsInput | string[]
   defaultValue?: Prisma.FloatFieldUpdateOperationsInput | number
   minValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   maxValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -371,7 +371,7 @@ export type MetaUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   key?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.MetaUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.MetaUpdatecontentIdsInput | string[]
   defaultValue?: Prisma.FloatFieldUpdateOperationsInput | number
   minValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   maxValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -385,7 +385,7 @@ export type MetaCreateManyInput = {
   name: string
   key: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.MetaCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.MetaCreatecontentIdsInput | string[]
   defaultValue?: number
   minValue?: number | null
   maxValue?: number | null
@@ -398,7 +398,7 @@ export type MetaUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   key?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.MetaUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.MetaUpdatecontentIdsInput | string[]
   defaultValue?: Prisma.FloatFieldUpdateOperationsInput | number
   minValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   maxValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -411,7 +411,7 @@ export type MetaUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   key?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.MetaUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.MetaUpdatecontentIdsInput | string[]
   defaultValue?: Prisma.FloatFieldUpdateOperationsInput | number
   minValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   maxValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -424,7 +424,7 @@ export type MetaCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   key?: Prisma.SortOrder
   metadata?: Prisma.SortOrder
-  contentTypes?: Prisma.SortOrder
+  contentIds?: Prisma.SortOrder
   defaultValue?: Prisma.SortOrder
   minValue?: Prisma.SortOrder
   maxValue?: Prisma.SortOrder
@@ -471,13 +471,13 @@ export type MetaScalarRelationFilter = {
   isNot?: Prisma.MetaWhereInput
 }
 
-export type MetaCreatecontentTypesInput = {
-  set: $Enums.ContentType[]
+export type MetaCreatecontentIdsInput = {
+  set: string[]
 }
 
-export type MetaUpdatecontentTypesInput = {
-  set?: $Enums.ContentType[]
-  push?: $Enums.ContentType | $Enums.ContentType[]
+export type MetaUpdatecontentIdsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type NullableFloatFieldUpdateOperationsInput = {
@@ -507,7 +507,7 @@ export type MetaCreateWithoutUserMetasInput = {
   name: string
   key: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.MetaCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.MetaCreatecontentIdsInput | string[]
   defaultValue?: number
   minValue?: number | null
   maxValue?: number | null
@@ -520,7 +520,7 @@ export type MetaUncheckedCreateWithoutUserMetasInput = {
   name: string
   key: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.MetaCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.MetaCreatecontentIdsInput | string[]
   defaultValue?: number
   minValue?: number | null
   maxValue?: number | null
@@ -549,7 +549,7 @@ export type MetaUpdateWithoutUserMetasInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   key?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.MetaUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.MetaUpdatecontentIdsInput | string[]
   defaultValue?: Prisma.FloatFieldUpdateOperationsInput | number
   minValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   maxValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -562,7 +562,7 @@ export type MetaUncheckedUpdateWithoutUserMetasInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   key?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.MetaUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.MetaUpdatecontentIdsInput | string[]
   defaultValue?: Prisma.FloatFieldUpdateOperationsInput | number
   minValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   maxValue?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -606,7 +606,7 @@ export type MetaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   key?: boolean
   metadata?: boolean
-  contentTypes?: boolean
+  contentIds?: boolean
   defaultValue?: boolean
   minValue?: boolean
   maxValue?: boolean
@@ -621,7 +621,7 @@ export type MetaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   key?: boolean
   metadata?: boolean
-  contentTypes?: boolean
+  contentIds?: boolean
   defaultValue?: boolean
   minValue?: boolean
   maxValue?: boolean
@@ -634,7 +634,7 @@ export type MetaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   key?: boolean
   metadata?: boolean
-  contentTypes?: boolean
+  contentIds?: boolean
   defaultValue?: boolean
   minValue?: boolean
   maxValue?: boolean
@@ -647,7 +647,7 @@ export type MetaSelectScalar = {
   name?: boolean
   key?: boolean
   metadata?: boolean
-  contentTypes?: boolean
+  contentIds?: boolean
   defaultValue?: boolean
   minValue?: boolean
   maxValue?: boolean
@@ -655,7 +655,7 @@ export type MetaSelectScalar = {
   updatedAt?: boolean
 }
 
-export type MetaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "key" | "metadata" | "contentTypes" | "defaultValue" | "minValue" | "maxValue" | "createdAt" | "updatedAt", ExtArgs["result"]["meta"]>
+export type MetaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "key" | "metadata" | "contentIds" | "defaultValue" | "minValue" | "maxValue" | "createdAt" | "updatedAt", ExtArgs["result"]["meta"]>
 export type MetaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   userMetas?: boolean | Prisma.Meta$userMetasArgs<ExtArgs>
   _count?: boolean | Prisma.MetaCountOutputTypeDefaultArgs<ExtArgs>
@@ -673,7 +673,7 @@ export type $MetaPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     name: string
     key: string
     metadata: runtime.JsonValue | null
-    contentTypes: $Enums.ContentType[]
+    contentIds: string[]
     defaultValue: number
     minValue: number | null
     maxValue: number | null
@@ -1107,7 +1107,7 @@ export interface MetaFieldRefs {
   readonly name: Prisma.FieldRef<"Meta", 'String'>
   readonly key: Prisma.FieldRef<"Meta", 'String'>
   readonly metadata: Prisma.FieldRef<"Meta", 'Json'>
-  readonly contentTypes: Prisma.FieldRef<"Meta", 'ContentType[]'>
+  readonly contentIds: Prisma.FieldRef<"Meta", 'String[]'>
   readonly defaultValue: Prisma.FieldRef<"Meta", 'Float'>
   readonly minValue: Prisma.FieldRef<"Meta", 'Float'>
   readonly maxValue: Prisma.FieldRef<"Meta", 'Float'>

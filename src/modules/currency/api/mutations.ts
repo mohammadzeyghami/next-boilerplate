@@ -18,7 +18,7 @@ export function useCreateCurrencyMutation(page: number, pageSize: number) {
       name: string;
       key: string;
       metadataJson: string;
-      contentTypes: string[];
+      contentIds: string[];
       defaultValue: number;
       stableValue: number;
     }) => createCurrencyAction(toFormData(payload)),
@@ -38,7 +38,7 @@ export function useUpdateCurrencyMutation(page: number, pageSize: number) {
       name: string;
       key: string;
       metadataJson: string;
-      contentTypes: string[];
+      contentIds: string[];
       defaultValue: number;
       stableValue: number;
     }) => updateCurrencyAction(toFormData(payload)),

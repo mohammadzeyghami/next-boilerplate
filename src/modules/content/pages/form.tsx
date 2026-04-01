@@ -4,7 +4,8 @@ import InputR from "@/shared/components/molecules/inputs/Controllerd";
 import SelectR from "@/shared/components/molecules/select/selectR";
 import { ContentAccessOptions, ContentTypeOptions } from "../interfaces/Enums";
 import Collapse from "@/shared/components/molecules/collapse/Primary";
-import TextareaR from "@/shared/components/molecules/inputs/TextareaR";
+import MetadataEditorR from "@/shared/components/molecules/inputs/MetadataEditorR";
+import type { ContentFormValues } from "../interfaces/content.schema";
 
 const ContentForm = ({ needsFileUrl }: { needsFileUrl: boolean }) => {
   return (
@@ -45,10 +46,12 @@ const ContentForm = ({ needsFileUrl }: { needsFileUrl: boolean }) => {
 
       <Collapse trigger="Advanced Settings">
         <div className="flex flex-col gap-4 pt-4">
-          <TextareaR
-            name="metadata"
+          <MetadataEditorR<ContentFormValues>
+            name="metadataEntries"
             label="Metadata"
-            placeholder='Optional JSON, e.g. {"size":"2mb"}'
+            addLabel="Add field"
+            keyPlaceholder="Key"
+            valuePlaceholder="Value"
           />
 
           <CheckBoxR name="isEarnable" label="Is Earnable" />

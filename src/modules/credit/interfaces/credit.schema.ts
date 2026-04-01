@@ -1,6 +1,9 @@
 import { z } from "zod";
 
-import { contentTypeValues } from "@/modules/content/interfaces/content.schema";
+const metadataEntrySchema = z.object({
+  key: z.string(),
+  value: z.string(),
+});
 
 export const creditFormSchema = z.object({
   name: z
@@ -8,11 +11,8 @@ export const creditFormSchema = z.object({
     .trim()
     .min(1, "Name is required.")
     .max(200, "Name must be at most 200 characters."),
-  metadataJson: z
-    .string()
-    .trim()
-    .max(20_000, "Metadata JSON is too large."),
-  contentTypes: z.array(z.enum(contentTypeValues)),
+  metadataEntries: z.array(metadataEntrySchema),
+  contentIds: z.array(z.string().min(1)),
 });
 
 export const creditLifeTimeFormSchema = z.object({
@@ -22,10 +22,7 @@ export const creditLifeTimeFormSchema = z.object({
     .trim()
     .min(1, "Name is required.")
     .max(200, "Name must be at most 200 characters."),
-  metadataJson: z
-    .string()
-    .trim()
-    .max(20_000, "Metadata JSON is too large."),
+  metadataEntries: z.array(metadataEntrySchema),
   lifeTime: z.coerce
     .number()
     .int()

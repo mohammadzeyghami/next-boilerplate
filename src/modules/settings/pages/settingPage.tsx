@@ -175,7 +175,7 @@ export default function EditProfileForm() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full p-6">
       <div className="max-w-md rounded-lg border p-4 shadow-md">
         <FormProvider methods={form} onSubmit={onSubmit}>
           <div className="flex flex-col gap-4">

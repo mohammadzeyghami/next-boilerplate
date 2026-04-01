@@ -10,6 +10,7 @@ import {
   IconFolders,
   IconLanguage,
   IconMedal,
+  IconSettings,
   IconTags,
   IconUsers,
 } from "@tabler/icons-react";
@@ -35,6 +36,7 @@ const MODULE_ICONS: Record<
   events: IconClockBolt,
   languages: IconLanguage,
   metas: IconMedal,
+  settings: IconSettings,
   tags: IconTags,
   users: IconUsers,
 };

@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+const metadataEntrySchema = z.object({
+  key: z.string(),
+  value: z.string(),
+});
+
 export const tagFormSchema = z.object({
   name: z
     .string()
@@ -11,10 +16,7 @@ export const tagFormSchema = z.object({
     .trim()
     .max(2000, "Description must be at most 2,000 characters."),
   label: z.string().trim().max(200, "Label must be at most 200 characters."),
-  metadataJson: z
-    .string()
-    .trim()
-    .max(20_000, "Metadata JSON is too large."),
+  metadataEntries: z.array(metadataEntrySchema),
   contentIds: z.array(z.string().min(1)),
 });
 

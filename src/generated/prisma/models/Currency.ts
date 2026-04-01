@@ -61,7 +61,7 @@ export type CurrencyCountAggregateOutputType = {
   name: number
   key: number
   metadata: number
-  contentTypes: number
+  contentIds: number
   defaultValue: number
   stableValue: number
   createdAt: number
@@ -105,7 +105,7 @@ export type CurrencyCountAggregateInputType = {
   name?: true
   key?: true
   metadata?: true
-  contentTypes?: true
+  contentIds?: true
   defaultValue?: true
   stableValue?: true
   createdAt?: true
@@ -204,7 +204,7 @@ export type CurrencyGroupByOutputType = {
   name: string
   key: string
   metadata: runtime.JsonValue | null
-  contentTypes: $Enums.ContentType[]
+  contentIds: string[]
   defaultValue: number
   stableValue: number
   createdAt: Date
@@ -239,7 +239,7 @@ export type CurrencyWhereInput = {
   name?: Prisma.StringFilter<"Currency"> | string
   key?: Prisma.StringFilter<"Currency"> | string
   metadata?: Prisma.JsonNullableFilter<"Currency">
-  contentTypes?: Prisma.EnumContentTypeNullableListFilter<"Currency">
+  contentIds?: Prisma.StringNullableListFilter<"Currency">
   defaultValue?: Prisma.FloatFilter<"Currency"> | number
   stableValue?: Prisma.FloatFilter<"Currency"> | number
   createdAt?: Prisma.DateTimeFilter<"Currency"> | Date | string
@@ -252,7 +252,7 @@ export type CurrencyOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   key?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
-  contentTypes?: Prisma.SortOrder
+  contentIds?: Prisma.SortOrder
   defaultValue?: Prisma.SortOrder
   stableValue?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -268,7 +268,7 @@ export type CurrencyWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CurrencyWhereInput | Prisma.CurrencyWhereInput[]
   name?: Prisma.StringFilter<"Currency"> | string
   metadata?: Prisma.JsonNullableFilter<"Currency">
-  contentTypes?: Prisma.EnumContentTypeNullableListFilter<"Currency">
+  contentIds?: Prisma.StringNullableListFilter<"Currency">
   defaultValue?: Prisma.FloatFilter<"Currency"> | number
   stableValue?: Prisma.FloatFilter<"Currency"> | number
   createdAt?: Prisma.DateTimeFilter<"Currency"> | Date | string
@@ -281,7 +281,7 @@ export type CurrencyOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   key?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
-  contentTypes?: Prisma.SortOrder
+  contentIds?: Prisma.SortOrder
   defaultValue?: Prisma.SortOrder
   stableValue?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -301,7 +301,7 @@ export type CurrencyScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Currency"> | string
   key?: Prisma.StringWithAggregatesFilter<"Currency"> | string
   metadata?: Prisma.JsonNullableWithAggregatesFilter<"Currency">
-  contentTypes?: Prisma.EnumContentTypeNullableListFilter<"Currency">
+  contentIds?: Prisma.StringNullableListFilter<"Currency">
   defaultValue?: Prisma.FloatWithAggregatesFilter<"Currency"> | number
   stableValue?: Prisma.FloatWithAggregatesFilter<"Currency"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Currency"> | Date | string
@@ -313,7 +313,7 @@ export type CurrencyCreateInput = {
   name: string
   key: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CurrencyCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CurrencyCreatecontentIdsInput | string[]
   defaultValue?: number
   stableValue?: number
   createdAt?: Date | string
@@ -326,7 +326,7 @@ export type CurrencyUncheckedCreateInput = {
   name: string
   key: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CurrencyCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CurrencyCreatecontentIdsInput | string[]
   defaultValue?: number
   stableValue?: number
   createdAt?: Date | string
@@ -339,7 +339,7 @@ export type CurrencyUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   key?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CurrencyUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CurrencyUpdatecontentIdsInput | string[]
   defaultValue?: Prisma.FloatFieldUpdateOperationsInput | number
   stableValue?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -352,7 +352,7 @@ export type CurrencyUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   key?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CurrencyUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CurrencyUpdatecontentIdsInput | string[]
   defaultValue?: Prisma.FloatFieldUpdateOperationsInput | number
   stableValue?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -365,7 +365,7 @@ export type CurrencyCreateManyInput = {
   name: string
   key: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CurrencyCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CurrencyCreatecontentIdsInput | string[]
   defaultValue?: number
   stableValue?: number
   createdAt?: Date | string
@@ -377,7 +377,7 @@ export type CurrencyUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   key?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CurrencyUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CurrencyUpdatecontentIdsInput | string[]
   defaultValue?: Prisma.FloatFieldUpdateOperationsInput | number
   stableValue?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -389,7 +389,7 @@ export type CurrencyUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   key?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CurrencyUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CurrencyUpdatecontentIdsInput | string[]
   defaultValue?: Prisma.FloatFieldUpdateOperationsInput | number
   stableValue?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -401,7 +401,7 @@ export type CurrencyCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   key?: Prisma.SortOrder
   metadata?: Prisma.SortOrder
-  contentTypes?: Prisma.SortOrder
+  contentIds?: Prisma.SortOrder
   defaultValue?: Prisma.SortOrder
   stableValue?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -443,13 +443,13 @@ export type CurrencyScalarRelationFilter = {
   isNot?: Prisma.CurrencyWhereInput
 }
 
-export type CurrencyCreatecontentTypesInput = {
-  set: $Enums.ContentType[]
+export type CurrencyCreatecontentIdsInput = {
+  set: string[]
 }
 
-export type CurrencyUpdatecontentTypesInput = {
-  set?: $Enums.ContentType[]
-  push?: $Enums.ContentType | $Enums.ContentType[]
+export type CurrencyUpdatecontentIdsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type FloatFieldUpdateOperationsInput = {
@@ -479,7 +479,7 @@ export type CurrencyCreateWithoutUserBalancesInput = {
   name: string
   key: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CurrencyCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CurrencyCreatecontentIdsInput | string[]
   defaultValue?: number
   stableValue?: number
   createdAt?: Date | string
@@ -491,7 +491,7 @@ export type CurrencyUncheckedCreateWithoutUserBalancesInput = {
   name: string
   key: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CurrencyCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CurrencyCreatecontentIdsInput | string[]
   defaultValue?: number
   stableValue?: number
   createdAt?: Date | string
@@ -519,7 +519,7 @@ export type CurrencyUpdateWithoutUserBalancesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   key?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CurrencyUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CurrencyUpdatecontentIdsInput | string[]
   defaultValue?: Prisma.FloatFieldUpdateOperationsInput | number
   stableValue?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -531,7 +531,7 @@ export type CurrencyUncheckedUpdateWithoutUserBalancesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   key?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CurrencyUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CurrencyUpdatecontentIdsInput | string[]
   defaultValue?: Prisma.FloatFieldUpdateOperationsInput | number
   stableValue?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -574,7 +574,7 @@ export type CurrencySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name?: boolean
   key?: boolean
   metadata?: boolean
-  contentTypes?: boolean
+  contentIds?: boolean
   defaultValue?: boolean
   stableValue?: boolean
   createdAt?: boolean
@@ -588,7 +588,7 @@ export type CurrencySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   key?: boolean
   metadata?: boolean
-  contentTypes?: boolean
+  contentIds?: boolean
   defaultValue?: boolean
   stableValue?: boolean
   createdAt?: boolean
@@ -600,7 +600,7 @@ export type CurrencySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   key?: boolean
   metadata?: boolean
-  contentTypes?: boolean
+  contentIds?: boolean
   defaultValue?: boolean
   stableValue?: boolean
   createdAt?: boolean
@@ -612,14 +612,14 @@ export type CurrencySelectScalar = {
   name?: boolean
   key?: boolean
   metadata?: boolean
-  contentTypes?: boolean
+  contentIds?: boolean
   defaultValue?: boolean
   stableValue?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CurrencyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "key" | "metadata" | "contentTypes" | "defaultValue" | "stableValue" | "createdAt" | "updatedAt", ExtArgs["result"]["currency"]>
+export type CurrencyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "key" | "metadata" | "contentIds" | "defaultValue" | "stableValue" | "createdAt" | "updatedAt", ExtArgs["result"]["currency"]>
 export type CurrencyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   userBalances?: boolean | Prisma.Currency$userBalancesArgs<ExtArgs>
   _count?: boolean | Prisma.CurrencyCountOutputTypeDefaultArgs<ExtArgs>
@@ -637,7 +637,7 @@ export type $CurrencyPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     name: string
     key: string
     metadata: runtime.JsonValue | null
-    contentTypes: $Enums.ContentType[]
+    contentIds: string[]
     defaultValue: number
     stableValue: number
     createdAt: Date
@@ -1070,7 +1070,7 @@ export interface CurrencyFieldRefs {
   readonly name: Prisma.FieldRef<"Currency", 'String'>
   readonly key: Prisma.FieldRef<"Currency", 'String'>
   readonly metadata: Prisma.FieldRef<"Currency", 'Json'>
-  readonly contentTypes: Prisma.FieldRef<"Currency", 'ContentType[]'>
+  readonly contentIds: Prisma.FieldRef<"Currency", 'String[]'>
   readonly defaultValue: Prisma.FieldRef<"Currency", 'Float'>
   readonly stableValue: Prisma.FieldRef<"Currency", 'Float'>
   readonly createdAt: Prisma.FieldRef<"Currency", 'DateTime'>

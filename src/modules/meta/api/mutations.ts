@@ -18,7 +18,7 @@ export function useCreateMetaMutation(page: number, pageSize: number) {
       name: string;
       key: string;
       metadataJson: string;
-      contentTypes: string[];
+      contentIds: string[];
       defaultValue: number;
       minValue: number | null;
       maxValue: number | null;
@@ -39,7 +39,7 @@ export function useUpdateMetaMutation(page: number, pageSize: number) {
       name: string;
       key: string;
       metadataJson: string;
-      contentTypes: string[];
+      contentIds: string[];
       defaultValue: number;
       minValue: number | null;
       maxValue: number | null;

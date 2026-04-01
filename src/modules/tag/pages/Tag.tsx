@@ -13,6 +13,10 @@ import { Button } from "@/shared/components/atoms/button";
 import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalFormShell";
 import { toast } from "@/shared/components/atoms/toast/toast-store";
 import P from "@/shared/components/atoms/typography/P";
+import {
+  metadataEntriesFromUnknown,
+  metadataObjectFromEntries,
+} from "@/shared/utils/metadata";
 
 import type { TagDto } from "../actions/tag.actions";
 import { tagFormSchema, type TagFormValues } from "../interfaces/tag.schema";
@@ -28,7 +32,7 @@ const emptyTagForm: TagFormValues = {
   name: "",
   description: "",
   label: "",
-  metadataJson: "",
+  metadataEntries: [{ key: "", value: "" }],
   contentIds: [],
 };
 
@@ -37,7 +41,7 @@ function tagDtoToFormValues(t: TagDto): TagFormValues {
     name: t.name,
     description: t.description ?? "",
     label: t.label ?? "",
-    metadataJson: t.metadata ? JSON.stringify(t.metadata) : "",
+    metadataEntries: metadataEntriesFromUnknown(t.metadata),
     contentIds: [...t.contentIds],
   };
 }
@@ -92,7 +96,9 @@ export default function TagPage({ canManageTags }: { canManageTags: boolean }) {
       name: values.name.trim(),
       description: values.description.trim(),
       label: values.label.trim(),
-      metadataJson: values.metadataJson.trim(),
+      metadataJson: JSON.stringify(
+        metadataObjectFromEntries(values.metadataEntries) ?? {},
+      ),
       contentIds: values.contentIds,
     };
 

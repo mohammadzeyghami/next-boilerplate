@@ -13,6 +13,10 @@ import { toast } from "@/shared/components/atoms/toast/toast-store";
 import P from "@/shared/components/atoms/typography/P";
 import { TablePrimary } from "@/shared/components/organisms/Table/Table";
 import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalFormShell";
+import {
+  metadataEntriesFromUnknown,
+  metadataObjectFromEntries,
+} from "@/shared/utils/metadata";
 
 import type { CurrencyDto } from "../actions/currency.actions";
 import {
@@ -20,7 +24,10 @@ import {
   useDeleteCurrencyMutation,
   useUpdateCurrencyMutation,
 } from "../api/mutations";
-import { useCurrenciesQuery } from "../api/queries";
+import {
+  useCurrenciesQuery,
+  useCurrencyContentOptionsQuery,
+} from "../api/queries";
 import {
   currencyFormSchema,
   type CurrencyFormValues,
@@ -30,8 +37,8 @@ import CurrencyForm from "./currency-form";
 const emptyCurrencyForm: CurrencyFormValues = {
   name: "",
   key: "",
-  metadataJson: "",
-  contentTypes: [],
+  metadataEntries: [{ key: "", value: "" }],
+  contentIds: [],
   defaultValue: 0,
   stableValue: 1,
 };
@@ -40,8 +47,8 @@ function currencyDtoToFormValues(currency: CurrencyDto): CurrencyFormValues {
   return {
     name: currency.name,
     key: currency.key,
-    metadataJson: currency.metadata ? JSON.stringify(currency.metadata) : "",
-    contentTypes: [...currency.contentTypes],
+    metadataEntries: metadataEntriesFromUnknown(currency.metadata),
+    contentIds: [...currency.contentIds],
     defaultValue: currency.defaultValue,
     stableValue: currency.stableValue,
   };
@@ -64,6 +71,9 @@ export default function CurrencyPage({
     error,
     refetch,
   } = useCurrenciesQuery(page, pageSize);
+  const { data: contentOptions = [] } = useCurrencyContentOptionsQuery(
+    canManageCurrencies && open,
+  );
 
   const createMutation = useCreateCurrencyMutation(page, pageSize);
   const updateMutation = useUpdateCurrencyMutation(page, pageSize);
@@ -79,11 +89,11 @@ export default function CurrencyPage({
       { accessorKey: "name", header: "Name" },
       { accessorKey: "key", header: "Key" },
       {
-        id: "contentTypes",
-        header: "Content Types",
+        id: "contentIds",
+        header: "Linked contents",
         cell: ({ row }) =>
-          row.original.contentTypes.length > 0
-            ? row.original.contentTypes.join(", ")
+          row.original.contentIds.length > 0
+            ? row.original.contentIds.join(", ")
             : "—",
       },
       { accessorKey: "defaultValue", header: "Default" },
@@ -145,8 +155,10 @@ export default function CurrencyPage({
     const payload = {
       name: values.name.trim(),
       key: values.key.trim(),
-      metadataJson: values.metadataJson.trim(),
-      contentTypes: values.contentTypes,
+      metadataJson: JSON.stringify(
+        metadataObjectFromEntries(values.metadataEntries) ?? {},
+      ),
+      contentIds: values.contentIds,
       defaultValue: Number(values.defaultValue),
       stableValue: Number(values.stableValue),
     };
@@ -245,7 +257,7 @@ export default function CurrencyPage({
             updateMutation.isPending
           }
         >
-          <CurrencyForm />
+          <CurrencyForm contentOptions={contentOptions} />
         </ModalFormShell>
       )}
     </div>

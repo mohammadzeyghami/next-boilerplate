@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import {
+  listCreditContentOptionsAction,
   listCreditsAction,
   listCreditLifeTimesAction,
   listCreditsPageAction,
@@ -60,5 +61,19 @@ export function useCreditLifeTimesPageQuery(page: number, pageSize: number) {
       }
       return res.data;
     },
+  });
+}
+
+export function useCreditContentOptionsQuery(enabled = true) {
+  return useQuery({
+    queryKey: creditKeys.contentOptions(),
+    queryFn: async () => {
+      const res = await listCreditContentOptionsAction();
+      if (!res.ok) {
+        throw new Error(res.error ?? "Failed to load content options.");
+      }
+      return res.data;
+    },
+    enabled,
   });
 }

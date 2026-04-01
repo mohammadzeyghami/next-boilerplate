@@ -13,6 +13,10 @@ import { toast } from "@/shared/components/atoms/toast/toast-store";
 import P from "@/shared/components/atoms/typography/P";
 import { TablePrimary } from "@/shared/components/organisms/Table/Table";
 import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalFormShell";
+import {
+  metadataEntriesFromUnknown,
+  metadataObjectFromEntries,
+} from "@/shared/utils/metadata";
 
 import type { MetaDto } from "../actions/meta.actions";
 import {
@@ -20,15 +24,15 @@ import {
   useDeleteMetaMutation,
   useUpdateMetaMutation,
 } from "../api/mutations";
-import { useMetasQuery } from "../api/queries";
+import { useMetaContentOptionsQuery, useMetasQuery } from "../api/queries";
 import { metaFormSchema, type MetaFormValues } from "../interfaces/meta.schema";
 import MetaForm from "./meta-form";
 
 const emptyMetaForm: MetaFormValues = {
   name: "",
   key: "",
-  metadataJson: "",
-  contentTypes: [],
+  metadataEntries: [{ key: "", value: "" }],
+  contentIds: [],
   defaultValue: 0,
   minValue: Number.NaN,
   maxValue: Number.NaN,
@@ -38,8 +42,8 @@ function metaDtoToFormValues(meta: MetaDto): MetaFormValues {
   return {
     name: meta.name,
     key: meta.key,
-    metadataJson: meta.metadata ? JSON.stringify(meta.metadata) : "",
-    contentTypes: [...meta.contentTypes],
+    metadataEntries: metadataEntriesFromUnknown(meta.metadata),
+    contentIds: [...meta.contentIds],
     defaultValue: meta.defaultValue,
     minValue: meta.minValue ?? Number.NaN,
     maxValue: meta.maxValue ?? Number.NaN,
@@ -63,6 +67,9 @@ export default function MetaPage({ canManageMetas }: { canManageMetas: boolean }
     error,
     refetch,
   } = useMetasQuery(page, pageSize);
+  const { data: contentOptions = [] } = useMetaContentOptionsQuery(
+    canManageMetas && open,
+  );
 
   const createMutation = useCreateMetaMutation(page, pageSize);
   const updateMutation = useUpdateMetaMutation(page, pageSize);
@@ -78,11 +85,11 @@ export default function MetaPage({ canManageMetas }: { canManageMetas: boolean }
       { accessorKey: "name", header: "Name" },
       { accessorKey: "key", header: "Key" },
       {
-        id: "contentTypes",
-        header: "Content Types",
+        id: "contentIds",
+        header: "Linked contents",
         cell: ({ row }) =>
-          row.original.contentTypes.length > 0
-            ? row.original.contentTypes.join(", ")
+          row.original.contentIds.length > 0
+            ? row.original.contentIds.join(", ")
             : "—",
       },
       { accessorKey: "defaultValue", header: "Default" },
@@ -152,8 +159,10 @@ export default function MetaPage({ canManageMetas }: { canManageMetas: boolean }
     const payload = {
       name: values.name.trim(),
       key: values.key.trim(),
-      metadataJson: values.metadataJson.trim(),
-      contentTypes: values.contentTypes,
+      metadataJson: JSON.stringify(
+        metadataObjectFromEntries(values.metadataEntries) ?? {},
+      ),
+      contentIds: values.contentIds,
       defaultValue: Number(values.defaultValue),
       minValue: normalizeNullableNumber(values.minValue),
       maxValue: normalizeNullableNumber(values.maxValue),
@@ -246,7 +255,7 @@ export default function MetaPage({ canManageMetas }: { canManageMetas: boolean }
         confirmText={editingMeta ? "Save changes" : "Create meta"}
         submitting={createMutation.isPending || updateMutation.isPending}
       >
-        <MetaForm />
+        <MetaForm contentOptions={contentOptions} />
       </ModalFormShell>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@/generated/prisma/client";
-import type { ContentType, UserRole } from "@/generated/prisma/enums";
+import type { UserRole } from "@/generated/prisma/enums";
 
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
@@ -16,12 +16,17 @@ export type MetaDto = {
   name: string;
   key: string;
   metadata: Record<string, unknown> | null;
-  contentTypes: ContentType[];
+  contentIds: string[];
   defaultValue: number;
   minValue: number | null;
   maxValue: number | null;
   createdAt: string;
   updatedAt: string;
+};
+
+export type MetaContentOption = {
+  id: string;
+  name: string;
 };
 
 export type UserMetaDto = {
@@ -89,7 +94,7 @@ function parseMetadataJson(raw: string): Record<string, unknown> | null {
   }
 }
 
-function parseContentTypesJson(raw: FormDataEntryValue | null): string[] {
+function parseContentIdsJson(raw: FormDataEntryValue | null): string[] {
   const s = String(raw ?? "").trim();
   if (!s) return [];
   try {
@@ -131,7 +136,7 @@ function toMetaDto(row: {
   name: string;
   key: string;
   metadata: unknown;
-  contentTypes: ContentType[];
+  contentIds: string[];
   defaultValue: number;
   minValue: number | null;
   maxValue: number | null;
@@ -146,7 +151,7 @@ function toMetaDto(row: {
       row.metadata && typeof row.metadata === "object" && !Array.isArray(row.metadata)
         ? (row.metadata as Record<string, unknown>)
         : null,
-    contentTypes: row.contentTypes,
+    contentIds: row.contentIds,
     defaultValue: row.defaultValue,
     minValue: row.minValue,
     maxValue: row.maxValue,
@@ -261,15 +266,37 @@ export async function listMetasAction(input?: {
   };
 }
 
+export async function listMetaContentOptionsAction(): Promise<
+  { ok: true; data: MetaContentOption[] } | { ok: false; error: string }
+> {
+  const current = await getCurrentDbUser();
+  if ("error" in current) {
+    return { ok: false, error: current.error };
+  }
+
+  const where = isElevatedRole(current.user.role)
+    ? {}
+    : { ownerId: current.user.id };
+
+  const rows = await prisma.content.findMany({
+    where,
+    select: { id: true, name: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return { ok: true, data: rows };
+}
+
 export async function createMetaAction(formData: FormData): Promise<MetaActionResult> {
   const gate = await requireElevatedActor();
   if ("error" in gate) return { ok: false, error: gate.error };
+  const metadataJson = String(formData.get("metadataJson") ?? "").trim();
 
   const parsed = metaFormSchema.safeParse({
     name: String(formData.get("name") ?? "").trim(),
     key: String(formData.get("key") ?? "").trim(),
-    metadataJson: String(formData.get("metadataJson") ?? "").trim(),
-    contentTypes: parseContentTypesJson(formData.get("contentTypes")),
+    metadataEntries: [],
+    contentIds: parseContentIdsJson(formData.get("contentIds")),
     defaultValue: String(formData.get("defaultValue") ?? "0"),
     minValue: parseNullableNumber(formData.get("minValue")),
     maxValue: parseNullableNumber(formData.get("maxValue")),
@@ -280,7 +307,7 @@ export async function createMetaAction(formData: FormData): Promise<MetaActionRe
 
   let metadata: Record<string, unknown> | null;
   try {
-    metadata = parseMetadataJson(parsed.data.metadataJson);
+    metadata = parseMetadataJson(metadataJson);
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Invalid metadata." };
   }
@@ -288,12 +315,24 @@ export async function createMetaAction(formData: FormData): Promise<MetaActionRe
   const minValue = normalizeOptionalNumber(parsed.data.minValue);
   const maxValue = normalizeOptionalNumber(parsed.data.maxValue);
 
+  if (parsed.data.contentIds.length > 0) {
+    const count = await prisma.content.count({
+      where: { id: { in: parsed.data.contentIds } },
+    });
+    if (count !== parsed.data.contentIds.length) {
+      return {
+        ok: false,
+        error: "One or more selected contents do not exist.",
+      };
+    }
+  }
+
   try {
     await prisma.meta.create({
       data: {
         name: parsed.data.name,
         key: parsed.data.key,
-        contentTypes: parsed.data.contentTypes,
+        contentIds: parsed.data.contentIds,
         defaultValue: clampValue(parsed.data.defaultValue, { minValue, maxValue }),
         minValue,
         maxValue,
@@ -317,6 +356,7 @@ export async function createMetaAction(formData: FormData): Promise<MetaActionRe
 export async function updateMetaAction(formData: FormData): Promise<MetaActionResult> {
   const gate = await requireElevatedActor();
   if ("error" in gate) return { ok: false, error: gate.error };
+  const metadataJson = String(formData.get("metadataJson") ?? "").trim();
 
   const id = String(formData.get("id") ?? "").trim();
   if (!id) return { ok: false, error: "Missing meta id." };
@@ -324,8 +364,8 @@ export async function updateMetaAction(formData: FormData): Promise<MetaActionRe
   const parsed = metaFormSchema.safeParse({
     name: String(formData.get("name") ?? "").trim(),
     key: String(formData.get("key") ?? "").trim(),
-    metadataJson: String(formData.get("metadataJson") ?? "").trim(),
-    contentTypes: parseContentTypesJson(formData.get("contentTypes")),
+    metadataEntries: [],
+    contentIds: parseContentIdsJson(formData.get("contentIds")),
     defaultValue: String(formData.get("defaultValue") ?? "0"),
     minValue: parseNullableNumber(formData.get("minValue")),
     maxValue: parseNullableNumber(formData.get("maxValue")),
@@ -336,7 +376,7 @@ export async function updateMetaAction(formData: FormData): Promise<MetaActionRe
 
   let metadata: Record<string, unknown> | null;
   try {
-    metadata = parseMetadataJson(parsed.data.metadataJson);
+    metadata = parseMetadataJson(metadataJson);
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Invalid metadata." };
   }
@@ -344,13 +384,25 @@ export async function updateMetaAction(formData: FormData): Promise<MetaActionRe
   const minValue = normalizeOptionalNumber(parsed.data.minValue);
   const maxValue = normalizeOptionalNumber(parsed.data.maxValue);
 
+  if (parsed.data.contentIds.length > 0) {
+    const count = await prisma.content.count({
+      where: { id: { in: parsed.data.contentIds } },
+    });
+    if (count !== parsed.data.contentIds.length) {
+      return {
+        ok: false,
+        error: "One or more selected contents do not exist.",
+      };
+    }
+  }
+
   try {
     await prisma.meta.update({
       where: { id },
       data: {
         name: parsed.data.name,
         key: parsed.data.key,
-        contentTypes: parsed.data.contentTypes,
+        contentIds: parsed.data.contentIds,
         defaultValue: clampValue(parsed.data.defaultValue, { minValue, maxValue }),
         minValue,
         maxValue,

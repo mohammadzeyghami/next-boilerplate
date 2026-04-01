@@ -2,7 +2,8 @@
 
 import InputR from "@/shared/components/molecules/inputs/Controllerd";
 import SelectR from "@/shared/components/molecules/select/selectR";
-import P from "@/shared/components/atoms/typography/P";
+import MetadataEditorR from "@/shared/components/molecules/inputs/MetadataEditorR";
+import Collapse from "@/shared/components/molecules/collapse/Primary";
 
 import type { CreditDto } from "../actions/credit.actions";
 import type { CreditLifeTimeFormValues } from "../interfaces/credit.schema";
@@ -40,14 +41,17 @@ export default function CreditLifeTimeForm({
         required
       />
 
-      <InputR<CreditLifeTimeFormValues>
-        name="metadataJson"
-        label="Metadata (JSON object)"
-        placeholder='e.g. {"tier":"starter"}'
-      />
-      <P className="text-muted-foreground text-xs">
-        Optional. Must be a JSON object, not an array.
-      </P>
+      <Collapse trigger="Advanced Settings">
+        <div className="flex flex-col gap-4 pt-4">
+          <MetadataEditorR<CreditLifeTimeFormValues>
+            name="metadataEntries"
+            label="Metadata"
+            addLabel="Add field"
+            keyPlaceholder="Key"
+            valuePlaceholder="Value"
+          />
+        </div>
+      </Collapse>
     </div>
   );
 }

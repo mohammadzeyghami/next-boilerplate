@@ -20,13 +20,13 @@ export function useCreateCreditMutation(page = 1, pageSize = 10) {
     mutationFn: (payload: {
       name: string;
       metadataJson: string;
-      contentTypes: string[];
+      contentIds: string[];
     }) =>
       createCreditAction(
         toFormData({
           name: payload.name,
           metadataJson: payload.metadataJson,
-          contentTypes: payload.contentTypes,
+          contentIds: payload.contentIds,
         }),
       ),
     onSuccess: () => {
@@ -45,14 +45,14 @@ export function useUpdateCreditMutation(page = 1, pageSize = 10) {
       id: string;
       name: string;
       metadataJson: string;
-      contentTypes: string[];
+      contentIds: string[];
     }) =>
       updateCreditAction(
         toFormData({
           id: payload.id,
           name: payload.name,
           metadataJson: payload.metadataJson,
-          contentTypes: payload.contentTypes,
+          contentIds: payload.contentIds,
         }),
       ),
     onSuccess: () => {

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@/generated/prisma/client";
-import type { ContentType, UserRole } from "@/generated/prisma/enums";
+import type { UserRole } from "@/generated/prisma/enums";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { isElevatedRole } from "@/lib/user-auth/roles";
@@ -15,11 +15,16 @@ export type CurrencyDto = {
   name: string;
   key: string;
   metadata: Record<string, unknown> | null;
-  contentTypes: ContentType[];
+  contentIds: string[];
   defaultValue: number;
   stableValue: number;
   createdAt: string;
   updatedAt: string;
+};
+
+export type CurrencyContentOption = {
+  id: string;
+  name: string;
 };
 
 export type UserCurrencyDto = {
@@ -88,7 +93,7 @@ function parseMetadataJson(raw: string): Record<string, unknown> | null {
   }
 }
 
-function parseContentTypesJson(raw: FormDataEntryValue | null): string[] {
+function parseContentIdsJson(raw: FormDataEntryValue | null): string[] {
   const s = String(raw ?? "").trim();
   if (!s) return [];
   try {
@@ -105,7 +110,7 @@ function toCurrencyDto(row: {
   name: string;
   key: string;
   metadata: unknown;
-  contentTypes: ContentType[];
+  contentIds: string[];
   defaultValue: number;
   stableValue: number;
   createdAt: Date;
@@ -119,7 +124,7 @@ function toCurrencyDto(row: {
       row.metadata && typeof row.metadata === "object" && !Array.isArray(row.metadata)
         ? (row.metadata as Record<string, unknown>)
         : null,
-    contentTypes: row.contentTypes,
+    contentIds: row.contentIds,
     defaultValue: row.defaultValue,
     stableValue: row.stableValue,
     createdAt: row.createdAt.toISOString(),
@@ -217,15 +222,38 @@ export async function listCurrenciesAction(input?: {
   };
 }
 
+export async function listCurrencyContentOptionsAction(): Promise<
+  | { ok: true; data: CurrencyContentOption[] }
+  | { ok: false; error: string }
+> {
+  const current = await getCurrentDbUser();
+  if ("error" in current) {
+    return { ok: false, error: current.error };
+  }
+
+  const where = isElevatedRole(current.user.role)
+    ? {}
+    : { ownerId: current.user.id };
+
+  const rows = await prisma.content.findMany({
+    where,
+    select: { id: true, name: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return { ok: true, data: rows };
+}
+
 export async function createCurrencyAction(formData: FormData): Promise<CurrencyActionResult> {
   const gate = await requireElevatedActor();
   if ("error" in gate) return { ok: false, error: gate.error };
+  const metadataJson = String(formData.get("metadataJson") ?? "").trim();
 
   const parsed = currencyFormSchema.safeParse({
     name: String(formData.get("name") ?? "").trim(),
     key: String(formData.get("key") ?? "").trim(),
-    metadataJson: String(formData.get("metadataJson") ?? "").trim(),
-    contentTypes: parseContentTypesJson(formData.get("contentTypes")),
+    metadataEntries: [],
+    contentIds: parseContentIdsJson(formData.get("contentIds")),
     defaultValue: String(formData.get("defaultValue") ?? "0"),
     stableValue: String(formData.get("stableValue") ?? "1"),
   });
@@ -235,9 +263,21 @@ export async function createCurrencyAction(formData: FormData): Promise<Currency
 
   let metadata: Record<string, unknown> | null;
   try {
-    metadata = parseMetadataJson(parsed.data.metadataJson);
+    metadata = parseMetadataJson(metadataJson);
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Invalid metadata." };
+  }
+
+  if (parsed.data.contentIds.length > 0) {
+    const count = await prisma.content.count({
+      where: { id: { in: parsed.data.contentIds } },
+    });
+    if (count !== parsed.data.contentIds.length) {
+      return {
+        ok: false,
+        error: "One or more selected contents do not exist.",
+      };
+    }
   }
 
   try {
@@ -245,7 +285,7 @@ export async function createCurrencyAction(formData: FormData): Promise<Currency
       data: {
         name: parsed.data.name,
         key: parsed.data.key,
-        contentTypes: parsed.data.contentTypes,
+        contentIds: parsed.data.contentIds,
         defaultValue: parsed.data.defaultValue,
         stableValue: parsed.data.stableValue,
         ...(metadata !== null ? { metadata: metadata as Prisma.InputJsonValue } : {}),
@@ -268,6 +308,7 @@ export async function createCurrencyAction(formData: FormData): Promise<Currency
 export async function updateCurrencyAction(formData: FormData): Promise<CurrencyActionResult> {
   const gate = await requireElevatedActor();
   if ("error" in gate) return { ok: false, error: gate.error };
+  const metadataJson = String(formData.get("metadataJson") ?? "").trim();
 
   const id = String(formData.get("id") ?? "").trim();
   if (!id) return { ok: false, error: "Missing currency id." };
@@ -275,8 +316,8 @@ export async function updateCurrencyAction(formData: FormData): Promise<Currency
   const parsed = currencyFormSchema.safeParse({
     name: String(formData.get("name") ?? "").trim(),
     key: String(formData.get("key") ?? "").trim(),
-    metadataJson: String(formData.get("metadataJson") ?? "").trim(),
-    contentTypes: parseContentTypesJson(formData.get("contentTypes")),
+    metadataEntries: [],
+    contentIds: parseContentIdsJson(formData.get("contentIds")),
     defaultValue: String(formData.get("defaultValue") ?? "0"),
     stableValue: String(formData.get("stableValue") ?? "1"),
   });
@@ -286,9 +327,21 @@ export async function updateCurrencyAction(formData: FormData): Promise<Currency
 
   let metadata: Record<string, unknown> | null;
   try {
-    metadata = parseMetadataJson(parsed.data.metadataJson);
+    metadata = parseMetadataJson(metadataJson);
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Invalid metadata." };
+  }
+
+  if (parsed.data.contentIds.length > 0) {
+    const count = await prisma.content.count({
+      where: { id: { in: parsed.data.contentIds } },
+    });
+    if (count !== parsed.data.contentIds.length) {
+      return {
+        ok: false,
+        error: "One or more selected contents do not exist.",
+      };
+    }
   }
 
   try {
@@ -297,7 +350,7 @@ export async function updateCurrencyAction(formData: FormData): Promise<Currency
       data: {
         name: parsed.data.name,
         key: parsed.data.key,
-        contentTypes: parsed.data.contentTypes,
+        contentIds: parsed.data.contentIds,
         defaultValue: parsed.data.defaultValue,
         stableValue: parsed.data.stableValue,
         ...(metadata !== null

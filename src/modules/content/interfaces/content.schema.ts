@@ -10,6 +10,11 @@ export const contentTypeValues = [
   "FILE",
 ] as const;
 
+const metadataEntrySchema = z.object({
+  key: z.string(),
+  value: z.string(),
+});
+
 export const contentFormSchema = z
   .object({
     name: z
@@ -33,7 +38,7 @@ export const contentFormSchema = z
 
     contentUrl: z.string().trim().optional().or(z.literal("")),
 
-    metadata: z.string().trim().optional().or(z.literal("")),
+    metadataEntries: z.array(metadataEntrySchema),
   })
   .superRefine((values, ctx) => {
     const needsFileUrl = ["IMAGE", "VIDEO", "SOUND", "FILE"].includes(
@@ -48,17 +53,6 @@ export const contentFormSchema = z
       });
     }
 
-    if (values.metadata) {
-      try {
-        JSON.parse(values.metadata);
-      } catch {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["metadata"],
-          message: "Metadata must be valid JSON.",
-        });
-      }
-    }
   });
 
 export type ContentFormValues = z.infer<typeof contentFormSchema>;

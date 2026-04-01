@@ -42,7 +42,7 @@ export type CreditCountAggregateOutputType = {
   id: number
   name: number
   metadata: number
-  contentTypes: number
+  contentIds: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -67,7 +67,7 @@ export type CreditCountAggregateInputType = {
   id?: true
   name?: true
   metadata?: true
-  contentTypes?: true
+  contentIds?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -149,7 +149,7 @@ export type CreditGroupByOutputType = {
   id: string
   name: string
   metadata: runtime.JsonValue | null
-  contentTypes: $Enums.ContentType[]
+  contentIds: string[]
   createdAt: Date
   updatedAt: Date
   _count: CreditCountAggregateOutputType | null
@@ -179,7 +179,7 @@ export type CreditWhereInput = {
   id?: Prisma.StringFilter<"Credit"> | string
   name?: Prisma.StringFilter<"Credit"> | string
   metadata?: Prisma.JsonNullableFilter<"Credit">
-  contentTypes?: Prisma.EnumContentTypeNullableListFilter<"Credit">
+  contentIds?: Prisma.StringNullableListFilter<"Credit">
   createdAt?: Prisma.DateTimeFilter<"Credit"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Credit"> | Date | string
   creditLives?: Prisma.CreditLifeTimeListRelationFilter
@@ -191,7 +191,7 @@ export type CreditOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
-  contentTypes?: Prisma.SortOrder
+  contentIds?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   creditLives?: Prisma.CreditLifeTimeOrderByRelationAggregateInput
@@ -206,7 +206,7 @@ export type CreditWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.CreditWhereInput | Prisma.CreditWhereInput[]
   name?: Prisma.StringFilter<"Credit"> | string
   metadata?: Prisma.JsonNullableFilter<"Credit">
-  contentTypes?: Prisma.EnumContentTypeNullableListFilter<"Credit">
+  contentIds?: Prisma.StringNullableListFilter<"Credit">
   createdAt?: Prisma.DateTimeFilter<"Credit"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Credit"> | Date | string
   creditLives?: Prisma.CreditLifeTimeListRelationFilter
@@ -218,7 +218,7 @@ export type CreditOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
-  contentTypes?: Prisma.SortOrder
+  contentIds?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CreditCountOrderByAggregateInput
@@ -233,7 +233,7 @@ export type CreditScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Credit"> | string
   name?: Prisma.StringWithAggregatesFilter<"Credit"> | string
   metadata?: Prisma.JsonNullableWithAggregatesFilter<"Credit">
-  contentTypes?: Prisma.EnumContentTypeNullableListFilter<"Credit">
+  contentIds?: Prisma.StringNullableListFilter<"Credit">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Credit"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Credit"> | Date | string
 }
@@ -242,7 +242,7 @@ export type CreditCreateInput = {
   id?: string
   name: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditCreatecontentIdsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   creditLives?: Prisma.CreditLifeTimeCreateNestedManyWithoutCreditInput
@@ -254,7 +254,7 @@ export type CreditUncheckedCreateInput = {
   id?: string
   name: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditCreatecontentIdsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   creditLives?: Prisma.CreditLifeTimeUncheckedCreateNestedManyWithoutCreditInput
@@ -266,7 +266,7 @@ export type CreditUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditUpdatecontentIdsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creditLives?: Prisma.CreditLifeTimeUpdateManyWithoutCreditNestedInput
@@ -278,7 +278,7 @@ export type CreditUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditUpdatecontentIdsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creditLives?: Prisma.CreditLifeTimeUncheckedUpdateManyWithoutCreditNestedInput
@@ -290,7 +290,7 @@ export type CreditCreateManyInput = {
   id?: string
   name: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditCreatecontentIdsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -299,7 +299,7 @@ export type CreditUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditUpdatecontentIdsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -308,24 +308,16 @@ export type CreditUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditUpdatecontentIdsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type EnumContentTypeNullableListFilter<$PrismaModel = never> = {
-  equals?: $Enums.ContentType[] | Prisma.ListEnumContentTypeFieldRefInput<$PrismaModel> | null
-  has?: $Enums.ContentType | Prisma.EnumContentTypeFieldRefInput<$PrismaModel> | null
-  hasEvery?: $Enums.ContentType[] | Prisma.ListEnumContentTypeFieldRefInput<$PrismaModel>
-  hasSome?: $Enums.ContentType[] | Prisma.ListEnumContentTypeFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
 }
 
 export type CreditCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   metadata?: Prisma.SortOrder
-  contentTypes?: Prisma.SortOrder
+  contentIds?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -349,13 +341,13 @@ export type CreditScalarRelationFilter = {
   isNot?: Prisma.CreditWhereInput
 }
 
-export type CreditCreatecontentTypesInput = {
-  set: $Enums.ContentType[]
+export type CreditCreatecontentIdsInput = {
+  set: string[]
 }
 
-export type CreditUpdatecontentTypesInput = {
-  set?: $Enums.ContentType[]
-  push?: $Enums.ContentType | $Enums.ContentType[]
+export type CreditUpdatecontentIdsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type CreditCreateNestedOneWithoutCreditLivesInput = {
@@ -404,7 +396,7 @@ export type CreditCreateWithoutCreditLivesInput = {
   id?: string
   name: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditCreatecontentIdsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   userCredits?: Prisma.UserCreditCreateNestedManyWithoutCreditInput
@@ -415,7 +407,7 @@ export type CreditUncheckedCreateWithoutCreditLivesInput = {
   id?: string
   name: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditCreatecontentIdsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   userCredits?: Prisma.UserCreditUncheckedCreateNestedManyWithoutCreditInput
@@ -442,7 +434,7 @@ export type CreditUpdateWithoutCreditLivesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditUpdatecontentIdsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userCredits?: Prisma.UserCreditUpdateManyWithoutCreditNestedInput
@@ -453,7 +445,7 @@ export type CreditUncheckedUpdateWithoutCreditLivesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditUpdatecontentIdsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userCredits?: Prisma.UserCreditUncheckedUpdateManyWithoutCreditNestedInput
@@ -464,7 +456,7 @@ export type CreditCreateWithoutUserCreditsInput = {
   id?: string
   name: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditCreatecontentIdsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   creditLives?: Prisma.CreditLifeTimeCreateNestedManyWithoutCreditInput
@@ -475,7 +467,7 @@ export type CreditUncheckedCreateWithoutUserCreditsInput = {
   id?: string
   name: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditCreatecontentIdsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   creditLives?: Prisma.CreditLifeTimeUncheckedCreateNestedManyWithoutCreditInput
@@ -502,7 +494,7 @@ export type CreditUpdateWithoutUserCreditsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditUpdatecontentIdsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creditLives?: Prisma.CreditLifeTimeUpdateManyWithoutCreditNestedInput
@@ -513,7 +505,7 @@ export type CreditUncheckedUpdateWithoutUserCreditsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditUpdatecontentIdsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creditLives?: Prisma.CreditLifeTimeUncheckedUpdateManyWithoutCreditNestedInput
@@ -524,7 +516,7 @@ export type CreditCreateWithoutUserTimedInput = {
   id?: string
   name: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditCreatecontentIdsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   creditLives?: Prisma.CreditLifeTimeCreateNestedManyWithoutCreditInput
@@ -535,7 +527,7 @@ export type CreditUncheckedCreateWithoutUserTimedInput = {
   id?: string
   name: string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditCreatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditCreatecontentIdsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   creditLives?: Prisma.CreditLifeTimeUncheckedCreateNestedManyWithoutCreditInput
@@ -562,7 +554,7 @@ export type CreditUpdateWithoutUserTimedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditUpdatecontentIdsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creditLives?: Prisma.CreditLifeTimeUpdateManyWithoutCreditNestedInput
@@ -573,7 +565,7 @@ export type CreditUncheckedUpdateWithoutUserTimedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
-  contentTypes?: Prisma.CreditUpdatecontentTypesInput | $Enums.ContentType[]
+  contentIds?: Prisma.CreditUpdatecontentIdsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   creditLives?: Prisma.CreditLifeTimeUncheckedUpdateManyWithoutCreditNestedInput
@@ -633,7 +625,7 @@ export type CreditSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   id?: boolean
   name?: boolean
   metadata?: boolean
-  contentTypes?: boolean
+  contentIds?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   creditLives?: boolean | Prisma.Credit$creditLivesArgs<ExtArgs>
@@ -646,7 +638,7 @@ export type CreditSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   name?: boolean
   metadata?: boolean
-  contentTypes?: boolean
+  contentIds?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["credit"]>
@@ -655,7 +647,7 @@ export type CreditSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   name?: boolean
   metadata?: boolean
-  contentTypes?: boolean
+  contentIds?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["credit"]>
@@ -664,12 +656,12 @@ export type CreditSelectScalar = {
   id?: boolean
   name?: boolean
   metadata?: boolean
-  contentTypes?: boolean
+  contentIds?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CreditOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "metadata" | "contentTypes" | "createdAt" | "updatedAt", ExtArgs["result"]["credit"]>
+export type CreditOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "metadata" | "contentIds" | "createdAt" | "updatedAt", ExtArgs["result"]["credit"]>
 export type CreditInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creditLives?: boolean | Prisma.Credit$creditLivesArgs<ExtArgs>
   userCredits?: boolean | Prisma.Credit$userCreditsArgs<ExtArgs>
@@ -690,7 +682,7 @@ export type $CreditPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     id: string
     name: string
     metadata: runtime.JsonValue | null
-    contentTypes: $Enums.ContentType[]
+    contentIds: string[]
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["credit"]>
@@ -1122,7 +1114,7 @@ export interface CreditFieldRefs {
   readonly id: Prisma.FieldRef<"Credit", 'String'>
   readonly name: Prisma.FieldRef<"Credit", 'String'>
   readonly metadata: Prisma.FieldRef<"Credit", 'Json'>
-  readonly contentTypes: Prisma.FieldRef<"Credit", 'ContentType[]'>
+  readonly contentIds: Prisma.FieldRef<"Credit", 'String[]'>
   readonly createdAt: Prisma.FieldRef<"Credit", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Credit", 'DateTime'>
 }

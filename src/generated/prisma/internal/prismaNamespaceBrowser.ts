@@ -230,7 +230,7 @@ export const CreditScalarFieldEnum = {
   id: 'id',
   name: 'name',
   metadata: 'metadata',
-  contentTypes: 'contentTypes',
+  contentIds: 'contentIds',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -283,7 +283,7 @@ export const CurrencyScalarFieldEnum = {
   name: 'name',
   key: 'key',
   metadata: 'metadata',
-  contentTypes: 'contentTypes',
+  contentIds: 'contentIds',
   defaultValue: 'defaultValue',
   stableValue: 'stableValue',
   createdAt: 'createdAt',
@@ -310,7 +310,7 @@ export const MetaScalarFieldEnum = {
   name: 'name',
   key: 'key',
   metadata: 'metadata',
-  contentTypes: 'contentTypes',
+  contentIds: 'contentIds',
   defaultValue: 'defaultValue',
   minValue: 'minValue',
   maxValue: 'maxValue',

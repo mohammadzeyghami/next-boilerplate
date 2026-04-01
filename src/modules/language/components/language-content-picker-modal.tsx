@@ -4,8 +4,9 @@ import { Plus } from "lucide-react";
 
 import { ContentCreateModal } from "@/modules/content";
 import { Button } from "@/shared/components/atoms/button";
+import { ContentIdsPickerModal } from "@/shared/components/molecules/pickers/ContentIdsPickerModal";
 import type { LanguageContentOption } from "@/modules/language/actions/language.actions";
-import { LanguageArrayPickerModal } from "./language-array-picker-modal";
+import type { LanguageFormValues } from "../interfaces/language.schema";
 
 type LanguageContentPickerModalProps = {
   contentOptions: LanguageContentOption[];
@@ -15,7 +16,7 @@ export function LanguageContentPickerModal({
   contentOptions,
 }: LanguageContentPickerModalProps) {
   return (
-    <LanguageArrayPickerModal
+    <ContentIdsPickerModal<LanguageFormValues>
       fieldName="contentIds"
       name="Linked contents"
       helperText="Select one or more content items. On submit, the form sends their ids in `contentIds`."

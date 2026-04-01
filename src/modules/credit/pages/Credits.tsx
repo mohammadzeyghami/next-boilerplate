@@ -13,6 +13,10 @@ import { toast } from "@/shared/components/atoms/toast/toast-store";
 import P from "@/shared/components/atoms/typography/P";
 import { TablePrimary } from "@/shared/components/organisms/Table/Table";
 import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalFormShell";
+import {
+  metadataEntriesFromUnknown,
+  metadataObjectFromEntries,
+} from "@/shared/utils/metadata";
 
 import type { CreditDto, CreditLifeTimeDto } from "../actions/credit.actions";
 import {
@@ -24,6 +28,7 @@ import {
   useUpdateCreditMutation,
 } from "../api/mutations";
 import {
+  useCreditContentOptionsQuery,
   useCreditLifeTimesPageQuery,
   useCreditsPageQuery,
   useCreditsQuery,
@@ -39,22 +44,22 @@ import CreditLifeTimeForm from "./credit-lifetime-form";
 
 const emptyCreditForm: CreditFormValues = {
   name: "",
-  metadataJson: "",
-  contentTypes: [],
+  metadataEntries: [{ key: "", value: "" }],
+  contentIds: [],
 };
 
 const emptyLifeTimeForm: CreditLifeTimeFormValues = {
   creditsId: "",
   name: "",
-  metadataJson: "",
+  metadataEntries: [{ key: "", value: "" }],
   lifeTime: 1,
 };
 
 function creditDtoToFormValues(credit: CreditDto): CreditFormValues {
   return {
     name: credit.name,
-    metadataJson: credit.metadata ? JSON.stringify(credit.metadata) : "",
-    contentTypes: [...credit.contentTypes],
+    metadataEntries: metadataEntriesFromUnknown(credit.metadata),
+    contentIds: [...credit.contentIds],
   };
 }
 
@@ -64,7 +69,7 @@ function creditLifeTimeDtoToFormValues(
   return {
     creditsId: lifeTime.creditsId,
     name: lifeTime.name,
-    metadataJson: lifeTime.metadata ? JSON.stringify(lifeTime.metadata) : "",
+    metadataEntries: metadataEntriesFromUnknown(lifeTime.metadata),
     lifeTime: lifeTime.lifeTime,
   };
 }
@@ -98,6 +103,9 @@ export default function CreditsPage({
     refetch: refetchLifeTimes,
   } = useCreditLifeTimesPageQuery(lifeTimesPage, pageSize);
   const { data: credits = [] } = useCreditsQuery();
+  const { data: contentOptions = [] } = useCreditContentOptionsQuery(
+    canManageCredits && creditOpen,
+  );
 
   const createCreditMutation = useCreateCreditMutation(creditsPage, pageSize);
   const updateCreditMutation = useUpdateCreditMutation(creditsPage, pageSize);
@@ -128,11 +136,11 @@ export default function CreditsPage({
     () => [
       { accessorKey: "name", header: "Name" },
       {
-        id: "contentTypes",
-        header: "Content Types",
+        id: "contentIds",
+        header: "Linked contents",
         cell: ({ row }) =>
-          row.original.contentTypes.length > 0
-            ? row.original.contentTypes.join(", ")
+          row.original.contentIds.length > 0
+            ? row.original.contentIds.join(", ")
             : "—",
       },
       {
@@ -255,8 +263,10 @@ export default function CreditsPage({
   const onSubmitCredit = async (values: CreditFormValues) => {
     const payload = {
       name: values.name.trim(),
-      metadataJson: values.metadataJson.trim(),
-      contentTypes: values.contentTypes,
+      metadataJson: JSON.stringify(
+        metadataObjectFromEntries(values.metadataEntries) ?? {},
+      ),
+      contentIds: values.contentIds,
     };
 
     const res = editingCredit
@@ -284,7 +294,9 @@ export default function CreditsPage({
     const payload = {
       creditsId: values.creditsId,
       name: values.name.trim(),
-      metadataJson: values.metadataJson.trim(),
+      metadataJson: JSON.stringify(
+        metadataObjectFromEntries(values.metadataEntries) ?? {},
+      ),
       lifeTime: Number(values.lifeTime),
     };
 
@@ -440,7 +452,7 @@ export default function CreditsPage({
             updateCreditMutation.isPending
           }
         >
-          <CreditForm />
+          <CreditForm contentOptions={contentOptions} />
         </ModalFormShell>
       )}
 

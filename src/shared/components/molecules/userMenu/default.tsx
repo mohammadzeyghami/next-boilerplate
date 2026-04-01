@@ -36,7 +36,7 @@ function UserMenu({
   initials,
   onLogout,
   dashboardHref = "/dashboard",
-  settingsHref = "/dashboard",
+  settingsHref = "/dashboard/settings",
 }: UserMenuProps) {
   const router = useRouter();
 

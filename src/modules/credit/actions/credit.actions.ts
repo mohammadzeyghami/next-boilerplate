@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@/generated/prisma/client";
-import type { ContentType, UserRole } from "@/generated/prisma/enums";
+import type { UserRole } from "@/generated/prisma/enums";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { isElevatedRole } from "@/lib/user-auth/roles";
@@ -27,9 +27,14 @@ export type CreditDto = {
   id: string;
   name: string;
   metadata: Record<string, unknown> | null;
-  contentTypes: ContentType[];
+  contentIds: string[];
   createdAt: string;
   updatedAt: string;
+};
+
+export type CreditContentOption = {
+  id: string;
+  name: string;
 };
 
 export type CreditLifeTimeDto = {
@@ -104,7 +109,7 @@ function parseMetadataJson(raw: string): Record<string, unknown> | null {
   }
 }
 
-function parseContentTypesJson(raw: FormDataEntryValue | null): string[] {
+function parseContentIdsJson(raw: FormDataEntryValue | null): string[] {
   const s = String(raw ?? "").trim();
   if (!s) return [];
   try {
@@ -120,7 +125,7 @@ function toCreditDto(row: {
   id: string;
   name: string;
   metadata: unknown;
-  contentTypes: ContentType[];
+  contentIds: string[];
   createdAt: Date;
   updatedAt: Date;
 }): CreditDto {
@@ -131,7 +136,7 @@ function toCreditDto(row: {
       row.metadata && typeof row.metadata === "object" && !Array.isArray(row.metadata)
         ? (row.metadata as Record<string, unknown>)
         : null,
-    contentTypes: row.contentTypes,
+    contentIds: row.contentIds,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   };
@@ -260,16 +265,38 @@ export async function listCreditLifeTimesPageAction(input?: {
   };
 }
 
+export async function listCreditContentOptionsAction(): Promise<
+  { ok: true; data: CreditContentOption[] } | { ok: false; error: string }
+> {
+  const current = await getCurrentDbUser();
+  if ("error" in current) {
+    return { ok: false, error: current.error };
+  }
+
+  const where = isElevatedRole(current.user.role)
+    ? {}
+    : { ownerId: current.user.id };
+
+  const rows = await prisma.content.findMany({
+    where,
+    select: { id: true, name: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return { ok: true, data: rows };
+}
+
 export async function createCreditAction(
   formData: FormData,
 ): Promise<CreditActionResult> {
   const gate = await requireElevatedActor();
   if ("error" in gate) return { ok: false, error: gate.error };
+  const metadataJson = String(formData.get("metadataJson") ?? "").trim();
 
   const parsed = creditFormSchema.safeParse({
     name: String(formData.get("name") ?? "").trim(),
-    metadataJson: String(formData.get("metadataJson") ?? "").trim(),
-    contentTypes: parseContentTypesJson(formData.get("contentTypes")),
+    metadataEntries: [],
+    contentIds: parseContentIdsJson(formData.get("contentIds")),
   });
 
   if (!parsed.success) {
@@ -278,15 +305,27 @@ export async function createCreditAction(
 
   let metadata: Record<string, unknown> | null;
   try {
-    metadata = parseMetadataJson(parsed.data.metadataJson);
+    metadata = parseMetadataJson(metadataJson);
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Invalid metadata." };
+  }
+
+  if (parsed.data.contentIds.length > 0) {
+    const count = await prisma.content.count({
+      where: { id: { in: parsed.data.contentIds } },
+    });
+    if (count !== parsed.data.contentIds.length) {
+      return {
+        ok: false,
+        error: "One or more selected contents do not exist.",
+      };
+    }
   }
 
   await prisma.credit.create({
     data: {
       name: parsed.data.name,
-      contentTypes: parsed.data.contentTypes,
+      contentIds: parsed.data.contentIds,
       ...(metadata !== null ? { metadata: metadata as Prisma.InputJsonValue } : {}),
     },
   });
@@ -300,14 +339,15 @@ export async function updateCreditAction(
 ): Promise<CreditActionResult> {
   const gate = await requireElevatedActor();
   if ("error" in gate) return { ok: false, error: gate.error };
+  const metadataJson = String(formData.get("metadataJson") ?? "").trim();
 
   const id = String(formData.get("id") ?? "").trim();
   if (!id) return { ok: false, error: "Missing credit id." };
 
   const parsed = creditFormSchema.safeParse({
     name: String(formData.get("name") ?? "").trim(),
-    metadataJson: String(formData.get("metadataJson") ?? "").trim(),
-    contentTypes: parseContentTypesJson(formData.get("contentTypes")),
+    metadataEntries: [],
+    contentIds: parseContentIdsJson(formData.get("contentIds")),
   });
 
   if (!parsed.success) {
@@ -316,9 +356,21 @@ export async function updateCreditAction(
 
   let metadata: Record<string, unknown> | null;
   try {
-    metadata = parseMetadataJson(parsed.data.metadataJson);
+    metadata = parseMetadataJson(metadataJson);
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Invalid metadata." };
+  }
+
+  if (parsed.data.contentIds.length > 0) {
+    const count = await prisma.content.count({
+      where: { id: { in: parsed.data.contentIds } },
+    });
+    if (count !== parsed.data.contentIds.length) {
+      return {
+        ok: false,
+        error: "One or more selected contents do not exist.",
+      };
+    }
   }
 
   try {
@@ -326,7 +378,7 @@ export async function updateCreditAction(
       where: { id },
       data: {
         name: parsed.data.name,
-        contentTypes: parsed.data.contentTypes,
+        contentIds: parsed.data.contentIds,
         ...(metadata !== null
           ? { metadata: metadata as Prisma.InputJsonValue }
           : { metadata: Prisma.DbNull }),
@@ -360,11 +412,12 @@ export async function createCreditLifeTimeAction(
 ): Promise<CreditActionResult> {
   const gate = await requireElevatedActor();
   if ("error" in gate) return { ok: false, error: gate.error };
+  const metadataJson = String(formData.get("metadataJson") ?? "").trim();
 
   const parsed = creditLifeTimeFormSchema.safeParse({
     creditsId: String(formData.get("creditsId") ?? "").trim(),
     name: String(formData.get("name") ?? "").trim(),
-    metadataJson: String(formData.get("metadataJson") ?? "").trim(),
+    metadataEntries: [],
     lifeTime: String(formData.get("lifeTime") ?? "").trim(),
   });
 
@@ -374,7 +427,7 @@ export async function createCreditLifeTimeAction(
 
   let metadata: Record<string, unknown> | null;
   try {
-    metadata = parseMetadataJson(parsed.data.metadataJson);
+    metadata = parseMetadataJson(metadataJson);
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Invalid metadata." };
   }
@@ -403,6 +456,7 @@ export async function updateCreditLifeTimeAction(
 ): Promise<CreditActionResult> {
   const gate = await requireElevatedActor();
   if ("error" in gate) return { ok: false, error: gate.error };
+  const metadataJson = String(formData.get("metadataJson") ?? "").trim();
 
   const id = String(formData.get("id") ?? "").trim();
   if (!id) return { ok: false, error: "Missing credit lifetime id." };
@@ -410,7 +464,7 @@ export async function updateCreditLifeTimeAction(
   const parsed = creditLifeTimeFormSchema.safeParse({
     creditsId: String(formData.get("creditsId") ?? "").trim(),
     name: String(formData.get("name") ?? "").trim(),
-    metadataJson: String(formData.get("metadataJson") ?? "").trim(),
+    metadataEntries: [],
     lifeTime: String(formData.get("lifeTime") ?? "").trim(),
   });
 
@@ -420,7 +474,7 @@ export async function updateCreditLifeTimeAction(
 
   let metadata: Record<string, unknown> | null;
   try {
-    metadata = parseMetadataJson(parsed.data.metadataJson);
+    metadata = parseMetadataJson(metadataJson);
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : "Invalid metadata." };
   }

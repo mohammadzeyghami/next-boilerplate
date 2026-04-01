@@ -1,6 +1,9 @@
 import { z } from "zod";
 
-import { contentTypeValues } from "@/modules/content/interfaces/content.schema";
+const metadataEntrySchema = z.object({
+  key: z.string(),
+  value: z.string(),
+});
 
 export const metaFormSchema = z
   .object({
@@ -14,11 +17,8 @@ export const metaFormSchema = z
       .trim()
       .min(1, "Key is required.")
       .max(100, "Key must be at most 100 characters."),
-    metadataJson: z
-      .string()
-      .trim()
-      .max(20_000, "Metadata JSON is too large."),
-    contentTypes: z.array(z.enum(contentTypeValues)),
+    metadataEntries: z.array(metadataEntrySchema),
+    contentIds: z.array(z.string().min(1)),
     defaultValue: z.coerce.number(),
     minValue: z.union([z.coerce.number(), z.nan()]).optional(),
     maxValue: z.union([z.coerce.number(), z.nan()]).optional(),

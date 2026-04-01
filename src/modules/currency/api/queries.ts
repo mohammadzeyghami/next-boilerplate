@@ -2,7 +2,10 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { listCurrenciesAction } from "@/modules/currency/actions/currency.actions";
+import {
+  listCurrenciesAction,
+  listCurrencyContentOptionsAction,
+} from "@/modules/currency/actions/currency.actions";
 
 import { currencyKeys } from "./keys";
 
@@ -16,5 +19,19 @@ export function useCurrenciesQuery(page: number, pageSize: number) {
       }
       return res.data;
     },
+  });
+}
+
+export function useCurrencyContentOptionsQuery(enabled = true) {
+  return useQuery({
+    queryKey: currencyKeys.contentOptions(),
+    queryFn: async () => {
+      const res = await listCurrencyContentOptionsAction();
+      if (!res.ok) {
+        throw new Error(res.error ?? "Failed to load content options.");
+      }
+      return res.data;
+    },
+    enabled,
   });
 }

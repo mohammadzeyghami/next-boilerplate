@@ -6,4 +6,5 @@ export const creditKeys = {
     [...creditKeys.list(), page, pageSize] as const,
   lifetimesPaginated: (page: number, pageSize: number) =>
     [...creditKeys.lifetimes(), page, pageSize] as const,
+  contentOptions: () => [...creditKeys.all(), "content-options"] as const,
 };

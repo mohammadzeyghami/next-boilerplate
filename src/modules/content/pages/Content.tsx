@@ -12,12 +12,16 @@ import { ServerPagination } from "@/shared/components/molecules/pagination/Serve
 import { Button } from "@/shared/components/atoms/button";
 import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalFormShell";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { contentFormSchema } from "../interfaces/content.schema";
+import {
+  contentFormSchema,
+  type ContentFormValues,
+} from "../interfaces/content.schema";
 import { createContentAction } from "../actions/content.actions";
 import { ContentDeleteButton } from "../components/content-delete-button";
 import { ContentEditDialog } from "../components/content-edit-dialog";
 import { toast } from "@/shared/components/atoms/toast/toast-store";
 import { toFormData } from "@/shared/utils/toFormData";
+import { metadataObjectFromEntries } from "@/shared/utils/metadata";
 import ContentForm from "./form";
 import type { ContentListItem } from "../types/content-list-item";
 type ContentAccess = "PUBLIC" | "PRIVATE";
@@ -35,16 +39,6 @@ export type ContentItem = ContentListItem & {
   isEarnable: boolean;
   createdAt: string | Date;
   updatedAt: string | Date;
-};
-
-type ContentFormValues = {
-  name: string;
-  text: string;
-  access: "PUBLIC" | "PRIVATE";
-  type: "TEXT" | "IMAGE" | "VIDEO" | "SOUND" | "FILE";
-  isEarnable: boolean;
-  contentUrl: string;
-  metadata: string;
 };
 
 export default function ContentPage({
@@ -69,7 +63,7 @@ export default function ContentPage({
       type: "TEXT",
       isEarnable: false,
       contentUrl: "",
-      metadata: "",
+      metadataEntries: [{ key: "", value: "" }],
     },
     resolver: zodResolver(contentFormSchema),
   });
@@ -87,7 +81,7 @@ export default function ContentPage({
       type: values.type,
       isEarnable: values.isEarnable,
       contentUrl: needsFileUrl ? values.contentUrl.trim() || null : null,
-      metadata: values.metadata.trim() ? JSON.parse(values.metadata) : null,
+      metadata: metadataObjectFromEntries(values.metadataEntries) ?? null,
     };
     const formData = toFormData(payload);
     console.log(payload, formData);
