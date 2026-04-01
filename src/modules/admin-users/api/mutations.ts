@@ -11,7 +11,7 @@ import { toFormData } from "@/shared/utils/toFormData";
 
 import { adminUserKeys } from "./keys";
 
-export function useCreateAdminUserMutation() {
+export function useCreateAdminUserMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: {
@@ -22,28 +22,37 @@ export function useCreateAdminUserMutation() {
       role: string;
     }) => createAdminUserAction(toFormData(payload)),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: adminUserKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: adminUserKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: adminUserKeys.paginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useUpdateAdminUserMutation() {
+export function useUpdateAdminUserMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: Record<string, string | undefined>) =>
       updateAdminUserAction(toFormData(payload)),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: adminUserKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: adminUserKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: adminUserKeys.paginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useDeleteAdminUserMutation() {
+export function useDeleteAdminUserMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (userAuthId: string) => deleteAdminUserAction(userAuthId),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: adminUserKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: adminUserKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: adminUserKeys.paginated(page, pageSize),
+      });
     },
   });
 }

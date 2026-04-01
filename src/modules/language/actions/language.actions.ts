@@ -29,6 +29,14 @@ export type LanguageContentOption = {
   name: string;
 };
 
+export type PaginatedLanguages = {
+  items: LanguageDto[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+};
+
 const languageCreateSchema = z.object({
   name: z
     .string()
@@ -134,19 +142,40 @@ function parseTagIdsJson(raw: FormDataEntryValue | null): string[] {
   }
 }
 
-export async function listLanguagesAction(): Promise<
-  { ok: true; data: LanguageDto[] } | { ok: false; error: string }
+export async function listLanguagesAction(input?: {
+  page?: number;
+  pageSize?: number;
+}): Promise<
+  { ok: true; data: PaginatedLanguages } | { ok: false; error: string }
 > {
   const current = await getCurrentDbUser();
   if ("error" in current) {
     return { ok: false, error: current.error };
   }
 
-  const rows = await prisma.language.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  const page = Math.max(1, input?.page ?? 1);
+  const pageSize = Math.min(100, Math.max(1, input?.pageSize ?? 10));
+  const skip = (page - 1) * pageSize;
 
-  return { ok: true, data: rows.map(toDto) };
+  const [rows, totalCount] = await prisma.$transaction([
+    prisma.language.findMany({
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: pageSize,
+    }),
+    prisma.language.count(),
+  ]);
+
+  return {
+    ok: true,
+    data: {
+      items: rows.map(toDto),
+      page,
+      pageSize,
+      totalCount,
+      totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+    },
+  };
 }
 
 export async function listLanguageContentOptionsAction(): Promise<

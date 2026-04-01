@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { useCreateTagMutation } from "@/modules/tag/api/mutations";
-import { useTagContentOptionsQuery } from "@/modules/tag/api/queries";
 import {
   tagFormSchema,
   type TagFormValues,
@@ -42,9 +41,6 @@ export function TagUpsertModal({
   });
 
   const createMutation = useCreateTagMutation();
-  const { data: contentOptions = [] } = useTagContentOptionsQuery(
-    canManageTags && open,
-  );
 
   const onSubmit = async (values: TagFormValues) => {
     const res = await createMutation.mutateAsync({

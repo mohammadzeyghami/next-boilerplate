@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { TablePrimary } from "@/shared/components/organisms/Table/Table";
 import { BreadcrumbPrimary } from "@/shared/components/molecules/breadcrumb/primary";
+import { ServerPagination } from "@/shared/components/molecules/pagination/ServerPagination";
 import { Button } from "@/shared/components/atoms/button";
 import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalFormShell";
 import { toast } from "@/shared/components/atoms/toast/toast-store";
@@ -20,7 +21,7 @@ import {
   useDeleteTagMutation,
   useUpdateTagMutation,
 } from "../api/mutations";
-import { useTagContentOptionsQuery, useTagsQuery } from "../api/queries";
+import { useTagsPageQuery } from "../api/queries";
 import TagForm from "./form";
 
 const emptyTagForm: TagFormValues = {
@@ -43,23 +44,21 @@ function tagDtoToFormValues(t: TagDto): TagFormValues {
 
 export default function TagPage({ canManageTags }: { canManageTags: boolean }) {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
   const [editingTag, setEditingTag] = useState<TagDto | null>(null);
 
   const {
-    data: tags = [],
+    data,
     isPending,
     isError,
     error,
     refetch,
-  } = useTagsQuery();
+  } = useTagsPageQuery(page, pageSize);
 
-  const { data: contentOptions = [] } = useTagContentOptionsQuery(
-    canManageTags && dialogOpen,
-  );
-
-  const createMutation = useCreateTagMutation();
-  const updateMutation = useUpdateTagMutation();
-  const deleteMutation = useDeleteTagMutation();
+  const createMutation = useCreateTagMutation(page, pageSize);
+  const updateMutation = useUpdateTagMutation(page, pageSize);
+  const deleteMutation = useDeleteTagMutation(page, pageSize);
 
   const methods = useForm<TagFormValues>({
     defaultValues: emptyTagForm,
@@ -253,8 +252,15 @@ export default function TagPage({ canManageTags }: { canManageTags: boolean }) {
             </Button>
           </div>
         )}
-        {!isPending && !isError && (
-          <TablePrimary data={tags} columns={columns} />
+        {!isPending && !isError && data && (
+          <div className="space-y-4">
+            <TablePrimary data={data.items} columns={columns} />
+            <ServerPagination
+              currentPage={data.page}
+              totalPages={data.totalPages}
+              onPageChange={setPage}
+            />
+          </div>
         )}
       </main>
 

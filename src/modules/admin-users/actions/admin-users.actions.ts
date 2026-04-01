@@ -30,6 +30,14 @@ export type AdminUserRowDto = {
   createdAt: string;
 };
 
+export type PaginatedAdminUsers = {
+  items: AdminUserRowDto[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+};
+
 const ROLES: UserRole[] = ["USER", "ADMIN", "SUPER_ADMIN"];
 const STATUSES: StatusAccount[] = ["ACTIVE", "DEACTIVE", "SUSPEND"];
 
@@ -95,6 +103,43 @@ export async function listAdminUsersAction(): Promise<
   return {
     ok: true,
     data: rows.map((r) => toRow(r, r.user)),
+  };
+}
+
+export async function listAdminUsersPageAction(input?: {
+  page?: number;
+  pageSize?: number;
+}): Promise<{ ok: true; data: PaginatedAdminUsers } | { ok: false; error: string }> {
+  const gate = await requireElevatedActor();
+  if ("error" in gate) {
+    return { ok: false, error: gate.error };
+  }
+
+  const page = Math.max(1, input?.page ?? 1);
+  const pageSize = Math.min(100, Math.max(1, input?.pageSize ?? 10));
+  const skip = (page - 1) * pageSize;
+
+  const [rows, totalCount] = await prisma.$transaction([
+    prisma.userAuth.findMany({
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: pageSize,
+      include: {
+        user: { select: { role: true, name: true, email: true } },
+      },
+    }),
+    prisma.userAuth.count(),
+  ]);
+
+  return {
+    ok: true,
+    data: {
+      items: rows.map((r) => toRow(r, r.user)),
+      page,
+      pageSize,
+      totalCount,
+      totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+    },
   };
 }
 

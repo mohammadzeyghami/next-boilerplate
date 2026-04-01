@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { TablePrimary } from "@/shared/components/organisms/Table/Table";
 import { BreadcrumbPrimary } from "@/shared/components/molecules/breadcrumb/primary";
+import { ServerPagination } from "@/shared/components/molecules/pagination/ServerPagination";
 import { Button } from "@/shared/components/atoms/button";
 import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalFormShell";
 import { toast } from "@/shared/components/atoms/toast/toast-store";
@@ -37,17 +38,16 @@ export default function LanguagePage({
   canManageLanguages: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
   const [editingLanguage, setEditingLanguage] = useState<LanguageDto | null>(
     null,
   );
 
-  const {
-    data: languages = [],
-    isPending,
-    isError,
-    error,
-    refetch,
-  } = useLanguagesQuery();
+  const { data, isPending, isError, error, refetch } = useLanguagesQuery(
+    page,
+    pageSize,
+  );
 
   const { data: contentOptions = [] } = useLanguageContentOptionsQuery(
     canManageLanguages && (open || Boolean(editingLanguage)),
@@ -55,9 +55,9 @@ export default function LanguagePage({
   const { data: categories = [] } = useCategoriesQuery();
   const { data: tags = [] } = useTagsQuery();
 
-  const createMutation = useCreateLanguageMutation();
-  const deleteMutation = useDeleteLanguageMutation();
-  const updateMutation = useUpdateLanguageMutation();
+  const createMutation = useCreateLanguageMutation(page, pageSize);
+  const deleteMutation = useDeleteLanguageMutation(page, pageSize);
+  const updateMutation = useUpdateLanguageMutation(page, pageSize);
 
   const methods = useForm<LanguageFormValues>({
     defaultValues: {
@@ -263,8 +263,15 @@ export default function LanguagePage({
             </Button>
           </div>
         )}
-        {!isPending && !isError && (
-          <TablePrimary data={languages} columns={columns} />
+        {!isPending && !isError && data && (
+          <div className="space-y-4">
+            <TablePrimary data={data.items} columns={columns} />
+            <ServerPagination
+              currentPage={data.page}
+              totalPages={data.totalPages}
+              onPageChange={setPage}
+            />
+          </div>
         )}
       </main>
 

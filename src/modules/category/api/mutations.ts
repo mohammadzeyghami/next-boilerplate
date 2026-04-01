@@ -11,7 +11,7 @@ import { toFormData } from "@/shared/utils/toFormData";
 
 import { categoryKeys } from "./keys";
 
-export function useCreateCategoryMutation() {
+export function useCreateCategoryMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -32,12 +32,15 @@ export function useCreateCategoryMutation() {
       return createCategoryAction(formData);
     },
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: categoryKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: categoryKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: categoryKeys.paginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useUpdateCategoryMutation() {
+export function useUpdateCategoryMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -60,18 +63,24 @@ export function useUpdateCategoryMutation() {
       return updateCategoryAction(formData);
     },
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: categoryKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: categoryKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: categoryKeys.paginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useDeleteCategoryMutation() {
+export function useDeleteCategoryMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (id: string) => deleteCategoryAction(id),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: categoryKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: categoryKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: categoryKeys.paginated(page, pageSize),
+      });
     },
   });
 }

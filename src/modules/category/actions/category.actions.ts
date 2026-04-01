@@ -30,6 +30,14 @@ export type CategoryContentOption = {
   name: string;
 };
 
+export type PaginatedCategories = {
+  items: CategoryDto[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+};
+
 const categoryCreateSchema = z.object({
   name: z
     .string()
@@ -163,6 +171,45 @@ export async function listCategoriesAction(): Promise<
     return { ok: true, data: rows.map(toDto) };
   } catch (e) {
     console.error("listCategoriesAction:", e);
+    return { ok: false, error: prismaFailureMessage(e) };
+  }
+}
+
+export async function listCategoriesPageAction(input?: {
+  page?: number;
+  pageSize?: number;
+}): Promise<{ ok: true; data: PaginatedCategories } | { ok: false; error: string }> {
+  const current = await getCurrentDbUser();
+  if ("error" in current) {
+    return { ok: false, error: current.error };
+  }
+
+  const page = Math.max(1, input?.page ?? 1);
+  const pageSize = Math.min(100, Math.max(1, input?.pageSize ?? 10));
+  const skip = (page - 1) * pageSize;
+
+  try {
+    const [rows, totalCount] = await prisma.$transaction([
+      prisma.category.findMany({
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: pageSize,
+      }),
+      prisma.category.count(),
+    ]);
+
+    return {
+      ok: true,
+      data: {
+        items: rows.map(toDto),
+        page,
+        pageSize,
+        totalCount,
+        totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+      },
+    };
+  } catch (e) {
+    console.error("listCategoriesPageAction:", e);
     return { ok: false, error: prismaFailureMessage(e) };
   }
 }

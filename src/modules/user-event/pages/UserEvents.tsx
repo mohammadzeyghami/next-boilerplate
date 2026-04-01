@@ -80,7 +80,7 @@ const statisticColumns: ColumnDef<EventTypeStatisticDto>[] = [
 export default function UserEventsPage() {
   const [eventsPage, setEventsPage] = useState(1);
   const [statisticsPage, setStatisticsPage] = useState(1);
-  const pageSize = 20;
+  const pageSize = 10;
 
   const {
     data: eventsData,

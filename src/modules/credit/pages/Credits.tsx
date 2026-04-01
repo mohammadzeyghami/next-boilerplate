@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { BreadcrumbPrimary } from "@/shared/components/molecules/breadcrumb/primary";
+import { ServerPagination } from "@/shared/components/molecules/pagination/ServerPagination";
 import { Button } from "@/shared/components/atoms/button";
 import { toast } from "@/shared/components/atoms/toast/toast-store";
 import P from "@/shared/components/atoms/typography/P";
@@ -22,7 +23,11 @@ import {
   useUpdateCreditLifeTimeMutation,
   useUpdateCreditMutation,
 } from "../api/mutations";
-import { useCreditLifeTimesQuery, useCreditsQuery } from "../api/queries";
+import {
+  useCreditLifeTimesPageQuery,
+  useCreditsPageQuery,
+  useCreditsQuery,
+} from "../api/queries";
 import {
   creditFormSchema,
   creditLifeTimeFormSchema,
@@ -71,31 +76,44 @@ export default function CreditsPage({
 }) {
   const [creditOpen, setCreditOpen] = useState(false);
   const [lifeTimeOpen, setLifeTimeOpen] = useState(false);
+  const [creditsPage, setCreditsPage] = useState(1);
+  const [lifeTimesPage, setLifeTimesPage] = useState(1);
+  const pageSize = 10;
   const [editingCredit, setEditingCredit] = useState<CreditDto | null>(null);
   const [editingLifeTime, setEditingLifeTime] =
     useState<CreditLifeTimeDto | null>(null);
 
   const {
-    data: credits = [],
+    data: creditsPageData,
     isPending: creditsPending,
     isError: creditsError,
     error: creditsErrorValue,
     refetch: refetchCredits,
-  } = useCreditsQuery();
+  } = useCreditsPageQuery(creditsPage, pageSize);
   const {
-    data: lifeTimes = [],
+    data: lifeTimesPageData,
     isPending: lifeTimesPending,
     isError: lifeTimesError,
     error: lifeTimesErrorValue,
     refetch: refetchLifeTimes,
-  } = useCreditLifeTimesQuery();
+  } = useCreditLifeTimesPageQuery(lifeTimesPage, pageSize);
+  const { data: credits = [] } = useCreditsQuery();
 
-  const createCreditMutation = useCreateCreditMutation();
-  const updateCreditMutation = useUpdateCreditMutation();
-  const deleteCreditMutation = useDeleteCreditMutation();
-  const createLifeTimeMutation = useCreateCreditLifeTimeMutation();
-  const updateLifeTimeMutation = useUpdateCreditLifeTimeMutation();
-  const deleteLifeTimeMutation = useDeleteCreditLifeTimeMutation();
+  const createCreditMutation = useCreateCreditMutation(creditsPage, pageSize);
+  const updateCreditMutation = useUpdateCreditMutation(creditsPage, pageSize);
+  const deleteCreditMutation = useDeleteCreditMutation(creditsPage, pageSize);
+  const createLifeTimeMutation = useCreateCreditLifeTimeMutation(
+    lifeTimesPage,
+    pageSize,
+  );
+  const updateLifeTimeMutation = useUpdateCreditLifeTimeMutation(
+    lifeTimesPage,
+    pageSize,
+  );
+  const deleteLifeTimeMutation = useDeleteCreditLifeTimeMutation(
+    lifeTimesPage,
+    pageSize,
+  );
 
   const creditMethods = useForm<CreditFormValues>({
     defaultValues: emptyCreditForm,
@@ -341,8 +359,15 @@ export default function CreditsPage({
               </Button>
             </div>
           )}
-          {!creditsPending && !creditsError && (
-            <TablePrimary data={credits} columns={creditColumns} />
+          {!creditsPending && !creditsError && creditsPageData && (
+            <div className="space-y-4">
+              <TablePrimary data={creditsPageData.items} columns={creditColumns} />
+              <ServerPagination
+                currentPage={creditsPageData.page}
+                totalPages={creditsPageData.totalPages}
+                onPageChange={setCreditsPage}
+              />
+            </div>
           )}
         </section>
 
@@ -380,8 +405,18 @@ export default function CreditsPage({
               </Button>
             </div>
           )}
-          {!lifeTimesPending && !lifeTimesError && (
-            <TablePrimary data={lifeTimes} columns={lifeTimeColumns} />
+          {!lifeTimesPending && !lifeTimesError && lifeTimesPageData && (
+            <div className="space-y-4">
+              <TablePrimary
+                data={lifeTimesPageData.items}
+                columns={lifeTimeColumns}
+              />
+              <ServerPagination
+                currentPage={lifeTimesPageData.page}
+                totalPages={lifeTimesPageData.totalPages}
+                onPageChange={setLifeTimesPage}
+              />
+            </div>
           )}
         </section>
       </main>

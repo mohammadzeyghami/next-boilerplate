@@ -5,13 +5,7 @@ import P from "@/shared/components/atoms/typography/P";
 
 import type { CategoryFormValues } from "../interfaces/category.schema";
 
-export default function CategoryForm(
-  {
-    // contentOptions,
-  }: {
-    // contentOptions: CategoryContentOption[];
-  },
-) {
+export default function CategoryForm() {
   return (
     <div className="flex flex-col gap-4">
       <InputR<CategoryFormValues>

@@ -320,7 +320,7 @@ export async function listUserEventsAction(input?: {
 
   const parsed = paginationSchema.safeParse({
     page: input?.page ?? 1,
-    pageSize: input?.pageSize ?? 20,
+    pageSize: input?.pageSize ?? 10,
   });
   if (!parsed.success) {
     return { ok: false, error: "Invalid pagination." };
@@ -371,7 +371,7 @@ export async function listEventTypeStatisticsAction(input?: {
 
   const parsed = paginationSchema.safeParse({
     page: input?.page ?? 1,
-    pageSize: input?.pageSize ?? 20,
+    pageSize: input?.pageSize ?? 10,
   });
   if (!parsed.success) {
     return { ok: false, error: "Invalid pagination." };

@@ -1,12 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
 import { type ColumnDef } from "@tanstack/react-table";
 import { useForm } from "react-hook-form";
 
 import { TablePrimary } from "@/shared/components/organisms/Table/Table";
 import { BreadcrumbPrimary } from "@/shared/components/molecules/breadcrumb/primary";
+import { ServerPagination } from "@/shared/components/molecules/pagination/ServerPagination";
 import { Button } from "@/shared/components/atoms/button";
 import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalFormShell";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,8 +47,19 @@ type ContentFormValues = {
   metadata: string;
 };
 
-export default function ContentPage({ items }: { items: ContentItem[] }) {
+export default function ContentPage({
+  items,
+  currentPage,
+  totalPages,
+}: {
+  items: ContentItem[];
+  currentPage: number;
+  totalPages: number;
+}) {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const methods = useForm<ContentFormValues>({
     defaultValues: {
@@ -219,6 +232,20 @@ export default function ContentPage({ items }: { items: ContentItem[] }) {
         </div>
 
         <TablePrimary data={items} columns={columns} />
+        <ServerPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(page) => {
+            const params = new URLSearchParams(searchParams.toString());
+            if (page <= 1) {
+              params.delete("page");
+            } else {
+              params.set("page", String(page));
+            }
+            const next = params.toString();
+            router.push(next ? `${pathname}?${next}` : pathname);
+          }}
+        />
       </main>
 
       <ModalFormShell

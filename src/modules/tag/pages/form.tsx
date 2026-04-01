@@ -6,13 +6,7 @@ import P from "@/shared/components/atoms/typography/P";
 // import { TagContentPickerModal } from "../components/tag-content-picker-modal";
 import type { TagFormValues } from "../interfaces/tag.schema";
 
-export default function TagForm(
-  {
-    // contentOptions,
-  }: {
-    // contentOptions: TagContentOption[];
-  },
-) {
+export default function TagForm() {
   return (
     <div className="flex flex-col gap-4">
       <InputR<TagFormValues>

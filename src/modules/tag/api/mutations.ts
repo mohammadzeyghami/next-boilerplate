@@ -11,7 +11,7 @@ import { toFormData } from "@/shared/utils/toFormData";
 
 import { tagKeys } from "./keys";
 
-export function useCreateTagMutation() {
+export function useCreateTagMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -32,12 +32,15 @@ export function useCreateTagMutation() {
       return createTagAction(formData);
     },
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: tagKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: tagKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: tagKeys.paginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useUpdateTagMutation() {
+export function useUpdateTagMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -60,18 +63,24 @@ export function useUpdateTagMutation() {
       return updateTagAction(formData);
     },
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: tagKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: tagKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: tagKeys.paginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useDeleteTagMutation() {
+export function useDeleteTagMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (id: string) => deleteTagAction(id),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: tagKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: tagKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: tagKeys.paginated(page, pageSize),
+      });
     },
   });
 }

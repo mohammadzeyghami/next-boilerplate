@@ -11,7 +11,7 @@ import { toFormData } from "@/shared/utils/toFormData";
 
 import { languageKeys } from "./keys";
 
-export function useCreateLanguageMutation() {
+export function useCreateLanguageMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -32,23 +32,29 @@ export function useCreateLanguageMutation() {
       return createLanguageAction(formData);
     },
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: languageKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: languageKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: languageKeys.paginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useDeleteLanguageMutation() {
+export function useDeleteLanguageMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (id: string) => deleteLanguageAction(id),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: languageKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: languageKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: languageKeys.paginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useUpdateLanguageMutation() {
+export function useUpdateLanguageMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -71,7 +77,10 @@ export function useUpdateLanguageMutation() {
       return updateLanguageAction(formData);
     },
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: languageKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: languageKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: languageKeys.paginated(page, pageSize),
+      });
     },
   });
 }

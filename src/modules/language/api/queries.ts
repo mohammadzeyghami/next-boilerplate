@@ -9,11 +9,11 @@ import {
 
 import { languageKeys } from "./keys";
 
-export function useLanguagesQuery() {
+export function useLanguagesQuery(page: number, pageSize: number) {
   return useQuery({
-    queryKey: languageKeys.list(),
+    queryKey: languageKeys.paginated(page, pageSize),
     queryFn: async () => {
-      const res = await listLanguagesAction();
+      const res = await listLanguagesAction({ page, pageSize });
       if (!res.ok) {
         throw new Error(res.error ?? "Failed to load languages.");
       }

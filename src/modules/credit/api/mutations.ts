@@ -14,7 +14,7 @@ import { toFormData } from "@/shared/utils/toFormData";
 
 import { creditKeys } from "./keys";
 
-export function useCreateCreditMutation() {
+export function useCreateCreditMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: {
@@ -30,12 +30,15 @@ export function useCreateCreditMutation() {
         }),
       ),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: creditKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: creditKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: creditKeys.paginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useUpdateCreditMutation() {
+export function useUpdateCreditMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: {
@@ -53,22 +56,28 @@ export function useUpdateCreditMutation() {
         }),
       ),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: creditKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: creditKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: creditKeys.paginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useDeleteCreditMutation() {
+export function useDeleteCreditMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => deleteCreditAction(id),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: creditKeys.list() });
+      void queryClient.invalidateQueries({ queryKey: creditKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: creditKeys.paginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useCreateCreditLifeTimeMutation() {
+export function useCreateCreditLifeTimeMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: {
@@ -79,12 +88,15 @@ export function useCreateCreditLifeTimeMutation() {
     }) =>
       createCreditLifeTimeAction(toFormData(payload)),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: creditKeys.lifetimes() });
+      void queryClient.invalidateQueries({ queryKey: creditKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: creditKeys.lifetimesPaginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useUpdateCreditLifeTimeMutation() {
+export function useUpdateCreditLifeTimeMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (payload: {
@@ -96,17 +108,23 @@ export function useUpdateCreditLifeTimeMutation() {
     }) =>
       updateCreditLifeTimeAction(toFormData(payload)),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: creditKeys.lifetimes() });
+      void queryClient.invalidateQueries({ queryKey: creditKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: creditKeys.lifetimesPaginated(page, pageSize),
+      });
     },
   });
 }
 
-export function useDeleteCreditLifeTimeMutation() {
+export function useDeleteCreditLifeTimeMutation(page = 1, pageSize = 10) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: string) => deleteCreditLifeTimeAction(id),
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: creditKeys.lifetimes() });
+      void queryClient.invalidateQueries({ queryKey: creditKeys.all() });
+      void queryClient.invalidateQueries({
+        queryKey: creditKeys.lifetimesPaginated(page, pageSize),
+      });
     },
   });
 }

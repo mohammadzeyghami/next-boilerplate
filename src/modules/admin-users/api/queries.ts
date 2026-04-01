@@ -2,7 +2,10 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { listAdminUsersAction } from "@/modules/admin-users/actions/admin-users.actions";
+import {
+  listAdminUsersAction,
+  listAdminUsersPageAction,
+} from "@/modules/admin-users/actions/admin-users.actions";
 
 import { adminUserKeys } from "./keys";
 
@@ -11,6 +14,24 @@ export function useAdminUsersQuery(enabled = true) {
     queryKey: adminUserKeys.list(),
     queryFn: async () => {
       const res = await listAdminUsersAction();
+      if (!res.ok) {
+        throw new Error(res.error ?? "Failed to load users.");
+      }
+      return res.data;
+    },
+    enabled,
+  });
+}
+
+export function useAdminUsersPageQuery(
+  page: number,
+  pageSize: number,
+  enabled = true,
+) {
+  return useQuery({
+    queryKey: adminUserKeys.paginated(page, pageSize),
+    queryFn: async () => {
+      const res = await listAdminUsersPageAction({ page, pageSize });
       if (!res.ok) {
         throw new Error(res.error ?? "Failed to load users.");
       }

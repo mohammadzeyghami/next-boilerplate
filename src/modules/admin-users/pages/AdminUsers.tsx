@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { type ColumnDef } from "@tanstack/react-table";
 import { useForm } from "react-hook-form";
@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { TablePrimary } from "@/shared/components/organisms/Table/Table";
 import { BreadcrumbPrimary } from "@/shared/components/molecules/breadcrumb/primary";
+import { ServerPagination } from "@/shared/components/molecules/pagination/ServerPagination";
 import { Button } from "@/shared/components/atoms/button";
 import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalFormShell";
 import { toast } from "@/shared/components/atoms/toast/toast-store";
@@ -27,7 +28,7 @@ import {
   useDeleteAdminUserMutation,
   useUpdateAdminUserMutation,
 } from "../api/mutations";
-import { useAdminUsersQuery } from "../api/queries";
+import { useAdminUsersPageQuery } from "../api/queries";
 import Collapse from "@/shared/components/molecules/collapse/Primary";
 
 export default function AdminUsersPage({
@@ -36,19 +37,21 @@ export default function AdminUsersPage({
   canAssignSuperAdmin: boolean;
 }) {
   const [createOpen, setCreateOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
   const [editRow, setEditRow] = useState<AdminUserRowDto | null>(null);
 
   const {
-    data: rows = [],
+    data,
     isPending,
     isError,
     error,
     refetch,
-  } = useAdminUsersQuery();
+  } = useAdminUsersPageQuery(page, pageSize);
 
-  const createMutation = useCreateAdminUserMutation();
-  const updateMutation = useUpdateAdminUserMutation();
-  const deleteMutation = useDeleteAdminUserMutation();
+  const createMutation = useCreateAdminUserMutation(page, pageSize);
+  const updateMutation = useUpdateAdminUserMutation(page, pageSize);
+  const deleteMutation = useDeleteAdminUserMutation(page, pageSize);
 
   const createMethods = useForm<AdminUserCreateValues>({
     defaultValues: {
@@ -127,17 +130,20 @@ export default function AdminUsersPage({
     setEditRow(null);
   };
 
-  const openEdit = (row: AdminUserRowDto) => {
-    setEditRow(row);
-    editMethods.reset({
-      userAuthId: row.userAuthId,
-      role: row.role,
-      status: row.status,
-      name: row.name ?? "",
-      lastName: row.lastName ?? "",
-      password: "",
-    });
-  };
+  const openEdit = useCallback(
+    (row: AdminUserRowDto) => {
+      setEditRow(row);
+      editMethods.reset({
+        userAuthId: row.userAuthId,
+        role: row.role,
+        status: row.status,
+        name: row.name ?? "",
+        lastName: row.lastName ?? "",
+        password: "",
+      });
+    },
+    [editMethods],
+  );
 
   const roleOptions = useMemo(() => {
     const opts = [
@@ -225,7 +231,7 @@ export default function AdminUsersPage({
         ),
       },
     ],
-    [deleteMutation],
+    [deleteMutation, openEdit],
   );
 
   return (
@@ -268,8 +274,15 @@ export default function AdminUsersPage({
             </Button>
           </div>
         )}
-        {!isPending && !isError && (
-          <TablePrimary data={rows} columns={columns} />
+        {!isPending && !isError && data && (
+          <div className="space-y-4">
+            <TablePrimary data={data.items} columns={columns} />
+            <ServerPagination
+              currentPage={data.page}
+              totalPages={data.totalPages}
+              onPageChange={setPage}
+            />
+          </div>
         )}
       </main>
 

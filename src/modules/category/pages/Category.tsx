@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { TablePrimary } from "@/shared/components/organisms/Table/Table";
 import { BreadcrumbPrimary } from "@/shared/components/molecules/breadcrumb/primary";
+import { ServerPagination } from "@/shared/components/molecules/pagination/ServerPagination";
 import { Button } from "@/shared/components/atoms/button";
 import { ModalFormShell } from "@/shared/components/organisms/modal-shell/ModalFormShell";
 import { toast } from "@/shared/components/atoms/toast/toast-store";
@@ -24,8 +25,7 @@ import {
   useUpdateCategoryMutation,
 } from "../api/mutations";
 import {
-  useCategoriesQuery,
-  useCategoryContentOptionsQuery,
+  useCategoriesPageQuery,
 } from "../api/queries";
 import CategoryForm from "./form";
 
@@ -53,25 +53,23 @@ export default function CategoryPage({
   canManageCategories: boolean;
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
   const [editingCategory, setEditingCategory] = useState<CategoryDto | null>(
     null,
   );
 
   const {
-    data: categories = [],
+    data,
     isPending,
     isError,
     error,
     refetch,
-  } = useCategoriesQuery();
+  } = useCategoriesPageQuery(page, pageSize);
 
-  const { data: contentOptions = [] } = useCategoryContentOptionsQuery(
-    canManageCategories && dialogOpen,
-  );
-
-  const createMutation = useCreateCategoryMutation();
-  const updateMutation = useUpdateCategoryMutation();
-  const deleteMutation = useDeleteCategoryMutation();
+  const createMutation = useCreateCategoryMutation(page, pageSize);
+  const updateMutation = useUpdateCategoryMutation(page, pageSize);
+  const deleteMutation = useDeleteCategoryMutation(page, pageSize);
 
   const methods = useForm<CategoryFormValues>({
     defaultValues: emptyCategoryForm,
@@ -270,8 +268,15 @@ export default function CategoryPage({
             </Button>
           </div>
         )}
-        {!isPending && !isError && (
-          <TablePrimary data={categories} columns={columns} />
+        {!isPending && !isError && data && (
+          <div className="space-y-4">
+            <TablePrimary data={data.items} columns={columns} />
+            <ServerPagination
+              currentPage={data.page}
+              totalPages={data.totalPages}
+              onPageChange={setPage}
+            />
+          </div>
         )}
       </main>
 

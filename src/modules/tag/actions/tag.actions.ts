@@ -30,6 +30,14 @@ export type TagContentOption = {
   name: string;
 };
 
+export type PaginatedTags = {
+  items: TagDto[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+};
+
 const tagCreateSchema = z.object({
   name: z
     .string()
@@ -148,6 +156,40 @@ export async function listTagsAction(): Promise<
   });
 
   return { ok: true, data: rows.map(toDto) };
+}
+
+export async function listTagsPageAction(input?: {
+  page?: number;
+  pageSize?: number;
+}): Promise<{ ok: true; data: PaginatedTags } | { ok: false; error: string }> {
+  const current = await getCurrentDbUser();
+  if ("error" in current) {
+    return { ok: false, error: current.error };
+  }
+
+  const page = Math.max(1, input?.page ?? 1);
+  const pageSize = Math.min(100, Math.max(1, input?.pageSize ?? 10));
+  const skip = (page - 1) * pageSize;
+
+  const [rows, totalCount] = await prisma.$transaction([
+    prisma.contentTag.findMany({
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: pageSize,
+    }),
+    prisma.contentTag.count(),
+  ]);
+
+  return {
+    ok: true,
+    data: {
+      items: rows.map(toDto),
+      page,
+      pageSize,
+      totalCount,
+      totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+    },
+  };
 }
 
 export async function listTagContentOptionsAction(): Promise<

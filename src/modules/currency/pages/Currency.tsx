@@ -53,7 +53,7 @@ export default function CurrencyPage({
   canManageCurrencies: boolean;
 }) {
   const [page, setPage] = useState(1);
-  const pageSize = 20;
+  const pageSize = 10;
   const [open, setOpen] = useState(false);
   const [editingCurrency, setEditingCurrency] = useState<CurrencyDto | null>(null);
 

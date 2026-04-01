@@ -12,7 +12,6 @@ import {
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
 } from "@/modules/category/api/mutations";
-import { useCategoryContentOptionsQuery } from "@/modules/category/api/queries";
 import {
   categoryFormSchema,
   type CategoryFormValues,
@@ -68,10 +67,6 @@ export function CategoryUpsertModal({
 
   const createMutation = useCreateCategoryMutation();
   const updateMutation = useUpdateCategoryMutation();
-
-  const { data: contentOptions = [] } = useCategoryContentOptionsQuery(
-    canManageCategories && isOpen,
-  );
 
   const methods = useForm<CategoryFormValues>({
     defaultValues: emptyCategoryForm,
@@ -181,7 +176,7 @@ export function CategoryUpsertModal({
         <RHFFormProvider {...methods}>
           <ModalShell.Form onSubmit={methods.handleSubmit(onSubmit)}>
             <ModalShell.Body>
-              <CategoryForm contentOptions={contentOptions} />
+              <CategoryForm />
             </ModalShell.Body>
 
             <ModalShell.Footer>

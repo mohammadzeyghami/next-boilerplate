@@ -43,6 +43,22 @@ export type CreditLifeTimeDto = {
   updatedAt: string;
 };
 
+export type PaginatedCredits = {
+  items: CreditDto[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+};
+
+export type PaginatedCreditLifeTimes = {
+  items: CreditLifeTimeDto[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+};
+
 type DbUserBrief = { id: string; role: UserRole };
 
 async function getCurrentDbUser(): Promise<
@@ -159,6 +175,38 @@ export async function listCreditsAction(): Promise<
   return { ok: true, data: rows.map(toCreditDto) };
 }
 
+export async function listCreditsPageAction(input?: {
+  page?: number;
+  pageSize?: number;
+}): Promise<{ ok: true; data: PaginatedCredits } | { ok: false; error: string }> {
+  const gate = await requireElevatedActor();
+  if ("error" in gate) return { ok: false, error: gate.error };
+
+  const page = Math.max(1, input?.page ?? 1);
+  const pageSize = Math.min(100, Math.max(1, input?.pageSize ?? 10));
+  const skip = (page - 1) * pageSize;
+
+  const [rows, totalCount] = await prisma.$transaction([
+    prisma.credit.findMany({
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: pageSize,
+    }),
+    prisma.credit.count(),
+  ]);
+
+  return {
+    ok: true,
+    data: {
+      items: rows.map(toCreditDto),
+      page,
+      pageSize,
+      totalCount,
+      totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+    },
+  };
+}
+
 export async function listCreditLifeTimesAction(): Promise<
   { ok: true; data: CreditLifeTimeDto[] } | { ok: false; error: string }
 > {
@@ -173,6 +221,43 @@ export async function listCreditLifeTimesAction(): Promise<
   });
 
   return { ok: true, data: rows.map(toCreditLifeTimeDto) };
+}
+
+export async function listCreditLifeTimesPageAction(input?: {
+  page?: number;
+  pageSize?: number;
+}): Promise<
+  { ok: true; data: PaginatedCreditLifeTimes } | { ok: false; error: string }
+> {
+  const gate = await requireElevatedActor();
+  if ("error" in gate) return { ok: false, error: gate.error };
+
+  const page = Math.max(1, input?.page ?? 1);
+  const pageSize = Math.min(100, Math.max(1, input?.pageSize ?? 10));
+  const skip = (page - 1) * pageSize;
+
+  const [rows, totalCount] = await prisma.$transaction([
+    prisma.creditLifeTime.findMany({
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: pageSize,
+      include: {
+        credit: { select: { name: true } },
+      },
+    }),
+    prisma.creditLifeTime.count(),
+  ]);
+
+  return {
+    ok: true,
+    data: {
+      items: rows.map(toCreditLifeTimeDto),
+      page,
+      pageSize,
+      totalCount,
+      totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+    },
+  };
 }
 
 export async function createCreditAction(
